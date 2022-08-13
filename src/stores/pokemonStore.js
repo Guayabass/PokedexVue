@@ -10,7 +10,7 @@ export const usePokemonStore = defineStore({
   },**/
   actions: {
     increment() {
-      console.log('w')
+      console.log('www')
     }
   }
 })
