@@ -1,3 +1,5 @@
+
+
 <script>
 import { pokeapi } from '@/api/pokeapi'
 import { usePokemonStore } from '../stores/pokemonStore.js';
@@ -8,7 +10,6 @@ export default {
     data() {
         return {
             pokemonID: '',
-            pokeData: {}
         }
     },
     methods: {
@@ -28,7 +29,6 @@ export default {
         async addPokemon(pokemon) {
             const pokemonStore = usePokemonStore()
             this.pokemonStore.pokemonData = pokemon
-            console.log(pokemonStore.pokemonData)
         }
     }
 }
@@ -47,3 +47,10 @@ export default {
         </label>
     </header>
 </template>
+
+<script setup> 
+import { usePokemonStore } from '../stores/pokemonStore.js';
+
+
+const pokemonStore = usePokemonStore()
+</script>
