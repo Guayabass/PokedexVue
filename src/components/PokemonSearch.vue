@@ -17,18 +17,21 @@ export default {
             try {
                 const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonID}`)//aggara el pokemon con el id
                 const pokemon = await pokemonToFind.json()
-                this.pokeData = pokemon
-                console.log(pokemon)
-                this.addPokemon(pokemon)
+                //console.log(pokemon)
+                this.addPokemon(pokemon, this.pokemonID)
                 return pokemon
             } catch (error) {
                 alert('Pokemon was not found :(')
                 console.log(error)
             }
         },
-        async addPokemon(pokemon) {
+        addPokemon(pokemon, id) {
+            
             const pokemonStore = usePokemonStore()
-            this.pokemonStore.pokemonData = pokemon
+            pokemonStore.pokemonData = pokemon
+            pokemonStore.pokemonID = id
+            console.log(pokemonStore.pokemonData)
+            console.log(pokemonStore.pokemonID)
         }
     }
 }
@@ -40,17 +43,10 @@ export default {
 <template>
     <header class="header">
         <label for="search">
-            Enter pokemon name or ID:
+            Enter ID:
             <input type="text" id="search" v-model="pokemonID">
             <!--v-model para pasar el pokemonID-->
             <button @click="searchPokemon">Search pokemon</button>
         </label>
     </header>
 </template>
-
-<script setup> 
-import { usePokemonStore } from '../stores/pokemonStore.js';
-
-
-const pokemonStore = usePokemonStore()
-</script>

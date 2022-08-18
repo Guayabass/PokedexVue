@@ -1,14 +1,27 @@
 <template>
-    <section class="Pokemon" v-if="Object.entries(pokemonStore.pokemonData).length > 0" >
-        test
+    <section class="Pokemon" v-if="Object.entries(checkPokemon()).length > 0" >
+        {{ checkPokemon().name }}
+        <img :src="loadImage()"> 
     </section>
 </template>
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
 
-const pokemonStore = usePokemonStore()
+//const pokemonStore = usePokemonStore()
 
-export default {}
+export default {
+    name: 'Pokemon',
+    methods: {
+        checkPokemon() {
+            const pokemonStore = usePokemonStore()
+            return pokemonStore.pokemonData
+        },
+        loadImage(){
+            const pokemonStore = usePokemonStore()
+            return 'src/assets/pokemon/'+pokemonStore.pokemonID+'.png'
+        }
+    }
+}
 
 </script>
