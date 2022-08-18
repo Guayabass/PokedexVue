@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
 
 export const usePokemonStore = defineStore({
-  //id: 'counter',
+  id: 'Pokemons',
   state: () => ({
-    pokemonData: {}
+    pokemonData: {},
+    pokemonID: 0
   }),
   /**getters: {
     doubleCount: (state) => state.counter * 2
