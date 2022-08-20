@@ -1,7 +1,7 @@
 <template>
     <section class="Pokemon" v-if="Object.entries(checkPokemon()).length > 0" >
         {{ checkPokemon().name }}
-        <img :src="loadImage()"> 
+        <img :src="loadImage()" alt="pokemon-image"> 
     </section>
 </template>
 
