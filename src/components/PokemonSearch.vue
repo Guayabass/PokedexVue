@@ -30,8 +30,8 @@ export default {
             const pokemonStore = usePokemonStore()
             pokemonStore.pokemonData = pokemon
             pokemonStore.pokemonID = id
-            console.log(pokemonStore.pokemonData)
-            console.log(pokemonStore.pokemonID)
+            //console.log(pokemonStore.pokemonData)
+            //console.log(pokemonStore.pokemonID)
         }
     }
 }

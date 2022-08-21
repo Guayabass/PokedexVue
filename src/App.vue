@@ -5,7 +5,7 @@ import Pokemon from './components/Pokemon.vue';
 </script>
 
 <template>
-<main id="app">
+<main id="PokemonApp">
   <PokemonSearch></PokemonSearch>
   <Pokemon></Pokemon>
 </main>
