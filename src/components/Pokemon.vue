@@ -1,9 +1,10 @@
 <template>
     <section class="Pokemon" v-if="Object.entries(checkPokemon()).length > 0">
-        {{ checkPokemon().name }}
-        <img v-if="!shiny" v-bind:src="loadImage()" alt="pokemon-image" />
-        <img v-else :src="loadShinyImage()" alt="pokemon-image" />
-                <button @click="changeImage()">shiny</button>
+        {{ capitalize(checkPokemon().name) }}
+        <img v-if="!shiny" v-bind:src="loadImage()" :alt="checkPokemon().name" />
+        <img v-else :src="loadShinyImage()" :alt="checkPokemon().name" />
+        <button @click="changeImage()">shiny</button>
+        <button @click="loadCry()">Cry</button>
     </section>
 </template>
 
@@ -42,6 +43,14 @@ export default {
             const pokemonStore = usePokemonStore()
             //console.log(this.hover)
             return 'src/assets/pokemon/shiny/' + pokemonStore.pokemonID + '.png'
+        },
+        loadCry(){
+            const pokemonStore = usePokemonStore()
+            const audio = new Audio('src/assets/cries/' + pokemonStore.pokemonID + '.ogg');
+            audio.play();
+        },
+        capitalize(string){
+           return string.charAt(0).toUpperCase() + string.slice(1); 
         }
     }
 }
