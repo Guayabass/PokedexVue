@@ -14,7 +14,7 @@ import Pokemon from './components/Pokemon.vue';
 
 
 <style scoped>
-  /**#app{
+/**  #PokemonApp{
     background-color:  black;
   }**/
 </style>
