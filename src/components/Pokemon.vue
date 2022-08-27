@@ -63,7 +63,7 @@ export default {
         loadGif() {
             const pokemonStore = usePokemonStore()
             if (pokemonStore.pokemonData.id > 649) {
-                alert('Unable to find an animated sprite for this Pokemon, sorry :(')
+                alert('Unable to find an animated sprite for this Pokemon, sorry! :(')
                 return 'src/assets/pokemon/' + pokemonStore.pokemonData.id + '.png'
             } else {
                 return 'src/assets/pokemon/versions/generation-v/black-white/animated/' + pokemonStore.pokemonData.id + '.gif'
@@ -72,7 +72,7 @@ export default {
         loadShinyGif() {
             const pokemonStore = usePokemonStore()
             if (pokemonStore.pokemonData.id > 649) {
-                alert('Unable to find an animated sprite for this Pokemon, sorry :(')
+                alert('Unable to find an animated sprite for this Pokemon, sorry! :(')
                 return 'src/assets/pokemon/shiny/' + pokemonStore.pokemonData.id + '.png'
             } else {
                 return 'src/assets/pokemon/versions/generation-v/black-white/animated/shiny/' + pokemonStore.pokemonData.id + '.gif'
