@@ -1,18 +1,38 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
+import { pokeapi } from "@/api/pokeapi";
 
 export const usePokemonStore = defineStore({
-  id: 'Pokemons',
+  id: "Pokemons",
   state: () => ({
     pokemonData: {},
     pokemonID: 0,
   }),
-  /**getters: {
-    doubleCount: (state) => state.counter * 2
-  },**/
+  getters: {
+    changePokemon: async (state) => {
+      try {
+        let pokemonToFind
+        pokemonToFind = await fetch(`${pokeapi}/${state.pokemonID}`);
+        state.pokemonData = await pokemonToFind.json()
+      } catch (error) {
+        alert("Pokemon was not found :(");
+        console.log(error);
+      }
+    },
+  },
   actions: {
-    changeImage() {
+    nextPokemon() {
+      if (this.pokemonID >= 898){
+        this.pokemonID = 1
+      }
+      this.pokemonID++;
       //pokemonStore.pokemonSprite = 'src/assets/pokemon/shiny/' + pokemonStore.pokemonID + '.png'
       //console.log(pokemonStore.pokemonSprite)
+    },
+    previousPokemon() {
+      if (this.pokemonID <= 1){
+        this.pokemonID = 898
+      }
+      this.pokemonID--;
     }
-  }
-})
+  },
+});

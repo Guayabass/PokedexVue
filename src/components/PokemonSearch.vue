@@ -9,14 +9,20 @@ export default {
     name: 'PokemonSearch',
     data() {
         return {
-            pokemonInfo: '',
+            pokemonNameOrID: '',
+            defaultPokemon: {}
         }
     },
     methods: {
         async searchPokemon() {
             try {
-                if (/^[a-zA-Z]+$/.test(this.pokemonInfo)) {
-                    const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonInfo.toLowerCase()}`)
+                /**if (Object.entries(this.defaultPokemon).length === 0){
+                    const pokemonToFind = await fetch(`${pokeapi}/${1}`)
+                    const pokemon = await pokemonToFind.json()
+                    this.addPokemon(pokemon, 1)
+                } else {**/
+                if (/^[a-zA-Z]+$/.test(this.pokemonNameOrID)) {
+                    const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonNameOrID.toLowerCase()}`)
                     const pokemon = await pokemonToFind.json()
                     let ID = ''
                     ID = pokemon.id
@@ -25,10 +31,10 @@ export default {
                    // console.log(ID)
                     return pokemon
                 } else {
-                    const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonInfo}`)//aggara el pokemon con el id
+                    const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonNameOrID}`)//aggara el pokemon con el id
                     const pokemon = await pokemonToFind.json()
                     //console.log(pokemon)
-                    this.addPokemon(pokemon, this.pokemonInfo)
+                    this.addPokemon(pokemon, this.pokemonNameOrID)
                     return pokemon
                 }
             } catch (error) {
@@ -55,7 +61,7 @@ export default {
     <header class="header">
         <label for="search">
             Enter the Pokedex ID of the Pokemon or its name:
-            <input type="text" id="search" @keyup.enter="searchPokemon()" v-model="pokemonInfo">
+            <input type="text" id="search" @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
             <!--v-model para pasar el pokemonID-->
             <button @click="searchPokemon">Search pokemon</button>
         </label>

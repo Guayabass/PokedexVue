@@ -1,31 +1,38 @@
 <template>
-    <section id="Pokemon" v-if="Object.entries(checkPokemon()).length > 0">
-        <figure class="pokemon-figure">
-            <img class="pokemon-sprite" v-if="!shiny && !gif && static" v-bind:src="loadImage()"
-                :alt="checkPokemon().name" />
-            <img class="pokemon-sprite" v-else-if="shiny && !gif && static" v-bind:src="loadShinyImage()"
-                :alt="checkPokemon().name" />
-            <img class="pokemon-sprite-anim" v-else-if="!shiny && gif && !static" v-bind:src="loadGif()"
-                :alt="checkPokemon().name" />
-            <img class="pokemon-sprite-anim" v-else-if="shiny && gif && !static" v-bind:src="loadShinyGif()"
-                :alt="checkPokemon().name" />
-        </figure>
-        <div class="info-container">
-            <h2>
-                {{ capitalize(checkPokemon().name) }}
-            </h2>
-            <div class="pokemon-buttons">
-                <button @click="shiny = true">Shiny</button>
-                <button @click="loadCry()">Cry</button>
-                <button @click="static = false, gif = true">Gif</button>
-                <button @click="static = true, gif = false, shiny = false">Reset</button>
+    <section id="pokemon-section">
+        <button @click="previousPokemon()">Previous</button>
+        <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
+            <!--Hacer otro componente para bulbasaur-->
+            <figure class="pokemon-figure">
+                <img class="pokemon-sprite" v-if="!shiny && !gif && static" :src="loadImage()"
+                    :alt="checkPokemon().name" />
+                <img class="pokemon-sprite" v-else-if="shiny && !gif && static" :src="loadShinyImage()"
+                    :alt="checkPokemon().name" />
+                <img class="pokemon-sprite-anim" v-else-if="!shiny && gif && !static" :src="loadGif()"
+                    :alt="checkPokemon().name" />
+                <img class="pokemon-sprite-anim" v-else-if="shiny && gif && !static" :src="loadShinyGif()"
+                    :alt="checkPokemon().name" />
+            </figure>
+            <div class="info-container">
+                <h2>
+                    {{  capitalize(checkPokemon().name)  }}
+                </h2>
+                <div class="pokemon-buttons">
+                    <button @click="shiny = true">Shiny</button>
+                    <button @click="loadCry()">Cry</button>
+                    <button @click="static = false, gif = true">Gif</button>
+                    <button @click="static = true, gif = false, shiny = false">Reset</button>
+                </div>
             </div>
         </div>
+
+        <button @click="nextPokemon()">Next</button>
     </section>
 </template>
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
+import { pokeapi } from '@/api/pokeapi';
 
 //const pokemonStore = usePokemonStore()
 
@@ -77,13 +84,23 @@ export default {
             } else {
                 return 'src/assets/pokemon/versions/generation-v/black-white/animated/shiny/' + pokemonStore.pokemonData.id + '.gif'
             }
+        },
+        nextPokemon() {
+            const pokemonStore = usePokemonStore()      
+            pokemonStore.nextPokemon()
+            pokemonStore.changePokemon
+        },
+        previousPokemon() {
+            const pokemonStore = usePokemonStore()
+            pokemonStore.previousPokemon()
+            pokemonStore.changePokemon
         }
     }
 }
 </script>
 
 <style>
-#Pokemon {
+.pokemon {
     width: 250px;
     height: 350px;
     border: 1px black solid;
