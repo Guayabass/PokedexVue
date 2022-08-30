@@ -1,6 +1,8 @@
 <template>
     <section id="pokemon-section">
-        <button @click="previousPokemon()">Previous</button>
+        <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
+            :class="{ 'disabled-button': Object.entries(checkPokemon()).length === 0 }"
+            @click="previousPokemon()">Previous</button>
         <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
             <!--Hacer otro componente para bulbasaur-->
             <figure class="pokemon-figure">
@@ -25,14 +27,14 @@
                 </div>
             </div>
         </div>
-
-        <button @click="nextPokemon()">Next</button>
+        <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
+            :class="{ 'disabled-button': Object.entries(checkPokemon()).length === 0 }"
+            @click="nextPokemon()">Next</button>
     </section>
 </template>
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
-import { pokeapi } from '@/api/pokeapi';
 
 //const pokemonStore = usePokemonStore()
 
@@ -86,7 +88,7 @@ export default {
             }
         },
         nextPokemon() {
-            const pokemonStore = usePokemonStore()      
+            const pokemonStore = usePokemonStore()
             pokemonStore.nextPokemon()
             pokemonStore.changePokemon
         },
@@ -147,5 +149,9 @@ h2 {
 .pokemon-sprite:hover {
     background-color: rgb(212, 245, 242);
     transition: all 350ms ease;
+}
+
+.disabled-button {
+    cursor: not-allowed;
 }
 </style>
