@@ -5,25 +5,26 @@
             @click="previousPokemon()">Previous</button>
         <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
             <!--Hacer otro componente para bulbasaur-->
-            <figure class="pokemon-figure">
-                <img class="pokemon-sprite" v-if="!shiny && !gif && static" :src="loadImage()"
-                    :alt="checkPokemon().name" />
-                <img class="pokemon-sprite" v-else-if="shiny && !gif && static" :src="loadShinyImage()"
-                    :alt="checkPokemon().name" />
-                <img class="pokemon-sprite-anim" v-else-if="!shiny && gif && !static" :src="loadGif()"
-                    :alt="checkPokemon().name" />
-                <img class="pokemon-sprite-anim" v-else-if="shiny && gif && !static" :src="loadShinyGif()"
-                    :alt="checkPokemon().name" />
-            </figure>
+            <div class="sprites-container">
+                <figure class="pokemon-figure">
+                    <img class="pokemon-sprite" :src="loadSprite()" :alt="checkPokemon().name" />
+                </figure>
+                <figure class="pokemon-figure">
+                    <img class="pokemon-sprite" :src="loadBackSprite()" :alt="checkPokemon().name" />
+                </figure>
+                <figure class="pokemon-figure">
+                    <img class="pokemon-sprite" :src="loadShinySprite()" :alt="checkPokemon().name" />
+                </figure>
+                <figure class="pokemon-figure">
+                    <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="checkPokemon().name" />
+                </figure>
+            </div>
             <div class="info-container">
                 <h2>
                     {{  capitalize(checkPokemon().name)  }}
                 </h2>
                 <div class="pokemon-buttons">
-                    <button @click="shiny = true">Shiny</button>
                     <button @click="loadCry()">Cry</button>
-                    <button @click="static = false, gif = true">Gif</button>
-                    <button @click="static = true, gif = false, shiny = false">Reset</button>
                 </div>
             </div>
         </div>
@@ -40,21 +41,20 @@ import { usePokemonStore } from '../stores/pokemonStore.js';
 
 export default {
     name: 'Pokemon',
-    data() {
-        return {
-            shiny: false,
-            gif: false,
-            static: true,
-        }
-    },
     methods: {
         checkPokemon() {
             const pokemonStore = usePokemonStore()
             return pokemonStore.pokemonData
         },
-        loadImage() {
+        loadSprite() {
             const pokemonStore = usePokemonStore()
-            return 'src/assets/pokemon/' + pokemonStore.pokemonData.id + '.png'
+            if (pokemonStore.pokemonData.id > 649) {
+                alert('Unable to find an animated/back sprite for this Pokemon, sorry! :(')
+                return 'src/assets/pokemon/' + pokemonStore.pokemonData.id + '.png'
+            } else {
+                return 'src/assets/pokemon/versions/generation-v/black-white/animated/' + pokemonStore.pokemonData.id + '.gif'
+            }
+
             //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
         },
         loadCry() {
@@ -65,26 +65,37 @@ export default {
         capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
-        loadShinyImage() {
-            const pokemonStore = usePokemonStore()
-            return 'src/assets/pokemon/shiny/' + pokemonStore.pokemonData.id + '.png'
-        },
-        loadGif() {
+        loadShinySprite() {
             const pokemonStore = usePokemonStore()
             if (pokemonStore.pokemonData.id > 649) {
-                alert('Unable to find an animated sprite for this Pokemon, sorry! :(')
-                return 'src/assets/pokemon/' + pokemonStore.pokemonData.id + '.png'
-            } else {
-                return 'src/assets/pokemon/versions/generation-v/black-white/animated/' + pokemonStore.pokemonData.id + '.gif'
-            }
-        },
-        loadShinyGif() {
-            const pokemonStore = usePokemonStore()
-            if (pokemonStore.pokemonData.id > 649) {
-                alert('Unable to find an animated sprite for this Pokemon, sorry! :(')
                 return 'src/assets/pokemon/shiny/' + pokemonStore.pokemonData.id + '.png'
             } else {
                 return 'src/assets/pokemon/versions/generation-v/black-white/animated/shiny/' + pokemonStore.pokemonData.id + '.gif'
+            }
+
+        },
+        loadBackSprite() {
+            const pokemonStore = usePokemonStore()
+            if (pokemonStore.pokemonData.id > 649) {
+                if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
+                    return 'src/assets/pokemon/' + pokemonStore.pokemonData.id + '.png'
+                } else {
+                    return 'src/assets/pokemon/versions/generation-v/black-white/back/' + pokemonStore.pokemonData.id + '.png'
+                }
+            } else {
+                return 'src/assets/pokemon/versions/generation-v/black-white/animated/back/' + pokemonStore.pokemonData.id + '.gif'
+            }
+        },
+        loadShinyBackSprite() {
+            const pokemonStore = usePokemonStore()
+            if (pokemonStore.pokemonData.id > 649) {
+                if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
+                    return 'src/assets/pokemon/shiny/' + pokemonStore.pokemonData.id + '.png'
+                } else {
+                    return 'src/assets/pokemon/versions/generation-v/black-white/back/shiny/' + pokemonStore.pokemonData.id + '.png'
+                }
+            } else {
+                return 'src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/' + pokemonStore.pokemonData.id + '.gif'
             }
         },
         nextPokemon() {
@@ -103,8 +114,8 @@ export default {
 
 <style>
 .pokemon {
-    width: 250px;
-    height: 350px;
+    width: 400px;
+    height: 500px;
     border: 1px black solid;
 }
 
@@ -112,33 +123,35 @@ h2 {
     text-align: center;
 }
 
-.pokemon-figure {
+.sprites-container {
+    display: flex;
     width: 100%;
     height: 50%;
-    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px black solid;
+}
+
+.pokemon-figure {
+    width: 50%;
     justify-content: center;
     align-items: center;
+    display: flex;
     margin: 0;
 }
 
 .pokemon-sprite {
-    width: 100px;
-    height: 100px;
+    width: fit-content;
+    height: fit-content;
 }
 
 .info-container {
     width: 100%;
-    height: 175px;
+    height: 50%;
 }
 
 .pokemon-buttons {
     display: flex;
     justify-content: space-around;
-}
-
-.pokemon-sprite-anim {
-    width: fit-content;
-    height: fit-content;
 }
 
 .pokemon-sprite-anim:hover {
@@ -155,3 +168,15 @@ h2 {
     cursor: not-allowed;
 }
 </style>
+
+<!--<figure class="pokemon-figure">
+    <img class="pokemon-sprite" v-if="!shiny && !gif && static" :src="loadImage()"
+        :alt="checkPokemon().name" />
+    <img class="pokemon-sprite" v-else-if="shiny && !gif && static" :src="loadShinyImage()"
+        :alt="checkPokemon().name" />
+    <img class="pokemon-sprite-anim" v-else-if="!shiny && gif && !static" :src="loadGif()"
+        :alt="checkPokemon().name" />
+    <img class="pokemon-sprite-anim" v-else-if="shiny && gif && !static" :src="loadShinyGif()"
+        :alt="checkPokemon().name" />
+</figure>-->
+
