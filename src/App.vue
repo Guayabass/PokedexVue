@@ -1,11 +1,13 @@
 <script setup>
 import PokemonSearch from './components/PokemonSearch.vue';
 import Pokemon from './components/Pokemon.vue';
+import DefaultMessage from './components/DefaultMessage.vue';
 
 </script>
 
 <template>
 <main id="PokemonApp">
+  <DefaultMessage></DefaultMessage>
   <PokemonSearch></PokemonSearch>
   <Pokemon></Pokemon>
 </main>
@@ -14,7 +16,9 @@ import Pokemon from './components/Pokemon.vue';
 
 
 <style scoped>
-/**  #PokemonApp{
+  #PokemonApp{
+    width: 100%;
+    height: 100vh;
     background-color:  black;
-  }**/
+  }
 </style>
