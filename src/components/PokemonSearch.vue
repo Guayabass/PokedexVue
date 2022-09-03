@@ -58,7 +58,7 @@ export default {
 </script>
 
 <template>
-    <header class="header">
+    <header class="search">
         <label for="search">
             Enter the Pokedex ID of the Pokemon or its name:
             <input type="text" id="search" @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
