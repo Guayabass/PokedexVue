@@ -1,13 +1,13 @@
 <script setup>
 import PokemonSearch from './components/PokemonSearch.vue';
 import Pokemon from './components/Pokemon.vue';
-import DefaultMessage from './components/DefaultMessage.vue';
+import NavBar from './components/NavBar.vue';
 
 </script>
 
 <template>
 <main id="PokemonApp">
-  <DefaultMessage></DefaultMessage>
+  <NavBar></NavBar>
   <PokemonSearch></PokemonSearch>
   <Pokemon></Pokemon>
 </main>
@@ -19,6 +19,6 @@ import DefaultMessage from './components/DefaultMessage.vue';
   #PokemonApp{
     width: 100%;
     height: 100vh;
-    background-color:  black;
+    background-color: white;
   }
 </style>
