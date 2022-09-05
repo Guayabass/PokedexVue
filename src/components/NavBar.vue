@@ -6,13 +6,7 @@
             </figure>
             <p class="nav-title">WebDex</p>
         </div>
-        <div class="nav-right-container">
-            <figure class="search-image-figure">
-                <img src="../assets/images/search.png" class="search-nav-image">
-            </figure>
-            <p>Search a Pokemon below to get started!</p>
-        </div>
-        </nav>
+    </nav>
 </template>
 
 <script>
@@ -25,6 +19,7 @@ export default {
 
 <style>
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
 
 #nav {
     width: 100%;
@@ -47,10 +42,6 @@ export default {
 .nav-left-container {
     display: flex;
     align-content: center;
-}
-.nav-right-container {
-    display: flex;
-    align-items: center;
 }
 
 .pokedex-nav-image:hover {
@@ -77,8 +68,4 @@ export default {
     margin: 8px 0 8px 0;
 }
 
-.search-image-figure{
-    display: flex;
-    align-content: center;
-}
 </style>
