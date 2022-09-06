@@ -1,6 +1,6 @@
 <template>
     <nav id="nav">
-        <div class="nav-left-container">
+        <div class="nav-container">
             <figure class="pokedex-image-figure">
                 <img src="../assets/images/pokedex.png" class="pokedex-nav-image">
             </figure>
@@ -19,29 +19,28 @@ export default {
 
 <style>
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
 
 #nav {
     width: 100%;
-    height: 10%;
+    height: 15%;
     /**background-color: #f5f5f5;**/
     background-color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
 .nav-title {
     font-family: 'Pokemon Solid', sans-serif;
     color: #207fb6;
-    font-size: 24px;
+    font-size: 42px;
     margin: 0;
-    text-align: center;
 }
 
-.nav-left-container {
+.nav-container {
     display: flex;
     align-content: center;
+    justify-content: center;
 }
 
 .pokedex-nav-image:hover {
