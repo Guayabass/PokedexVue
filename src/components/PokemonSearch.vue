@@ -53,17 +53,44 @@ export default {
     }
 }
 
-
-
 </script>
 
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
+
+    header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        font-family: 'Lato', sans-serif;
+    }
+
+    .form{
+        position: relative;
+        width: 50%;
+        height: 50px;
+    }
+</style>
+
 <template>
-    <header class="search">
+    <header>
+        <div class="form">
+            <input type="text" name="Pokemon" autocomplete="off" required @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
+            <label for="Pokemon" class="label-name">
+                <span class="content-pokemon">Pokemon</span>
+            </label>
+        </div>
+    </header>
+    <!--<header class="search">
         <label for="search">
             Enter the Pokedex ID of the Pokemon or its name:
             <input type="text" id="search" @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
-            <!--v-model para pasar el pokemonID-->
+            
             <button @click="searchPokemon">Search pokemon</button>
         </label>
-    </header>
+    </header>-->
 </template>
+
+
+
