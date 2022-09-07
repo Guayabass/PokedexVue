@@ -16,6 +16,12 @@ import NavBar from './components/NavBar.vue';
 
 
 <style scoped>
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
   #PokemonApp{
     width: 80%;
     height: 100vh;
