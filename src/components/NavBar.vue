@@ -28,6 +28,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 24px 0;
 }
 
 .nav-title {
@@ -39,7 +40,7 @@ export default {
 
 .nav-container {
     display: flex;
-    align-content: center;
+    align-items: center;
     justify-content: center;
 }
 

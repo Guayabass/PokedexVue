@@ -3,60 +3,69 @@
 <script>
 import { pokeapi } from '@/api/pokeapi'
 import { usePokemonStore } from '../stores/pokemonStore.js';
+import { ref } from 'vue'
 
 //const pokeapi = 'https://pokeapi.co/api/v2/pokemon'
 export default {
-name: 'PokemonSearch',
-data() {
-return {
-pokemonNameOrID: '',
-defaultPokemon: {}
-}
-},
-methods: {
-async searchPokemon() {
-try {
-/**if (Object.entries(this.defaultPokemon).length === 0){
-const pokemonToFind = await fetch(`${pokeapi}/${1}`)
-const pokemon = await pokemonToFind.json()
-this.addPokemon(pokemon, 1)
-} else {**/
-if (/^[a-zA-Z]+$/.test(this.pokemonNameOrID)) {
-const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonNameOrID.toLowerCase()}`)
-const pokemon = await pokemonToFind.json()
-let ID = ''
-ID = pokemon.id
-//console.log(pokemon.id)
-this.addPokemon(pokemon, ID)
-// console.log(ID)
-return pokemon
-} else {
-const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonNameOrID}`)//aggara el pokemon con el id
-const pokemon = await pokemonToFind.json()
-//console.log(pokemon)
-this.addPokemon(pokemon, this.pokemonNameOrID)
-return pokemon
-}
-} catch (error) {
-alert('Pokemon was not found :(')
-console.log(error)
-}
-},
-addPokemon(pokemon, id) {
+    name: 'PokemonSearch',
+    setup() {
+        const inputField = ref()
+        const focusInput = () => {
+            inputField.value.focus()
+        }
+        return { focusInput, inputField }
+    },
+    data() {
+        return {
+            pokemonNameOrID: '',
+            defaultPokemon: {}
+        }
+    },
+    methods: {
+        async searchPokemon() {
+            try {
+                /**if (Object.entries(this.defaultPokemon).length === 0){
+                const pokemonToFind = await fetch(`${pokeapi}/${1}`)
+                const pokemon = await pokemonToFind.json()
+                this.addPokemon(pokemon, 1)
+                } else {**/
+                if (/^[a-zA-Z]+$/.test(this.pokemonNameOrID)) {
+                    const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonNameOrID.toLowerCase()}`)
+                    const pokemon = await pokemonToFind.json()
+                    let ID = ''
+                    ID = pokemon.id
+                    //console.log(pokemon.id)
+                    this.addPokemon(pokemon, ID)
+                    // console.log(ID)
+                    return pokemon
+                } else {
+                    const pokemonToFind = await fetch(`${pokeapi}/${this.pokemonNameOrID}`)//aggara el pokemon con el id
+                    const pokemon = await pokemonToFind.json()
+                    //console.log(pokemon)
+                    this.addPokemon(pokemon, this.pokemonNameOrID)
+                    return pokemon
+                }
+            } catch (error) {
+                alert('Pokemon was not found :(')
+                console.log(error)
+            }
+        },
+        addPokemon(pokemon, id) {
 
-const pokemonStore = usePokemonStore()
-pokemonStore.pokemonData = pokemon
-pokemonStore.pokemonID = id
-//console.log(pokemonStore.pokemonData)
-//console.log(pokemonStore.pokemonID)
-}
-}
+            const pokemonStore = usePokemonStore()
+            pokemonStore.pokemonData = pokemon
+            pokemonStore.pokemonID = id
+            //console.log(pokemonStore.pokemonData)
+            //console.log(pokemonStore.pokemonID)
+        },
+    }
 }
 
 </script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
+@import url('http://fonts.cdnfonts.com/css/pokemon-solid');
 
 * {
     padding: 0;
@@ -81,7 +90,7 @@ header .main-container {
 
 .form {
     position: relative;
-    width: 80%;
+    width: 60%;
     height: 50px;
     overflow: hidden;
 }
@@ -118,7 +127,7 @@ header .main-container {
     border-bottom-style: solid;
     border-image: radial-gradient(circle,
             rgba(32, 127, 182, 1) 50%,
-            rgba(17,73,175,1) 100%) 1;
+            rgba(17, 73, 175, 1) 100%) 1;
     transform: translateX(-100%);
     transition: transform 300ms ease;
 }
@@ -146,16 +155,43 @@ header .main-container {
 .form input:valid+.label-name::after {
     transform: translateX(0%);
 }
+
+.sub-title {
+    font-family: 'Lato', sans-serif;
+    margin: 24px;
+    text-align: center;
+    line-height: 40px;
+    font-weight: 800;
+}
+
+.blue {
+    color: #207fb6;
+    transition: all 300ms ease;
+    cursor: pointer;
+}
+
+.blue:hover {
+    color: #24a1e9;
+}
+
+.sub-title-wrapper {
+    width: 60%;
+}
 </style>
 
 <template>
     <header>
         <div class="main-container">
+            <div class="sub-title-wrapper">
+                <h2 class="sub-title">Welcome to <span class="blue" @click="focusInput">WebDex</span> website! Start your search below by
+                    entering a <span class="blue" @click="focusInput">Pokemon's</span> name or <span
+                        class="blue" @click="focusInput">Pokedex's</span> ID.</h2>
+            </div>
             <div class="form">
-                <input placeholder="E.g: Pikachu" type="text" name="Pokemon" autocomplete="off" required @keyup.enter="searchPokemon()"
-                    v-model="pokemonNameOrID">
+                <input ref="inputField" placeholder="E.g: Pikachu" type="text" name="Pokemon" autocomplete="off" required
+                    @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
                 <label for="Pokemon" class="label-name">
-                    <span class="content-pokemon">Pokemon</span>
+                    <span class="content-pokemon">Pokemon's Name/ID</span>
                 </label>
             </div>
         </div>
