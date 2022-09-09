@@ -180,6 +180,8 @@ header .main-container {
 </style>
 
 <template>
+    <head>
+    </head>
     <header>
         <div class="main-container">
             <div class="sub-title-wrapper">
@@ -194,8 +196,8 @@ header .main-container {
                     <span class="content-pokemon">Pokemon's Name/ID</span>
                 </label>
             </div>
+            <button @click="searchPokemon()"><i class="fa-sharp fa-solid fa-magnifying-glass"></i>test</button>
         </div>
-        <button @click="searchPokemon">Search pokemon</button>
     </header>
     <!--<header class="search">
         <label for="search">
