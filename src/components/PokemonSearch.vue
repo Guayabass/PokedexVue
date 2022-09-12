@@ -76,13 +76,8 @@ header .main-container {
     width: 100%;
     display: flex;
     justify-content: center;
-}
-
-.main-container {
-    width: 80%;
-    display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     font-family: 'Lato', sans-serif;
     margin-bottom: 20px;
 }
@@ -225,7 +220,7 @@ i {
     <header>
         <div class="main-container">
             <div class="sub-title-wrapper">
-                <h2 class="sub-title">Welcome to <span class="blue" @click="focusInput">WebDex</span> website! Start
+                <h2 class="sub-title">Welcome to the <span class="blue" @click="focusInput">WebDex</span> website! Start
                     your search below by
                     entering a <span class="blue" @click="focusInput">Pokemon's</span> name or <span class="blue"
                         @click="focusInput">Pokedex's</span> ID.</h2>

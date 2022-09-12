@@ -4,7 +4,17 @@
             :class="{ 'disabled-button': Object.entries(checkPokemon()).length === 0 }"
             @click="previousPokemon()">Previous</button>
         <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
-            <!--Hacer otro componente para bulbasaur-->
+            <div class="info-container">
+                <h2>
+                    {{ capitalize(checkPokemon().name) }}
+                </h2>
+                <div class="pokemon-buttons">
+                    <button @click="loadCry()">Cry</button>
+                </div>
+            </div>
+            <div class="text-wrapper">
+                    <p :class="colorText()">Non-Shiny</p>
+                </div>
             <div class="sprites-container">
                 <figure class="pokemon-figure">
                     <img class="pokemon-sprite" :src="loadSprite()" :alt="checkPokemon().name" />
@@ -19,18 +29,13 @@
                     <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="checkPokemon().name" />
                 </figure>
             </div>
-            <div class="info-container">
-                <h2>
-                    {{  capitalize(checkPokemon().name)  }}
-                </h2>
-                <div class="pokemon-buttons">
-                    <button @click="loadCry()">Cry</button>
+            <div class="text-wrapper">
+                    <p :class="colorText()">Shiny</p>
                 </div>
-            </div>
         </div>
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
-            :class="{ 'disabled-button': Object.entries(checkPokemon()).length === 0 }"
-            @click="nextPokemon()">Next</button>
+            :class="{ 'disabled-button': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
+                class="fa-solid fa-chevron-right"></i></button>
     </section>
 </template>
 
@@ -59,6 +64,7 @@ export default {
         },
         loadCry() {
             const pokemonStore = usePokemonStore()
+            //console.log(pokemonStore.pokemonData.types.length)
             const audio = new Audio('src/assets/cries/' + pokemonStore.pokemonID + '.ogg');
             audio.play();
         },
@@ -107,28 +113,140 @@ export default {
             const pokemonStore = usePokemonStore()
             pokemonStore.previousPokemon()
             pokemonStore.changePokemon
+        },
+        colorText(){
+            const pokemonStore = usePokemonStore()
+            //   for (let index = 0; index <= pokemonStore.pokemonData.types.length; index++) {
+            //      if (pokemonStore.pokemonData.types.length === 2){
+
+            //       } else {
+            //         return ''
+            //       }
+                
+            //   }
+            pokemonStore.pokemonData.types.forEach(element => {
+                 if (pokemonData.types.length === 2){
+                    
+                 } else {
+
+                 }
+            });
         }
     }
 }
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
+@import url('http://fonts.cdnfonts.com/css/pokemon-solid');
+
+#pokemon-section {
+    display: flex;
+    font-family: 'Lato', sans-serif;
+    justify-content: space-around;
+    align-items: center;
+    margin: 24px 0;
+}
+
+.normal{
+    background-color: gray;
+}
+
+.fire{
+    background-color: orange;
+}
+
+.water{
+    background-color: blue;
+}
+
+.grass{
+    background-color: green;
+}
+
+.electric{
+    background-color: yellow;
+}
+
+.ice{
+    background-color: lightblue;
+}
+
+.fighting{
+    background-color: red;
+}
+
+.poison{
+    background-color: purple;
+}
+
+.ground{
+    background-color: burlywood;
+}
+
+.flying{
+    background-color: lightskyblue;
+}
+
+.psychic{
+    background-color: violet;
+}
+
+.bug{
+    background-color: greenyellow;
+}
+
+.rock{
+    background-color: #a8a878;
+}
+
+.ghost{
+    background-color: #705898;
+}
+
+.dark{
+    background-color: rgb(19, 15, 15);
+}
+
+.dragon{
+    background-color: darkslateblue;
+}
+
+.steel{
+    background-color: slategray;
+}
+
+.fairy{
+    background-color: pink;
+}
+
+.bug .dark .dragon .electric .fairy .fighting .fire .flying .ghost .grass .ground .ice .normal .poison .psychic .rock .steel .water{
+    font-size: 24px;
+    font-weight: 800;
+}
+
 .pokemon {
     width: 400px;
     height: 500px;
-    border: 1px black solid;
+    /* border: 1px black solid; */
+    border-radius: 25px;
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    box-shadow: 35px 35px 70px #bababa,
+        -35px -35px 70px #ffffff;
+
 }
 
 h2 {
     text-align: center;
+    margin: 8px;
 }
 
 .sprites-container {
     display: flex;
     width: 100%;
-    height: 50%;
+    height: 60%;
     flex-wrap: wrap;
-    border-bottom: 1px black solid;
+    /* border-bottom: 1px black solid; */
 }
 
 .pokemon-figure {
@@ -145,8 +263,12 @@ h2 {
 }
 
 .info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 50%;
+    height: 20%;
 }
 
 .pokemon-buttons {
@@ -166,6 +288,11 @@ h2 {
 
 .disabled-button {
     cursor: not-allowed;
+}
+
+.text-wrapper{
+    display: flex;
+    justify-content: center;
 }
 </style>
 
