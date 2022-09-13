@@ -5,15 +5,14 @@
             @click="previousPokemon()">Previous</button>
         <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
             <div class="info-container">
-                <h2>
+                <h1 :class="colorText()">
                     {{ capitalize(checkPokemon().name) }}
-                </h2>
-                <div class="pokemon-buttons">
-                    <button @click="loadCry()">Cry</button>
-                </div>
+                </h1>
+                    <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i class="fa-solid fa-play"></i>Cry</button>
+                <!-- <p class="cry-text">Cry</p> -->
             </div>
             <div class="text-wrapper">
-                    <p :class="colorText()">Non-Shiny</p>
+                    <p class="sprite-text">Normal</p>
                 </div>
             <div class="sprites-container">
                 <figure class="pokemon-figure">
@@ -30,7 +29,7 @@
                 </figure>
             </div>
             <div class="text-wrapper">
-                    <p :class="colorText()">Shiny</p>
+                    <p class="sprite-text">Shiny</p>
                 </div>
         </div>
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
@@ -116,21 +115,13 @@ export default {
         },
         colorText(){
             const pokemonStore = usePokemonStore()
-            //   for (let index = 0; index <= pokemonStore.pokemonData.types.length; index++) {
-            //      if (pokemonStore.pokemonData.types.length === 2){
-
-            //       } else {
-            //         return ''
-            //       }
-                
-            //   }
-            pokemonStore.pokemonData.types.forEach(element => {
-                 if (pokemonData.types.length === 2){
-                    
-                 } else {
-
-                 }
-            });
+            return pokemonStore.pokemonData.types[0].type.name
+        },
+        colorTextBackground(){
+            const pokemonStore = usePokemonStore()
+            let background = pokemonStore.pokemonData.types[0].type.name + '-b';
+            console.log(background)
+            return background
         }
     }
 }
@@ -139,6 +130,7 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
+@import '../assets/css/color.css';
 
 #pokemon-section {
     display: flex;
@@ -148,79 +140,8 @@ export default {
     margin: 24px 0;
 }
 
-.normal{
-    background-color: gray;
-}
-
-.fire{
-    background-color: orange;
-}
-
-.water{
-    background-color: blue;
-}
-
-.grass{
-    background-color: green;
-}
-
-.electric{
-    background-color: yellow;
-}
-
-.ice{
-    background-color: lightblue;
-}
-
-.fighting{
-    background-color: red;
-}
-
-.poison{
-    background-color: purple;
-}
-
-.ground{
-    background-color: burlywood;
-}
-
-.flying{
-    background-color: lightskyblue;
-}
-
-.psychic{
-    background-color: violet;
-}
-
-.bug{
-    background-color: greenyellow;
-}
-
-.rock{
-    background-color: #a8a878;
-}
-
-.ghost{
-    background-color: #705898;
-}
-
-.dark{
-    background-color: rgb(19, 15, 15);
-}
-
-.dragon{
-    background-color: darkslateblue;
-}
-
-.steel{
-    background-color: slategray;
-}
-
-.fairy{
-    background-color: pink;
-}
-
-.bug .dark .dragon .electric .fairy .fighting .fire .flying .ghost .grass .ground .ice .normal .poison .psychic .rock .steel .water{
+.bug .dark .dragon .electric .fairy .fighting .fire .flying .ghost .grass .ground .ice .normal .poison .psychic .rock .steel .water
+.bug-b .dark-b .dragon-b .electric-b .fairy-b .fighting-b .fire-b .flying-b .ghost-b .grass-b .ground-b .ice-b .normal-b .poison-b .psychic-b .rock-b .steel-b .water-b{
     font-size: 24px;
     font-weight: 800;
 }
@@ -236,9 +157,10 @@ export default {
 
 }
 
-h2 {
+h1 {
     text-align: center;
-    margin: 8px;
+    font-size: 32px;
+    font-weight: 800;
 }
 
 .sprites-container {
@@ -269,11 +191,36 @@ h2 {
     justify-content: center;
     width: 100%;
     height: 20%;
+    margin: 8px 0;
 }
 
-.pokemon-buttons {
+.cry-button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 24px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    width: 100px;
+    font-size: 20px;
+    margin: 4px 0;
+    padding: 8px 0;
+    transition: all 300ms ease;
+
+}
+
+.cry-button:active { /*cuando es clicked*/
+    transform: translateY(4px);
+}
+
+.cry-text{
+    font-size: 18px;
+    font-weight: 600; 
+}
+
+.info-container i {
+    padding: 0 8px;
 }
 
 .pokemon-sprite-anim:hover {
@@ -293,6 +240,12 @@ h2 {
 .text-wrapper{
     display: flex;
     justify-content: center;
+}
+
+.sprite-text{
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;  
 }
 </style>
 
