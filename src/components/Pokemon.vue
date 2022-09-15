@@ -1,19 +1,20 @@
 <template>
-    <section id="pokemon-section">
+    <section class="pokemon-section" :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }">
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
-            :class="{ 'disabled-button': Object.entries(checkPokemon()).length === 0 }"
-            @click="previousPokemon()">Previous</button>
+            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
+                class="fa-solid fa-chevron-left"></i></button>
         <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
             <div class="info-container">
                 <h1 :class="colorText()">
                     {{ capitalize(checkPokemon().name) }}
                 </h1>
-                    <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i class="fa-solid fa-play"></i>Cry</button>
+                <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i
+                        class="fa-solid fa-play"></i>Cry</button>
                 <!-- <p class="cry-text">Cry</p> -->
             </div>
             <div class="text-wrapper">
-                    <p class="sprite-text">Normal</p>
-                </div>
+                <p class="sprite-text">Normal</p>
+            </div>
             <div class="sprites-container">
                 <figure class="pokemon-figure">
                     <img class="pokemon-sprite" :src="loadSprite()" :alt="checkPokemon().name" />
@@ -29,11 +30,11 @@
                 </figure>
             </div>
             <div class="text-wrapper">
-                    <p class="sprite-text">Shiny</p>
-                </div>
+                <p class="sprite-text">Shiny</p>
+            </div>
         </div>
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
-            :class="{ 'disabled-button': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
+            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
                 class="fa-solid fa-chevron-right"></i></button>
     </section>
 </template>
@@ -113,14 +114,13 @@ export default {
             pokemonStore.previousPokemon()
             pokemonStore.changePokemon
         },
-        colorText(){
+        colorText() {
             const pokemonStore = usePokemonStore()
             return pokemonStore.pokemonData.types[0].type.name
         },
-        colorTextBackground(){
+        colorTextBackground() {
             const pokemonStore = usePokemonStore()
             let background = pokemonStore.pokemonData.types[0].type.name + '-b';
-            console.log(background)
             return background
         }
     }
@@ -132,16 +132,19 @@ export default {
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
 @import '../assets/css/color.css';
 
-#pokemon-section {
+.pokemon-section {
     display: flex;
     font-family: 'Lato', sans-serif;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    /**space between for responsive in media*/
     align-items: center;
-    margin: 24px 0;
+    width: 100%;
+    height: 50%;
+    opacity: 1;
+    transition: opacity 2000ms ease;
 }
 
-.bug .dark .dragon .electric .fairy .fighting .fire .flying .ghost .grass .ground .ice .normal .poison .psychic .rock .steel .water
-.bug-b .dark-b .dragon-b .electric-b .fairy-b .fighting-b .fire-b .flying-b .ghost-b .grass-b .ground-b .ice-b .normal-b .poison-b .psychic-b .rock-b .steel-b .water-b{
+.bug .dark .dragon .electric .fairy .fighting .fire .flying .ghost .grass .ground .ice .normal .poison .psychic .rock .steel .water .bug-b .dark-b .dragon-b .electric-b .fairy-b .fighting-b .fire-b .flying-b .ghost-b .grass-b .ground-b .ice-b .normal-b .poison-b .psychic-b .rock-b .steel-b .water-b {
     font-size: 24px;
     font-weight: 800;
 }
@@ -149,6 +152,7 @@ export default {
 .pokemon {
     width: 400px;
     height: 500px;
+    margin-top: 48px;
     /* border: 1px black solid; */
     border-radius: 25px;
     background: linear-gradient(145deg, #e6e6e6, #ffffff);
@@ -210,13 +214,14 @@ h1 {
 
 }
 
-.cry-button:active { /*cuando es clicked*/
+.cry-button:active {
+    /*cuando es clicked*/
     transform: translateY(4px);
 }
 
-.cry-text{
+.cry-text {
     font-size: 18px;
-    font-weight: 600; 
+    font-weight: 600;
 }
 
 .info-container i {
@@ -233,19 +238,36 @@ h1 {
     transition: all 350ms ease;
 }
 
-.disabled-button {
-    cursor: not-allowed;
+.pokemon-change {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #207fb6;
+    font-size: 48px;
+    background-color: white;
+    opacity: 1;
+    transition: opacity 1000ms ease;
+    transition: transform 300ms ease;
 }
 
-.text-wrapper{
+.pokemon-change:active {
+    /*cuando es clicked*/
+    transform: translateY(4px);
+}
+
+.disabled {
+    opacity: 0;
+}
+
+.text-wrapper {
     display: flex;
     justify-content: center;
 }
 
-.sprite-text{
+.sprite-text {
     text-align: center;
     font-size: 24px;
-    font-weight: 800;  
+    font-weight: 800;
 }
 </style>
 
