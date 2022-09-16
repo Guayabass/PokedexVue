@@ -32,6 +32,10 @@
             <div class="text-wrapper">
                 <p class="sprite-text">Shiny</p>
             </div>
+            <div class="card-change-wrapper tooltip-container">
+                    <button class="card-change"><i class="fa-solid fa-repeat"></i></button>
+                    <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
+                </div>
         </div>
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
@@ -170,7 +174,7 @@ h1 {
 .sprites-container {
     display: flex;
     width: 100%;
-    height: 60%;
+    height: 50%;
     flex-wrap: wrap;
     /* border-bottom: 1px black solid; */
 }
@@ -226,6 +230,68 @@ h1 {
 
 .info-container i {
     padding: 0 8px;
+}
+
+.card-change-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15%;
+    width: 100%;
+}
+
+.card-change{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: white;
+    font-size: 28px;
+    color: #207fb6;
+    margin-left: 8px;
+}
+
+.tooltip-container {
+  /*container del tooltip*/
+  position: relative;
+  display: flex;
+  /*border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+.tooltip-container .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(155, 155, 155);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  margin-top: 4px;
+  position: absolute;
+  z-index: 1;
+  top: 75%;
+  left: 50%;
+  margin-left: -60px;
+  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip-container:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-container .tooltiptext::after {
+  /*para que tenga flecha*/
+  content: " ";
+  position: absolute;
+  bottom: 100%; /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgb(83, 81, 81) transparent;
 }
 
 .pokemon-sprite-anim:hover {
