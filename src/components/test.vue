@@ -3,12 +3,12 @@
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
                 class="fa-solid fa-chevron-left"></i></button>
-        <div class="pokemon" :class="{'disabled': stats}" v-if="Object.entries(checkPokemon()).length > 0">
+        <div class="pokemon" :class="{'disabled': stats}">
             <div class="info-container">
                 <h1 :class="colorText()">
                     {{ capitalize(checkPokemon().name) }}
                 </h1>
-                <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
+                <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i
                         class="fa-solid fa-play"></i>Cry</button>
                 <!-- <p class="cry-text">Cry</p> -->
             </div>
@@ -33,7 +33,7 @@
                 <p class="sprite-text">Shiny</p>
             </div>
             <div class="card-change-wrapper tooltip-container">
-                <button class="card-change" @click="changeToStats()" :disabled="stats"><i class="fa-solid fa-repeat"></i></button>
+                <button class="card-change" @click="changeToStats()"><i class="fa-solid fa-repeat"></i></button>
                 <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
             </div>
         </div>
@@ -50,7 +50,7 @@ import { usePokemonStore } from '../stores/pokemonStore.js';
 
 export default {
     name: 'Pokemon',
-    data() {
+    data (){
         return {
             stats: false,
         }
@@ -125,6 +125,7 @@ export default {
         },
         colorText() {
             const pokemonStore = usePokemonStore()
+            console.log(pokemonStore.pokemonData.types[0].type.name)
             return pokemonStore.pokemonData.types[0].type.name
         },
         colorTextBackground() {
@@ -132,7 +133,7 @@ export default {
             let background = pokemonStore.pokemonData.types[0].type.name + '-b';
             return background
         },
-        changeToStats() {
+        changeToStats(){
             this.stats = true
         }
     }
