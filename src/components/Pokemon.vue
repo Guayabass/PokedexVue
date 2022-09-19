@@ -3,7 +3,7 @@
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
                 class="fa-solid fa-chevron-left"></i></button>
-        <div class="pokemon" :class="{'disabled': stats}" v-if="Object.entries(checkPokemon()).length > 0">
+        <div class="pokemon" :class="{'disabled': stats}" v-if="Object.entries(checkPokemon()).length > 0 && !stats">
             <div class="info-container">
                 <h1 :class="colorText()">
                     {{ capitalize(checkPokemon().name) }}
@@ -33,9 +33,13 @@
                 <p class="sprite-text">Shiny</p>
             </div>
             <div class="card-change-wrapper tooltip-container">
-                <button class="card-change" @click="changeToStats()" :disabled="stats"><i class="fa-solid fa-repeat"></i></button>
+                <button class="card-change" @click="changeToStats()" :disabled="stats"><i
+                        class="fa-solid fa-repeat"></i></button>
                 <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
             </div>
+        </div>
+        <div class="pokemon" v-else> <!--Ver video de transitions-->
+            <PokemonStats></PokemonStats>
         </div>
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
@@ -45,97 +49,103 @@
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
+import PokemonStats from './PokemonStats.vue';
 
 //const pokemonStore = usePokemonStore()
 
 export default {
-    name: 'Pokemon',
+    name: "Pokemon",
     data() {
         return {
             stats: false,
-        }
+        };
     },
     methods: {
         checkPokemon() {
-            const pokemonStore = usePokemonStore()
-            return pokemonStore.pokemonData
+            const pokemonStore = usePokemonStore();
+            return pokemonStore.pokemonData;
         },
         loadSprite() {
-            const pokemonStore = usePokemonStore()
+            const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
-                alert('Unable to find an animated/back sprite for this Pokemon, sorry! :(')
-                return 'src/assets/pokemon/' + pokemonStore.pokemonData.id + '.png'
-            } else {
-                return 'src/assets/pokemon/versions/generation-v/black-white/animated/' + pokemonStore.pokemonData.id + '.gif'
+                alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
+                return "src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
             }
-
+            else {
+                return "src/assets/pokemon/versions/generation-v/black-white/animated/" + pokemonStore.pokemonData.id + ".gif";
+            }
             //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
         },
         loadCry() {
-            const pokemonStore = usePokemonStore()
+            const pokemonStore = usePokemonStore();
             //console.log(pokemonStore.pokemonData.types.length)
-            const audio = new Audio('src/assets/cries/' + pokemonStore.pokemonID + '.ogg');
+            const audio = new Audio("src/assets/cries/" + pokemonStore.pokemonID + ".ogg");
             audio.play();
         },
         capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
         loadShinySprite() {
-            const pokemonStore = usePokemonStore()
+            const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
-                return 'src/assets/pokemon/shiny/' + pokemonStore.pokemonData.id + '.png'
-            } else {
-                return 'src/assets/pokemon/versions/generation-v/black-white/animated/shiny/' + pokemonStore.pokemonData.id + '.gif'
+                return "src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
             }
-
+            else {
+                return "src/assets/pokemon/versions/generation-v/black-white/animated/shiny/" + pokemonStore.pokemonData.id + ".gif";
+            }
         },
         loadBackSprite() {
-            const pokemonStore = usePokemonStore()
+            const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
-                    return 'src/assets/pokemon/' + pokemonStore.pokemonData.id + '.png'
-                } else {
-                    return 'src/assets/pokemon/versions/generation-v/black-white/back/' + pokemonStore.pokemonData.id + '.png'
+                    return "src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
                 }
-            } else {
-                return 'src/assets/pokemon/versions/generation-v/black-white/animated/back/' + pokemonStore.pokemonData.id + '.gif'
+                else {
+                    return "src/assets/pokemon/versions/generation-v/black-white/back/" + pokemonStore.pokemonData.id + ".png";
+                }
+            }
+            else {
+                return "src/assets/pokemon/versions/generation-v/black-white/animated/back/" + pokemonStore.pokemonData.id + ".gif";
             }
         },
         loadShinyBackSprite() {
-            const pokemonStore = usePokemonStore()
+            const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
-                    return 'src/assets/pokemon/shiny/' + pokemonStore.pokemonData.id + '.png'
-                } else {
-                    return 'src/assets/pokemon/versions/generation-v/black-white/back/shiny/' + pokemonStore.pokemonData.id + '.png'
+                    return "src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
                 }
-            } else {
-                return 'src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/' + pokemonStore.pokemonData.id + '.gif'
+                else {
+                    return "src/assets/pokemon/versions/generation-v/black-white/back/shiny/" + pokemonStore.pokemonData.id + ".png";
+                }
+            }
+            else {
+                return "src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + pokemonStore.pokemonData.id + ".gif";
             }
         },
         nextPokemon() {
-            const pokemonStore = usePokemonStore()
-            pokemonStore.nextPokemon()
-            pokemonStore.changePokemon
+            const pokemonStore = usePokemonStore();
+            pokemonStore.nextPokemon();
+            pokemonStore.changePokemon;
         },
         previousPokemon() {
-            const pokemonStore = usePokemonStore()
-            pokemonStore.previousPokemon()
-            pokemonStore.changePokemon
+            const pokemonStore = usePokemonStore();
+            pokemonStore.previousPokemon();
+            pokemonStore.changePokemon;
         },
         colorText() {
-            const pokemonStore = usePokemonStore()
-            return pokemonStore.pokemonData.types[0].type.name
+            const pokemonStore = usePokemonStore();
+            return pokemonStore.pokemonData.types[0].type.name;
         },
         colorTextBackground() {
-            const pokemonStore = usePokemonStore()
-            let background = pokemonStore.pokemonData.types[0].type.name + '-b';
-            return background
+            const pokemonStore = usePokemonStore();
+            let background = pokemonStore.pokemonData.types[0].type.name + "-b";
+            return background;
         },
         changeToStats() {
-            this.stats = true
+            this.stats = true;
         }
-    }
+    },
+    components: { PokemonStats }
 }
 </script>
 
@@ -153,6 +163,7 @@ export default {
     width: 100%;
     height: 50%;
     opacity: 1;
+    cursor: default;
     transition: opacity 2000ms ease;
 }
 
@@ -171,6 +182,7 @@ export default {
     box-shadow: 35px 35px 70px #bababa,
         -35px -35px 70px #ffffff;
     transition: opacity 2000ms ease;
+    cursor: default;
 }
 
 h1 {
@@ -332,6 +344,10 @@ h1 {
 
 .disabled {
     opacity: 0;
+}
+
+.active{
+    opacity: 1;
 }
 
 .text-wrapper {
