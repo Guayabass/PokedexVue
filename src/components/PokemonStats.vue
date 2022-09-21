@@ -1,5 +1,5 @@
 <template>
-<h1>test</h1>
+            <h1>test</h1>
 </template>
 
 <script>
@@ -19,7 +19,6 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
 @import '../assets/css/color.css';
-
 
 </style>
 

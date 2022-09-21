@@ -3,44 +3,47 @@
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
                 class="fa-solid fa-chevron-left"></i></button>
-        <div class="pokemon" :class="{'disabled': stats}" v-if="Object.entries(checkPokemon()).length > 0 && !stats">
-            <div class="info-container">
-                <h1 :class="colorText()">
-                    {{ capitalize(checkPokemon().name) }}
-                </h1>
-                <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
-                        class="fa-solid fa-play"></i>Cry</button>
-                <!-- <p class="cry-text">Cry</p> -->
+        <Transition name="fade-out">
+            <div class="pokemon" :class="{'disabled': stats}"
+                v-if="Object.entries(checkPokemon()).length > 0 && !stats">
+                <div class="info-container">
+                    <h1 :class="colorText()">
+                        {{ capitalize(checkPokemon().name) }}
+                    </h1>
+                    <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
+                            class="fa-solid fa-play"></i>Cry</button>
+                    <!-- <p class="cry-text">Cry</p> -->
+                </div>
+                <div class="text-wrapper">
+                    <p class="sprite-text">Normal</p>
+                </div>
+                <div class="sprites-container">
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadSprite()" :alt="checkPokemon().name" />
+                    </figure>
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadBackSprite()" :alt="checkPokemon().name" />
+                    </figure>
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadShinySprite()" :alt="checkPokemon().name" />
+                    </figure>
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="checkPokemon().name" />
+                    </figure>
+                </div>
+                <div class="text-wrapper">
+                    <p class="sprite-text">Shiny</p>
+                </div>
+                <div class="card-change-wrapper tooltip-container">
+                    <button class="card-change" @click="stats = !stats, waitStats()" :disabled="stats"><i
+                            class="fa-solid fa-chart-simple"></i></button>
+                    <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
+                </div>
             </div>
-            <div class="text-wrapper">
-                <p class="sprite-text">Normal</p>
-            </div>
-            <div class="sprites-container">
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadSprite()" :alt="checkPokemon().name" />
-                </figure>
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadBackSprite()" :alt="checkPokemon().name" />
-                </figure>
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadShinySprite()" :alt="checkPokemon().name" />
-                </figure>
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="checkPokemon().name" />
-                </figure>
-            </div>
-            <div class="text-wrapper">
-                <p class="sprite-text">Shiny</p>
-            </div>
-            <div class="card-change-wrapper tooltip-container">
-                <button class="card-change" @click="changeToStats()" :disabled="stats"><i
-                        class="fa-solid fa-repeat"></i></button>
-                <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
-            </div>
-        </div>
-        <div class="pokemon" v-else> <!--Ver video de transitions-->
-            <PokemonStats></PokemonStats>
-        </div>
+        </Transition>
+        <Transition name="fade-in">
+            <PokemonStats class="pokemon" v-if="change" :style="{ transitionDelay: delay }"></PokemonStats>
+        </Transition>
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
                 class="fa-solid fa-chevron-right"></i></button>
@@ -58,6 +61,8 @@ export default {
     data() {
         return {
             stats: false,
+            delay: '2s',
+            change: false,
         };
     },
     methods: {
@@ -141,8 +146,10 @@ export default {
             let background = pokemonStore.pokemonData.types[0].type.name + "-b";
             return background;
         },
-        changeToStats() {
-            this.stats = true;
+        waitStats() {
+            setTimeout(() => {
+                this.change = true
+            }, "2000")
         }
     },
     components: { PokemonStats }
@@ -181,7 +188,7 @@ export default {
     background: linear-gradient(145deg, #e6e6e6, #ffffff);
     box-shadow: 35px 35px 70px #bababa,
         -35px -35px 70px #ffffff;
-    transition: opacity 2000ms ease;
+    /**transition: opacity 2000ms ease;**/
     cursor: default;
 }
 
@@ -331,7 +338,7 @@ h1 {
     cursor: pointer;
     color: #207fb6;
     font-size: 48px;
-    background-color: white;
+    background-color: transparent;
     opacity: 1;
     transition: opacity 1000ms ease;
     transition: transform 300ms ease;
@@ -346,7 +353,7 @@ h1 {
     opacity: 0;
 }
 
-.active{
+.active {
     opacity: 1;
 }
 
@@ -360,16 +367,37 @@ h1 {
     font-size: 24px;
     font-weight: 800;
 }
+
+.fade-in-enter-from {
+    opacity: 0;
+}
+
+.fade-in-enter-to {
+    opacity: 1;
+}
+
+.fade-in-enter-active {
+    transition: opacity 2000ms ease;
+}
+
+/* .fade-in-leave-from {}
+
+.fade-in-leave-to {}
+
+.fade-in-leave-active {} */
+
+.fade-out-leave-from {
+    opacity: 1;
+}
+
+.fade-out-leave-to {
+    opacity: 0;
+}
+
+.fade-out-leave-active {
+    transition: opacity 2000ms ease;
+}
 </style>
 
-<!--<figure class="pokemon-figure">
-    <img class="pokemon-sprite" v-if="!shiny && !gif && static" :src="loadImage()"
-        :alt="checkPokemon().name" />
-    <img class="pokemon-sprite" v-else-if="shiny && !gif && static" :src="loadShinyImage()"
-        :alt="checkPokemon().name" />
-    <img class="pokemon-sprite-anim" v-else-if="!shiny && gif && !static" :src="loadGif()"
-        :alt="checkPokemon().name" />
-    <img class="pokemon-sprite-anim" v-else-if="shiny && gif && !static" :src="loadShinyGif()"
-        :alt="checkPokemon().name" />
-</figure>-->
+
 
