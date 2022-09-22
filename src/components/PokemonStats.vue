@@ -1,5 +1,6 @@
 <template>
             <h1>test</h1>
+         <!-- <button class="card-change" @click="stats = !stats, waitStats()" :disabled="stats"><i class="fa-solid fa-square-info"></i></button>  -->
 </template>
 
 <script>
@@ -9,6 +10,11 @@ import { usePokemonStore } from '../stores/pokemonStore.js';
 
 export default {
     name: 'PokemonStats',
+    data (){
+        return{
+            delay: '0.5s'
+        }
+    }, 
     methods: {
 
     }

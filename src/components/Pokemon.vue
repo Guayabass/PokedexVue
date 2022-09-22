@@ -4,14 +4,14 @@
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
                 class="fa-solid fa-chevron-left"></i></button>
         <Transition name="fade-out">
-            <div class="pokemon" :class="{'disabled': stats}"
-                v-if="Object.entries(checkPokemon()).length > 0 && !stats">
+            <div class="pokemon" :class="{'disabled': returnStats()}"
+                v-if="Object.entries(checkPokemon()).length > 0 && !returnStats()">
                 <div class="info-container">
                     <h1 :class="colorText()">
                         {{ capitalize(checkPokemon().name) }}
                     </h1>
-                    <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
-                            class="fa-solid fa-play"></i>Cry</button>
+                    <button :class="colorTextBackground()" class="cry-button" :disabled="returnStats()"
+                        @click="loadCry()"><i class="fa-solid fa-play"></i>Cry</button>
                     <!-- <p class="cry-text">Cry</p> -->
                 </div>
                 <div class="text-wrapper">
@@ -35,7 +35,7 @@
                     <p class="sprite-text">Shiny</p>
                 </div>
                 <div class="card-change-wrapper tooltip-container">
-                    <button class="card-change" @click="stats = !stats, waitStats()" :disabled="stats"><i
+                    <button class="card-change" @click="changeStats(), switchChange()" :disabled="returnStats()"><i
                             class="fa-solid fa-chart-simple"></i></button>
                     <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
                 </div>
@@ -60,9 +60,8 @@ export default {
     name: "Pokemon",
     data() {
         return {
-            stats: false,
-            delay: '2s',
             change: false,
+            delay: '0.5s',
         };
     },
     methods: {
@@ -146,11 +145,29 @@ export default {
             let background = pokemonStore.pokemonData.types[0].type.name + "-b";
             return background;
         },
-        waitStats() {
+        switchChange() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.change = !pokemonStore.change
             setTimeout(() => {
-                this.change = true
-            }, "2000")
-        }
+                this.change = pokemonStore.change
+            }, "1000")
+        },
+        changeStats() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.stats = !pokemonStore.stats;
+        },
+        returnStats() {
+            const pokemonStore = usePokemonStore();
+            return pokemonStore.stats
+        },
+        // returnChange() {
+        //     const pokemonStore = usePokemonStore();
+        //     this.change = pokemonStore.change
+        //      setTimeout(() => {
+        //         return this.change
+        //      }, "1000")
+
+        // }
     },
     components: { PokemonStats }
 }
@@ -377,7 +394,7 @@ h1 {
 }
 
 .fade-in-enter-active {
-    transition: opacity 2000ms ease;
+    transition: opacity 1000ms ease;
 }
 
 /* .fade-in-leave-from {}
@@ -395,7 +412,7 @@ h1 {
 }
 
 .fade-out-leave-active {
-    transition: opacity 2000ms ease;
+    transition: opacity 1000ms ease;
 }
 </style>
 
