@@ -41,9 +41,10 @@
                 </div>
             </div>
         </Transition>
-        <Transition name="fade-in">
-            <PokemonStats class="pokemon" v-if="change" :style="{ transitionDelay: delay }"></PokemonStats>
-        </Transition>
+        <!-- hacer un div y quitar pinia y usar variable locales, no usar segundo componente. -->
+        <!-- <Transition name="fade-in">
+            <PokemonStats class="pokemon" v-if="returnChange()" :style="{ transitionDelay: delay }"></PokemonStats>
+        </Transition> -->
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
             :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
                 class="fa-solid fa-chevron-right"></i></button>
@@ -52,7 +53,6 @@
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
-import PokemonStats from './PokemonStats.vue';
 
 //const pokemonStore = usePokemonStore()
 
@@ -60,8 +60,7 @@ export default {
     name: "Pokemon",
     data() {
         return {
-            change: false,
-            delay: '0.5s',
+            delay: '1s',
         };
     },
     methods: {
@@ -147,9 +146,10 @@ export default {
         },
         switchChange() {
             const pokemonStore = usePokemonStore();
-            pokemonStore.change = !pokemonStore.change
             setTimeout(() => {
-                this.change = pokemonStore.change
+                //this.change = pokemonStore.change
+                pokemonStore.change = !pokemonStore.change
+                //this.change = !this.change
             }, "1000")
         },
         changeStats() {
@@ -160,6 +160,13 @@ export default {
             const pokemonStore = usePokemonStore();
             return pokemonStore.stats
         },
+        returnChange() {
+            const pokemonStore = usePokemonStore();
+            if (pokemonStore.change) {
+                return pokemonStore.change
+            }
+
+        }
         // returnChange() {
         //     const pokemonStore = usePokemonStore();
         //     this.change = pokemonStore.change
@@ -397,11 +404,29 @@ h1 {
     transition: opacity 1000ms ease;
 }
 
-/* .fade-in-leave-from {}
+.fade-in-leave-from {
+    opacity: 1;
+}
 
-.fade-in-leave-to {}
+.fade-in-leave-to {
+    opacity: 0;
+}
 
-.fade-in-leave-active {} */
+.fade-in-leave-active {
+    transition: opacity 1000ms ease; 
+}
+
+.fade-out-enter-from {
+    opacity: 0;
+}
+
+.fade-out-enter-to {
+    opacity: 1;
+}
+
+.fade-out-enter-active {
+    transition: opacity 1000ms ease;
+}
 
 .fade-out-leave-from {
     opacity: 1;
