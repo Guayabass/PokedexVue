@@ -1,17 +1,17 @@
 <template>
     <section class="pokemon-section" :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }">
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
-            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
-                class="fa-solid fa-chevron-left"></i></button>
-        <Transition name="fade-out">
-            <div class="pokemon" :class="{'disabled': returnStats()}"
-                v-if="Object.entries(checkPokemon()).length > 0 && !returnStats()">
+            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0}"
+            @click="previousPokemon()"><i class="fa-solid fa-chevron-left"></i></button>
+        <Transition name="fade" mode="out-in">
+            <div class="pokemon" :class="{'disabled': stats}"
+                v-if="Object.entries(checkPokemon()).length > 0 && !stats">
                 <div class="info-container">
                     <h1 :class="colorText()">
                         {{ capitalize(checkPokemon().name) }}
                     </h1>
-                    <button :class="colorTextBackground()" class="cry-button" :disabled="returnStats()"
-                        @click="loadCry()"><i class="fa-solid fa-play"></i>Cry</button>
+                    <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
+                            class="fa-solid fa-play"></i>Cry</button>
                     <!-- <p class="cry-text">Cry</p> -->
                 </div>
                 <div class="text-wrapper">
@@ -35,19 +35,28 @@
                     <p class="sprite-text">Shiny</p>
                 </div>
                 <div class="card-change-wrapper tooltip-container">
-                    <button class="card-change" @click="changeStats(), switchChange()" :disabled="returnStats()"><i
+                    <button class="card-change" @click="stats = !stats" :disabled="stats"><i
                             class="fa-solid fa-chart-simple"></i></button>
                     <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
                 </div>
             </div>
+            <div class="pokemon" v-else-if="stats">
+                <h1>test</h1>
+                <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
+                            class="fa-solid fa-chart-simple"></i></button>
+            </div>
         </Transition>
+        <!-- <Transition name="fade-in" mode="out-in">
+
+        </Transition> -->
         <!-- hacer un div y quitar pinia y usar variable locales, no usar segundo componente. -->
         <!-- <Transition name="fade-in">
             <PokemonStats class="pokemon" v-if="returnChange()" :style="{ transitionDelay: delay }"></PokemonStats>
         </Transition> -->
+
         <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
-            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
-                class="fa-solid fa-chevron-right"></i></button>
+            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0}"
+            @click="nextPokemon()"><i class="fa-solid fa-chevron-right"></i></button>
     </section>
 </template>
 
@@ -60,7 +69,7 @@ export default {
     name: "Pokemon",
     data() {
         return {
-            delay: '1s',
+            stats: false,
         };
     },
     methods: {
@@ -144,39 +153,13 @@ export default {
             let background = pokemonStore.pokemonData.types[0].type.name + "-b";
             return background;
         },
-        switchChange() {
-            const pokemonStore = usePokemonStore();
-            setTimeout(() => {
-                //this.change = pokemonStore.change
-                pokemonStore.change = !pokemonStore.change
-                //this.change = !this.change
-            }, "1000")
-        },
-        changeStats() {
-            const pokemonStore = usePokemonStore();
-            pokemonStore.stats = !pokemonStore.stats;
-        },
-        returnStats() {
-            const pokemonStore = usePokemonStore();
-            return pokemonStore.stats
-        },
-        returnChange() {
-            const pokemonStore = usePokemonStore();
-            if (pokemonStore.change) {
-                return pokemonStore.change
-            }
-
-        }
-        // returnChange() {
-        //     const pokemonStore = usePokemonStore();
-        //     this.change = pokemonStore.change
+        //  switchChange() {
         //      setTimeout(() => {
-        //         return this.change
-        //      }, "1000")
-
-        // }
+        //          this.change = !this.change
+        //      }, "800")
+        //  },
     },
-    components: { PokemonStats }
+    //components: { PokemonStats }
 }
 </script>
 
@@ -195,7 +178,7 @@ export default {
     height: 50%;
     opacity: 1;
     cursor: default;
-    transition: opacity 2000ms ease;
+    /* transition: opacity 2000ms ease; */
 }
 
 .bug .dark .dragon .electric .fairy .fighting .fire .flying .ghost .grass .ground .ice .normal .poison .psychic .rock .steel .water .bug-b .dark-b .dragon-b .electric-b .fairy-b .fighting-b .fire-b .flying-b .ghost-b .grass-b .ground-b .ice-b .normal-b .poison-b .psychic-b .rock-b .steel-b .water-b {
@@ -363,8 +346,6 @@ h1 {
     color: #207fb6;
     font-size: 48px;
     background-color: transparent;
-    opacity: 1;
-    transition: opacity 1000ms ease;
     transition: transform 300ms ease;
 }
 
@@ -392,52 +373,28 @@ h1 {
     font-weight: 800;
 }
 
-.fade-in-enter-from {
+.fade-enter-from {
     opacity: 0;
 }
 
-.fade-in-enter-to {
+.fade-enter-to {
     opacity: 1;
 }
 
-.fade-in-enter-active {
-    transition: opacity 1000ms ease;
+.fade-enter-active {
+    transition: opacity 800ms ease;
 }
 
-.fade-in-leave-from {
+.fade-leave-from {
     opacity: 1;
 }
 
-.fade-in-leave-to {
+.fade-leave-to {
     opacity: 0;
 }
 
-.fade-in-leave-active {
-    transition: opacity 1000ms ease; 
-}
-
-.fade-out-enter-from {
-    opacity: 0;
-}
-
-.fade-out-enter-to {
-    opacity: 1;
-}
-
-.fade-out-enter-active {
-    transition: opacity 1000ms ease;
-}
-
-.fade-out-leave-from {
-    opacity: 1;
-}
-
-.fade-out-leave-to {
-    opacity: 0;
-}
-
-.fade-out-leave-active {
-    transition: opacity 1000ms ease;
+.fade-leave-active {
+    transition: opacity 800ms ease;
 }
 </style>
 

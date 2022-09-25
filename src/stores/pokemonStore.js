@@ -6,8 +6,6 @@ export const usePokemonStore = defineStore({
   state: () => ({
     pokemonData: {},
     pokemonID: 0,
-    stats: false,
-    change: false,
   }),
   getters: {
     changePokemon: async (state) => {
