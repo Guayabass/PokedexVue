@@ -1,8 +1,12 @@
 <template>
     <section class="pokemon-section" :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }">
-        <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
-            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0}"
-            @click="previousPokemon()"><i class="fa-solid fa-chevron-left"></i></button>
+        <Transition name="button">
+            <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
+                :disabled="Object.entries(checkPokemon()).length === 0"
+                :class="{ 'disabled': Object.entries(checkPokemon()).length === 0}" @click="previousPokemon()"><i
+                    class="fa-solid fa-chevron-left"></i></button>
+            <!--the if is just there for transition purposes -->
+        </Transition>
         <Transition name="fade" mode="out-in">
             <div class="pokemon" :class="{'disabled': stats}"
                 v-if="Object.entries(checkPokemon()).length > 0 && !stats">
@@ -40,23 +44,26 @@
                     <p class="tooltiptext">{{'Click to show '+capitalize(checkPokemon().name) +' stats!'}}</p>
                 </div>
             </div>
-            <div class="pokemon" v-else-if="stats">
-                <h1>test</h1>
+            <div class="pokemon" :class="{'disabled': !stats}" v-else-if="stats">
+                <div class="info-container">
+                    <h1>
+                        Typings
+                    </h1>
+                    <ul class="typings">
+                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index" :class="type.type.name + '-b' ">{{ capitalize(type.type.name) }}</li>
+                    </ul>
+                </div>
                 <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
-                            class="fa-solid fa-chart-simple"></i></button>
+                        class="fa-solid fa-chart-simple"></i></button>
             </div>
         </Transition>
-        <!-- <Transition name="fade-in" mode="out-in">
-
-        </Transition> -->
-        <!-- hacer un div y quitar pinia y usar variable locales, no usar segundo componente. -->
-        <!-- <Transition name="fade-in">
-            <PokemonStats class="pokemon" v-if="returnChange()" :style="{ transitionDelay: delay }"></PokemonStats>
-        </Transition> -->
-
-        <button class="pokemon-change" :disabled="Object.entries(checkPokemon()).length === 0"
-            :class="{ 'disabled': Object.entries(checkPokemon()).length === 0}"
-            @click="nextPokemon()"><i class="fa-solid fa-chevron-right"></i></button>
+        <Transition name="button">
+            <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
+                :disabled="Object.entries(checkPokemon()).length === 0"
+                :class="{ 'disabled': Object.entries(checkPokemon()).length === 0}" @click="nextPokemon()"><i
+                    class="fa-solid fa-chevron-right"></i></button>
+            <!--the if is just there for transition purposes -->
+        </Transition>
     </section>
 </template>
 
@@ -395,6 +402,39 @@ h1 {
 
 .fade-leave-active {
     transition: opacity 800ms ease;
+}
+
+.button-enter-from {
+    opacity: 0;
+}
+
+.button-enter-to {
+    opacity: 1;
+}
+
+.button-enter-active {
+    transition: opacity 2500ms ease;
+}
+
+li{
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    border-radius: 24px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    height: 40px;
+}
+
+.typings{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 8px 0;
+    width: 100%;
 }
 </style>
 
