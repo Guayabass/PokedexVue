@@ -50,7 +50,7 @@
                         Typings
                     </h1>
                     <ul class="typings">
-                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index" :class="type.type.name + '-b' ">{{ capitalize(type.type.name) }}</li>
+                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index" :class="type.type.name + '-b' "><i :class="iconReturn(type.type.name)"></i>{{ capitalize(type.type.name) }}</li>
                     </ul>
                 </div>
                 <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
@@ -160,6 +160,67 @@ export default {
             let background = pokemonStore.pokemonData.types[0].type.name + "-b";
             return background;
         },
+        iconReturn(type){
+            if (type === 'normal') {
+                return 'fa-solid '+'fa-'+'circle-dot'
+            } 
+
+            else if (type === 'water') {
+                return 'fa-solid '+'fa-'+'droplet'
+            }
+
+            else if (type === 'grass') {
+                return 'fa-solid '+'fa-'+'leaf'
+            }
+
+            else if (type === 'electric') {
+                return 'fa-solid '+'fa-'+'bolt'
+            }
+
+            else if (type === 'ice') {
+                return 'fa-solid '+'fa-'+'snowflake'
+            }
+
+            else if (type === 'fighting') {
+                return 'fa-solid '+'fa-'+'hand-fist'
+            }
+
+            else if (type === 'poison') {
+                return 'fa-solid '+'fa-'+'skull-crossbones'
+            }
+
+            else if (type === 'ground') {
+                return 'fa-solid '+'fa-'+'mountain-sun'
+            }
+
+            else if (type === 'rock') {
+                return 'fa-solid '+'fa-'+'mountain'
+            }
+
+            else if (type === 'flying') {
+                return 'fa-solid '+'fa-'+'feather'
+            }
+
+            else if (type === 'psychic') {
+                return 'fa-solid '+'fa-'+'eye'
+            }
+
+            else if (type === 'dark') {
+                return 'fa-solid '+'fa-'+'moon'
+            }
+
+            else if (type === 'steel') {
+                return 'fa-solid '+'fa-'+'weight-hanging'
+            }
+
+            else if (type === 'fairy') {
+                return 'fa-solid '+'fa-'+'wand-sparkles'
+            }
+            
+            else {
+                return 'fa-solid '+'fa-'+type
+            }
+        }
         //  switchChange() {
         //      setTimeout(() => {
         //          this.change = !this.change
@@ -285,7 +346,7 @@ h1 {
     border: none;
     outline: none;
     cursor: pointer;
-    background-color: white;
+    background-color: transparent;
     font-size: 28px;
     color: #207fb6;
     margin-left: 8px;
@@ -416,7 +477,7 @@ h1 {
     transition: opacity 2500ms ease;
 }
 
-li{
+.pokemon-type{
     list-style-type: none;
     display: flex;
     justify-content: center;
@@ -427,6 +488,11 @@ li{
     font-size: 18px;
     font-weight: 600;
     height: 40px;
+    transition: all 300ms ease-in-out;
+}
+
+.pokemon-type:hover{
+    filter: brightness(120%);
 }
 
 .typings{
