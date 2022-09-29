@@ -55,6 +55,14 @@
                 </div>
                 <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
                         class="fa-solid fa-chart-simple"></i></button>
+                <div class="slider-container">
+                    <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider" :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
+                    <div class="slider-text-container">
+                    <p class="slider-text">1</p>
+                    <p class="slider-text">Level</p>
+                    <p class="slider-text">100</p>
+                </div>
+                </div>
             </div>
         </Transition>
         <Transition name="button">
@@ -77,6 +85,7 @@ export default {
     data() {
         return {
             stats: false,
+            pokemonLevel: 1,
         };
     },
     methods: {
@@ -501,6 +510,65 @@ h1 {
     align-items: center;
     margin: 8px 0;
     width: 100%;
+}
+
+.slider-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider{
+    -webkit-appearance: none;
+    width: 80%;
+    height: 20px;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2;
+    border-radius: 12px;
+    box-shadow: 0px 1px 10px 1px black;
+}
+
+.slider:hover{
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider-text-container{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.slider-text{
+    width: calc(80% / 3);
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.slider-text:nth-child(1){
+    text-align: left;
+}
+
+.slider-text:nth-child(2){
+    text-align: center;
+}
+
+.slider-text:nth-child(3){
+    text-align: right;
 }
 </style>
 
