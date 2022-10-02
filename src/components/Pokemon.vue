@@ -50,19 +50,33 @@
                         Typings
                     </h1>
                     <ul class="typings">
-                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index" :class="type.type.name + '-b' "><i :class="iconReturn(type.type.name)"></i>{{ capitalize(type.type.name) }}</li>
+                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index"
+                            :class="type.type.name + '-b' "><i :class="iconReturn(type.type.name)"></i>{{
+                            capitalize(type.type.name) }}</li>
                     </ul>
+                </div>
+                <div class="stats-container">
+                    <h1 class="stats-title">Stats</h1>
+                    <ul class="stats">
+                        <li v-for="(stat, index) in checkPokemon().stats" :key="index">
+                            <div class="stat-name-wrapper"><p class="stat-name">{{minimize(stat.stat.name)}}</p></div>
+                            <div class="stat-base-wrapper" :class="colorTextBackground()">
+                                <p class="stat-base">{{stat.base_stat}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="slider-container">
+                    <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
+                        :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
+                    <div class="slider-text-container">
+                        <p class="slider-text">1</p>
+                        <p class="slider-text">Level: {{pokemonLevel}}</p>
+                        <p class="slider-text">100</p>
+                    </div>
                 </div>
                 <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
                         class="fa-solid fa-chart-simple"></i></button>
-                <div class="slider-container">
-                    <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider" :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
-                    <div class="slider-text-container">
-                    <p class="slider-text">1</p>
-                    <p class="slider-text">Level</p>
-                    <p class="slider-text">100</p>
-                </div>
-                </div>
             </div>
         </Transition>
         <Transition name="button">
@@ -169,72 +183,85 @@ export default {
             let background = pokemonStore.pokemonData.types[0].type.name + "-b";
             return background;
         },
-        iconReturn(type){
+        iconReturn(type) {
             if (type === 'normal') {
-                return 'fa-solid '+'fa-'+'circle-dot'
-            } 
+                return 'fa-solid ' + 'fa-' + 'circle-dot'
+            }
 
             else if (type === 'water') {
-                return 'fa-solid '+'fa-'+'droplet'
+                return 'fa-solid ' + 'fa-' + 'droplet'
             }
 
             else if (type === 'grass') {
-                return 'fa-solid '+'fa-'+'leaf'
+                return 'fa-solid ' + 'fa-' + 'leaf'
             }
 
             else if (type === 'electric') {
-                return 'fa-solid '+'fa-'+'bolt'
+                return 'fa-solid ' + 'fa-' + 'bolt'
             }
 
             else if (type === 'ice') {
-                return 'fa-solid '+'fa-'+'snowflake'
+                return 'fa-solid ' + 'fa-' + 'snowflake'
             }
 
             else if (type === 'fighting') {
-                return 'fa-solid '+'fa-'+'hand-fist'
+                return 'fa-solid ' + 'fa-' + 'hand-fist'
             }
 
             else if (type === 'poison') {
-                return 'fa-solid '+'fa-'+'skull-crossbones'
+                return 'fa-solid ' + 'fa-' + 'skull-crossbones'
             }
 
             else if (type === 'ground') {
-                return 'fa-solid '+'fa-'+'mountain-sun'
+                return 'fa-solid ' + 'fa-' + 'mountain-sun'
             }
 
             else if (type === 'rock') {
-                return 'fa-solid '+'fa-'+'mountain'
+                return 'fa-solid ' + 'fa-' + 'mountain'
             }
 
             else if (type === 'flying') {
-                return 'fa-solid '+'fa-'+'feather'
+                return 'fa-solid ' + 'fa-' + 'feather'
             }
 
             else if (type === 'psychic') {
-                return 'fa-solid '+'fa-'+'eye'
+                return 'fa-solid ' + 'fa-' + 'eye'
             }
 
             else if (type === 'dark') {
-                return 'fa-solid '+'fa-'+'moon'
+                return 'fa-solid ' + 'fa-' + 'moon'
             }
 
             else if (type === 'steel') {
-                return 'fa-solid '+'fa-'+'weight-hanging'
+                return 'fa-solid ' + 'fa-' + 'weight-hanging'
             }
 
             else if (type === 'fairy') {
-                return 'fa-solid '+'fa-'+'wand-sparkles'
+                return 'fa-solid ' + 'fa-' + 'wand-sparkles'
             }
-            
+
             else {
-                return 'fa-solid '+'fa-'+type
+                return 'fa-solid ' + 'fa-' + type
             }
+        },
+        minimize(stat) {
+            if (stat === 'hp') {
+                return 'HP'
+            } else if (stat === 'attack') {
+                return this.capitalize(stat)
+            } else if (stat === 'defense') {
+                return this.capitalize(stat)
+            } else if (stat === 'special-attack') {
+                return 'Sp. Attack'
+            } else if (stat === 'special-defense') {
+                return 'Sp. Defense'
+            } else if (stat === 'speed') {
+                return this.capitalize(stat)
+            }
+        },
+        baseStatMultiplier(){
+            
         }
-        //  switchChange() {
-        //      setTimeout(() => {
-        //          this.change = !this.change
-        //      }, "800")
-        //  },
     },
     //components: { PokemonStats }
 }
@@ -486,7 +513,7 @@ h1 {
     transition: opacity 2500ms ease;
 }
 
-.pokemon-type{
+.pokemon-type {
     list-style-type: none;
     display: flex;
     justify-content: center;
@@ -500,11 +527,11 @@ h1 {
     transition: all 300ms ease-in-out;
 }
 
-.pokemon-type:hover{
+.pokemon-type:hover {
     filter: brightness(120%);
 }
 
-.typings{
+.typings {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -512,15 +539,16 @@ h1 {
     width: 100%;
 }
 
-.slider-container{
+.slider-container {
     width: 100%;
     display: flex;
+    height: 10%;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-.slider{
+.slider {
     -webkit-appearance: none;
     width: 80%;
     height: 20px;
@@ -532,11 +560,11 @@ h1 {
     box-shadow: 0px 1px 10px 1px black;
 }
 
-.slider:hover{
+.slider:hover {
     opacity: 1;
 }
 
-.slider::-webkit-slider-thumb{
+.slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 30px;
@@ -546,30 +574,79 @@ h1 {
     cursor: pointer;
 }
 
-.slider-text-container{
+.slider-text-container {
     width: 80%;
     display: flex;
     justify-content: space-between;
 }
 
-.slider-text{
+.slider-text {
     width: calc(80% / 3);
     font-size: 16px;
     font-weight: 500;
     margin-top: 8px;
 }
 
-.slider-text:nth-child(1){
+.slider-text:nth-child(1) {
     text-align: left;
 }
 
-.slider-text:nth-child(2){
+.slider-text:nth-child(2) {
     text-align: center;
 }
 
-.slider-text:nth-child(3){
+.slider-text:nth-child(3) {
     text-align: right;
 }
+
+.stats-container {
+    width: 90%;
+    height: 40%;
+    margin: 0 auto;
+}
+
+.stats-title {
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.stats {
+    list-style-type: none;
+}
+
+.stats li {
+    display: flex;
+}
+
+.stat-name-wrapper {
+    background-color: #bababa;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.stat-name, .stat-base {
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+.stat-base-wrapper{
+    filter: brightness(120%);
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    justify-content: flex-end;
+    text-align: center;
+    margin-bottom: 6px;
+    align-items: center;
+}
+
 </style>
 
 
