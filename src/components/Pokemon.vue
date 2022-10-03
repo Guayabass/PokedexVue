@@ -59,16 +59,19 @@
                     <h1 class="stats-title">Stats</h1>
                     <ul class="stats">
                         <li v-for="(stat, index) in checkPokemon().stats" :key="index">
-                            <div class="stat-name-wrapper"><p class="stat-name">{{minimize(stat.stat.name)}}</p></div>
-                            <div class="stat-base-wrapper" :class="colorTextBackground()">
-                                <p class="stat-base">{{stat.base_stat}}</p>
+                            <div class="stat-name-wrapper">
+                                <p class="stat-name">{{minimize(stat.stat.name)}}</p>
+                            </div>
+                            <div class="stat-base-wrapper" :class="colorTextBackground()"
+                                :style="'width: '+widthCalculate()+'%'">
+                                <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="slider-container">
                     <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
-                        :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
+                        :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'" @input="width++">
                     <div class="slider-text-container">
                         <p class="slider-text">1</p>
                         <p class="slider-text">Level: {{pokemonLevel}}</p>
@@ -100,6 +103,8 @@ export default {
         return {
             stats: false,
             pokemonLevel: 1,
+            IV: 0,
+            EV: 0,
         };
     },
     methods: {
@@ -259,9 +264,32 @@ export default {
                 return this.capitalize(stat)
             }
         },
-        baseStatMultiplier(){
-            
-        }
+        baseStatMultiplier(statName, stat) {
+            let statValue = 0
+            if (statName === 'hp') {
+                if (stat === 1) {
+                    return 1
+                } else {
+                    statValue = (2 * stat + this.IV + (this.EV / 4)) * this.pokemonLevel
+                    statValue = (statValue / 100) + 10
+                    statValue = statValue + parseFloat(this.pokemonLevel)
+                    return Math.round(statValue)
+                }
+            }
+            else {
+                statValue = (2 * stat + this.IV + (this.EV / 4)) * this.pokemonLevel
+                statValue = (statValue / 100) + 5
+                return Math.round(statValue)
+            }
+        },
+        widthCalculate() {
+            let width = this.pokemonLevel
+            if (width <= 75 && width >= 6) {
+                return width
+            } else if (width > 75) {
+                return 75
+            }
+        },
     },
     //components: { PokemonStats }
 }
@@ -550,6 +578,7 @@ h1 {
 
 .slider {
     -webkit-appearance: none;
+    appearance: none;
     width: 80%;
     height: 20px;
     outline: none;
@@ -601,7 +630,7 @@ h1 {
 
 .stats-container {
     width: 90%;
-    height: 40%;
+    height: 50%;
     margin: 0 auto;
 }
 
@@ -630,23 +659,28 @@ h1 {
     text-align: center;
 }
 
-.stat-name, .stat-base {
+.stat-name,
+.stat-base {
     font-size: 14px;
     font-weight: 500;
     color: white;
 }
 
-.stat-base-wrapper{
+.stat-base-wrapper {
     filter: brightness(120%);
     border-bottom-right-radius: 8px;
     border-top-right-radius: 8px;
     display: flex;
+    width: 6%;
     justify-content: flex-end;
     text-align: center;
     margin-bottom: 6px;
     align-items: center;
 }
 
+.stat-base {
+    padding-right: 4px;
+}
 </style>
 
 

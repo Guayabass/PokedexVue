@@ -75,23 +75,23 @@
 }
 
 .fire-b{
-    background: orange;
+    background: rgb(197, 137, 27);
 }
 
 .water-b{
-    background: blue;
+    background: rgb(28, 28, 117);
 }
 
 .grass-b{
-    background: green;
+    background: rgb(39, 169, 39);
 }
 
 .electric-b{
-    background: yellow;
+    background: rgb(191, 191, 37);
 }
 
 .ice-b{
-    background: lightblue;
+    background: rgb(158, 193, 205);
 }
 
 .fighting-b{
@@ -99,7 +99,7 @@
 }
 
 .poison-b{
-    background: purple;
+    background: rgb(87, 10, 87);
 }
 
 .ground-b{
