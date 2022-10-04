@@ -1,7 +1,7 @@
 
 
 <script>
-import { pokeapi } from '@/api/pokeapi'
+import { pokeapi } from '../exports/pokeapi'
 import { usePokemonStore } from '../stores/pokemonStore.js';
 import { ref } from 'vue'
 

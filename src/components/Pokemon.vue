@@ -60,7 +60,7 @@
                     <ul class="stats">
                         <li v-for="(stat, index) in checkPokemon().stats" :key="index">
                             <div class="stat-name-wrapper">
-                                <p class="stat-name">{{minimize(stat.stat.name)}}</p>
+                                <p class="stat-name">{{returnStatNames(stat.stat.name)}}</p>
                             </div>
                             <div class="stat-base-wrapper" :class="colorTextBackground()"
                                 :style="'width: '+widthCalculate()+'%'">
@@ -69,9 +69,17 @@
                         </li>
                     </ul>
                 </div>
+                <div class="checkbox-container">
+                    <label class="toggler-wrapper label-checkbox">
+                        <input type="checkbox">
+                        <div class="toggler-slider">
+                            <div class="toggler-knob"></div>
+                        </div>
+                    </label>
+                </div>
                 <div class="slider-container">
                     <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
-                        :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'" @input="width++">
+                        :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
                     <div class="slider-text-container">
                         <p class="slider-text">1</p>
                         <p class="slider-text">Level: {{pokemonLevel}}</p>
@@ -94,6 +102,8 @@
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
+import { icons } from '../exports/icons';
+import { statNames } from '../exports/statNames';
 
 //const pokemonStore = usePokemonStore()
 
@@ -188,81 +198,11 @@ export default {
             let background = pokemonStore.pokemonData.types[0].type.name + "-b";
             return background;
         },
-        iconReturn(type) {
-            if (type === 'normal') {
-                return 'fa-solid ' + 'fa-' + 'circle-dot'
-            }
-
-            else if (type === 'water') {
-                return 'fa-solid ' + 'fa-' + 'droplet'
-            }
-
-            else if (type === 'grass') {
-                return 'fa-solid ' + 'fa-' + 'leaf'
-            }
-
-            else if (type === 'electric') {
-                return 'fa-solid ' + 'fa-' + 'bolt'
-            }
-
-            else if (type === 'ice') {
-                return 'fa-solid ' + 'fa-' + 'snowflake'
-            }
-
-            else if (type === 'fighting') {
-                return 'fa-solid ' + 'fa-' + 'hand-fist'
-            }
-
-            else if (type === 'poison') {
-                return 'fa-solid ' + 'fa-' + 'skull-crossbones'
-            }
-
-            else if (type === 'ground') {
-                return 'fa-solid ' + 'fa-' + 'mountain-sun'
-            }
-
-            else if (type === 'rock') {
-                return 'fa-solid ' + 'fa-' + 'mountain'
-            }
-
-            else if (type === 'flying') {
-                return 'fa-solid ' + 'fa-' + 'feather'
-            }
-
-            else if (type === 'psychic') {
-                return 'fa-solid ' + 'fa-' + 'eye'
-            }
-
-            else if (type === 'dark') {
-                return 'fa-solid ' + 'fa-' + 'moon'
-            }
-
-            else if (type === 'steel') {
-                return 'fa-solid ' + 'fa-' + 'weight-hanging'
-            }
-
-            else if (type === 'fairy') {
-                return 'fa-solid ' + 'fa-' + 'wand-sparkles'
-            }
-
-            else {
-                return 'fa-solid ' + 'fa-' + type
-            }
+        iconReturn(key) {
+            return icons.find(element => element.key === key).value
         },
-        minimize(stat) {
-            if (stat === 'hp') {
-                return 'HP'
-            } else if (stat === 'attack') {
-                return this.capitalize(stat)
-            } else if (stat === 'defense') {
-                return this.capitalize(stat)
-            } else if (stat === 'special-attack') {
-                return 'Sp. Attack'
-            } else if (stat === 'special-defense') {
-                return 'Sp. Defense'
-            } else if (stat === 'speed') {
-                return this.capitalize(stat)
-            }
+        returnStatNames(key) {
+            return statNames.find(element => element.key === key).value
         },
         baseStatMultiplier(statName, stat) {
             let statValue = 0
@@ -630,7 +570,7 @@ h1 {
 
 .stats-container {
     width: 90%;
-    height: 50%;
+    height: 45%;
     margin: 0 auto;
 }
 
@@ -680,6 +620,115 @@ h1 {
 
 .stat-base {
     padding-right: 4px;
+}
+
+.checkbox-container {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 8px;
+}
+
+.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider {
+    background-color: transparent;
+    border-color: #44cc66;
+}
+
+.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider:before {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 0.7;
+}
+
+.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider:after {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+}
+
+.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
+    left: calc(100% - 19px - 3px);
+    background-color: #44cc66;
+}
+
+.toggler-wrapper.label-checkbox .toggler-slider {
+    background-color: transparent;
+    border: 2px solid #eb4f37;
+}
+
+.toggler-wrapper.label-checkbox .toggler-slider:before {
+    content: 'All Levels';
+    position: absolute;
+    top: -20px;
+    right: -70px;
+    left: -15px;
+    font-size: 75%;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+}
+
+.toggler-wrapper.label-checkbox .toggler-slider:after {
+    content: 'Level 100 ONLY';
+    position: absolute;
+    top: -20px;
+    right: -100px;
+    left: -25px;
+    font-size: 75%;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.7;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+.toggler-wrapper.label-checkbox .toggler-knob {
+    width: calc(25px - 6px);
+    height: calc(25px - 6px);
+    border-radius: 50%;
+    left: 2px;
+    top: 1px;
+    background-color: #eb4f37;
+}
+
+.toggler-wrapper {
+    display: block;
+    width: 45px;
+    height: 25px;
+    cursor: pointer;
+    position: relative;
+}
+
+.toggler-wrapper input[type="checkbox"] {
+    display: none;
+}
+
+.toggler-wrapper input[type="checkbox"]:checked+.toggler-slider {
+    background-color: #44cc66;
+}
+
+.toggler-wrapper .toggler-slider {
+    background-color: #ccc;
+    position: absolute;
+    border-radius: 100px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+.toggler-wrapper .toggler-knob {
+    position: absolute;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
 }
 </style>
 

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { pokeapi } from "@/api/pokeapi";
+import { pokeapi } from "../exports/pokeapi";
 
 export const usePokemonStore = defineStore({
   id: "Pokemons",
