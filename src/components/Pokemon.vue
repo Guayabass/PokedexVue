@@ -68,6 +68,11 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="stats-button-container">
+                        <button class="stats-button">Custom IVs</button>
+                        <button class="stats-button">Custom EVs</button>
+                        <button class="stats-button">Custom Nature</button>
+                    </div>
                 </div>
                 <div class="checkbox-container">
                     <label class="toggler-wrapper label-checkbox">
@@ -622,6 +627,24 @@ h1 {
     padding-right: 4px;
 }
 
+.stats-button-container{
+    display: flex;
+    height: 20%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.stats-button{
+    width: 30%;
+    font-size: 12px;
+    border: none;
+    padding: 6px 0;
+    border-radius: 20px;
+    font-weight: 400;
+    background: radial-gradient(circle, rgba(38, 97, 205, 1) 0%, rgba(35, 129, 184, 1) 100%);
+    color: white;
+}
+
 .checkbox-container {
     width: 100%;
     height: 10%;
@@ -644,8 +667,8 @@ h1 {
 
 .toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider:after {
     opacity: 0;
-    -webkit-transform: translateY(20px);
-    transform: translateY(20px);
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
 }
 
 .toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
@@ -663,7 +686,7 @@ h1 {
     position: absolute;
     top: -20px;
     right: -70px;
-    left: -15px;
+    left: -12px;
     font-size: 75%;
     text-transform: uppercase;
     font-weight: 500;
