@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="pokemon" :class="{'disabled': !stats}" v-else-if="stats">
-                <div class="info-container">
+                <div class="typings-container">
                     <h1>
                         Typings
                     </h1>
@@ -62,35 +62,48 @@
                             <div class="stat-name-wrapper">
                                 <p class="stat-name">{{returnStatNames(stat.stat.name)}}</p>
                             </div>
-                            <div class="stat-base-wrapper" :class="colorTextBackground()"
+                            <div v-if="!level100" class="stat-base-wrapper" :class="colorTextBackground()"
                                 :style="'width: '+widthCalculate()+'%'">
+                                <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
+                            </div>
+                            <div v-else class="stat-base-wrapper" :class="colorTextBackground()"
+                                :style="'width: '+widthCalculate+'%'">
                                 <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
                         </li>
                     </ul>
-                    <div class="stats-button-container">
-                        <button class="stats-button">Custom IVs</button>
-                        <button class="stats-button">Custom EVs</button>
-                        <button class="stats-button">Custom Nature</button>
-                    </div>
+                    <Transition name="fade" mode="out-in">
+                        <div v-if="level100" class="stats-button-container">
+                            <button class="stats-button">Custom IVs</button>
+                            <button class="stats-button">Custom EVs</button>
+                            <button class="stats-button">Custom Nature</button>
+                        </div>
+                        <div v-else-if="!level100" class="stats-button-container">
+                            <button class="stats-button">Base Stats</button>
+                            <button class="stats-button">Minimum</button>
+                            <button class="stats-button">Maximum</button>
+                        </div>
+                    </Transition>
                 </div>
                 <div class="checkbox-container">
                     <label class="toggler-wrapper label-checkbox">
-                        <input type="checkbox">
+                        <input type="checkbox" @change="level100 = !level100, toggleLevel100()">
                         <div class="toggler-slider">
                             <div class="toggler-knob"></div>
                         </div>
                     </label>
                 </div>
-                <div class="slider-container">
-                    <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
-                        :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
-                    <div class="slider-text-container">
-                        <p class="slider-text">1</p>
-                        <p class="slider-text">Level: {{pokemonLevel}}</p>
-                        <p class="slider-text">100</p>
+                <Transition name="fade-slower">
+                    <div class="slider-container" v-show="!level100">
+                        <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
+                            :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
+                        <div class="slider-text-container">
+                            <p class="slider-text">1</p>
+                            <p class="slider-text">Level: {{pokemonLevel}}</p>
+                            <p class="slider-text">100</p>
+                        </div>
                     </div>
-                </div>
+                </Transition>
                 <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
                         class="fa-solid fa-chart-simple"></i></button>
             </div>
@@ -120,6 +133,8 @@ export default {
             pokemonLevel: 1,
             IV: 0,
             EV: 0,
+            level100: false,
+            width: 6,
         };
     },
     methods: {
@@ -228,13 +243,20 @@ export default {
             }
         },
         widthCalculate() {
-            let width = this.pokemonLevel
-            if (width <= 75 && width >= 6) {
-                return width
-            } else if (width > 75) {
+            let tempWidth = this.pokemonLevel
+            if (tempWidth <= 75 && tempWidth >= 6) {
+                return tempWidth
+            } else if (tempWidth > 75) {
                 return 75
             }
         },
+        toggleLevel100() {
+            if (this.level100) {
+                this.pokemonLevel = 100
+            } else {
+                this.pokemonLevel = 1
+            }
+        }
     },
     //components: { PokemonStats }
 }
@@ -311,6 +333,16 @@ h1 {
     width: 100%;
     height: 20%;
     margin: 8px 0;
+}
+
+.typings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 20%;
+    margin-top: 8px;
 }
 
 .cry-button {
@@ -474,6 +506,30 @@ h1 {
     transition: opacity 800ms ease;
 }
 
+.fade-slower-enter-from {
+    opacity: 0;
+}
+
+.fade-slower-enter-to {
+    opacity: 1;
+}
+
+.fade-slower-enter-active {
+    transition: all 3200ms ease;
+}
+
+.fade-slower-leave-from {
+    opacity: 1;
+}
+
+.fade-slower-leave-to {
+    opacity: 0;
+}
+
+.fade-slower-leave-active {
+    transition: all 800ms ease;
+}
+
 .button-enter-from {
     opacity: 0;
 }
@@ -627,14 +683,14 @@ h1 {
     padding-right: 4px;
 }
 
-.stats-button-container{
+.stats-button-container {
     display: flex;
     height: 20%;
     justify-content: space-evenly;
     align-items: center;
 }
 
-.stats-button{
+.stats-button {
     width: 30%;
     font-size: 12px;
     border: none;
@@ -651,7 +707,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
 }
 
 .toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider {
