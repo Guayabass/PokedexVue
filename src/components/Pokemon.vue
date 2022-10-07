@@ -63,11 +63,10 @@
                                 <p class="stat-name">{{returnStatNames(stat.stat.name)}}</p>
                             </div>
                             <div v-if="!level100" class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="'width: '+widthCalculate()+'%'">
+                                :style="{'width': pokemonLevel+'%', animation: (triggeredChangeStats ? 'widthDecrease 2s ease-in 0.1s 1 normal forwards' : 'none' )}">
                                 <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
-                            <div v-else class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="'width: '+widthCalculate+'%'">
+                            <div v-else class="stat-base-wrapper-100" :class="colorTextBackground()">
                                 <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
                         </li>
@@ -87,7 +86,7 @@
                 </div>
                 <div class="checkbox-container">
                     <label class="toggler-wrapper label-checkbox">
-                        <input type="checkbox" @change="level100 = !level100, toggleLevel100()">
+                        <input type="checkbox" @change="timeoutLevel100(), togglePokemonLevel(), triggeredChangeStats = true">
                         <div class="toggler-slider">
                             <div class="toggler-knob"></div>
                         </div>
@@ -134,6 +133,7 @@ export default {
             IV: 0,
             EV: 0,
             level100: false,
+            triggeredChangeStats: false,
             width: 6,
         };
     },
@@ -242,19 +242,23 @@ export default {
                 return Math.round(statValue)
             }
         },
-        widthCalculate() {
-            let tempWidth = this.pokemonLevel
-            if (tempWidth <= 75 && tempWidth >= 6) {
-                return tempWidth
-            } else if (tempWidth > 75) {
-                return 75
-            }
-        },
-        toggleLevel100() {
+        togglePokemonLevel() {
             if (this.level100) {
                 this.pokemonLevel = 100
             } else {
-                this.pokemonLevel = 1
+                setTimeout(() => {
+                    this.pokemonLevel = 1 
+                }, 500);
+
+            }
+        },
+        timeoutLevel100(){
+            if (this.level100){
+                setTimeout(() => {
+                    this.level100 = false  
+                }, 500);
+            } else {
+                this.level100 = true
             }
         }
     },
@@ -673,10 +677,26 @@ h1 {
     border-top-right-radius: 8px;
     display: flex;
     width: 6%;
+    min-width: 6%;
+    max-width: 75%;
     justify-content: flex-end;
     text-align: center;
     margin-bottom: 6px;
     align-items: center;
+}
+
+.stat-base-wrapper-100 {
+    filter: brightness(120%);
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    width: 8%;
+    max-width: 75%;
+    justify-content: flex-end;
+    text-align: center;
+    margin-bottom: 6px;
+    align-items: center;
+    animation: widthIncrease 2s ease-in 0.1s 1 normal forwards;
 }
 
 .stat-base {
@@ -808,6 +828,26 @@ h1 {
     position: absolute;
     -webkit-transition: all 300ms ease;
     transition: all 300ms ease;
+}
+
+@keyframes widthIncrease {
+    0% {
+        width: 8%;
+    }
+
+    100% {
+        width: 100%
+    }
+}
+
+@keyframes widthDecrease{
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 6%;
+    }
 }
 </style>
 
