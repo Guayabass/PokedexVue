@@ -2,14 +2,22 @@
 import PokemonSearch from './components/PokemonSearch.vue';
 import Pokemon from './components/Pokemon.vue';
 import NavBar from './components/NavBar.vue';
+import CustomIVsModal from './components/customIVsModal.vue';
+
+import { usePokemonStore } from '../src/stores/pokemonStore';
+
+const pokemonStore = usePokemonStore()
 
 </script>
 
 <template>
   <main id="PokemonApp">
+    <Transition name="fade">
+      <CustomIVsModal v-if="pokemonStore.showIVs"></CustomIVsModal>
+    </Transition>
     <NavBar></NavBar>
     <PokemonSearch></PokemonSearch>
-      <Pokemon></Pokemon>
+    <Pokemon></Pokemon>
   </main>
 
 </template>
@@ -27,5 +35,29 @@ import NavBar from './components/NavBar.vue';
   height: 100vh;
   background-color: white;
   margin: 0 auto;
+}
+
+.fade-enter-from {
+    opacity: 0;
+}
+
+.fade-enter-to {
+    opacity: 1;
+}
+
+.fade-enter-active {
+    transition: opacity 800ms ease;
+}
+
+.fade-leave-from {
+    opacity: 1;
+}
+
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-leave-active {
+    transition: opacity 800ms ease;
 }
 </style>

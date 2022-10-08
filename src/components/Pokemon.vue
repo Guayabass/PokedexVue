@@ -62,38 +62,28 @@
                             <div class="stat-name-wrapper">
                                 <p class="stat-name">{{returnStatNames(stat.stat.name)}}</p>
                             </div>
-                            <div v-if="!level100" class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="{'width': pokemonLevel+'%', animation: (triggeredChangeStats ? 'widthDecrease 2s ease-in 0.1s 1 normal forwards' : 'none' )}">
-                                <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
-                            </div>
-                            <div v-else class="stat-base-wrapper-100" :class="colorTextBackground()">
+                            <div class="stat-base-wrapper" :class="colorTextBackground()"
+                                :style="{'width': pokemonLevel+'%'}">
                                 <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
                         </li>
                     </ul>
-                    <Transition name="fade" mode="out-in">
-                        <div v-if="level100" class="stats-button-container">
-                            <button class="stats-button">Custom IVs</button>
-                            <button class="stats-button">Custom EVs</button>
-                            <button class="stats-button">Custom Nature</button>
-                        </div>
-                        <div v-else-if="!level100" class="stats-button-container">
-                            <button class="stats-button">Base Stats</button>
-                            <button class="stats-button">Minimum</button>
-                            <button class="stats-button">Maximum</button>
-                        </div>
-                    </Transition>
+                    <div class="stats-button-container">
+                        <button class="stats-button" @click="showIVModal()">Custom IVs</button>
+                        <button class="stats-button">Custom EVs</button>
+                        <button class="stats-button">Custom Nature</button>
+                    </div>
                 </div>
-                <div class="checkbox-container">
+                <!-- <div class="checkbox-container">
                     <label class="toggler-wrapper label-checkbox">
-                        <input type="checkbox" @change="timeoutLevel100(), togglePokemonLevel(), triggeredChangeStats = true">
+                        <input type="checkbox" @change="this.level100 = !this.level100, timeoutToggle(),triggeredChangeStats = true">
                         <div class="toggler-slider">
                             <div class="toggler-knob"></div>
                         </div>
                     </label>
-                </div>
-                <Transition name="fade-slower">
-                    <div class="slider-container" v-show="!level100">
+                </div> -->
+                <div class="last-stats-wrapper">
+                    <div class="slider-container">
                         <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
                             :style="'background: linear-gradient(90deg, rgb(23, 114, 212) '+pokemonLevel+'%, rgb(214, 214, 214) '+pokemonLevel+'%);'">
                         <div class="slider-text-container">
@@ -102,9 +92,12 @@
                             <p class="slider-text">100</p>
                         </div>
                     </div>
-                </Transition>
-                <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
-                        class="fa-solid fa-chart-simple"></i></button>
+                    <div class="card-change-wrapper-stats tooltip-container">
+                        <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
+                                class="fa-solid fa-arrow-left-long"></i></button>
+                        <p class="tooltiptext">{{'Click to go back the info page!'}}</p>
+                    </div>
+                </div>
             </div>
         </Transition>
         <Transition name="button">
@@ -129,12 +122,9 @@ export default {
     data() {
         return {
             stats: false,
-            pokemonLevel: 1,
             IV: 0,
             EV: 0,
-            level100: false,
-            triggeredChangeStats: false,
-            width: 6,
+            pokemonLevel: 1,
         };
     },
     methods: {
@@ -242,24 +232,10 @@ export default {
                 return Math.round(statValue)
             }
         },
-        togglePokemonLevel() {
-            if (this.level100) {
-                this.pokemonLevel = 100
-            } else {
-                setTimeout(() => {
-                    this.pokemonLevel = 1 
-                }, 500);
-
-            }
-        },
-        timeoutLevel100(){
-            if (this.level100){
-                setTimeout(() => {
-                    this.level100 = false  
-                }, 500);
-            } else {
-                this.level100 = true
-            }
+        showIVModal(){
+            const pokemonStore = usePokemonStore();
+            pokemonStore.showIVs = !pokemonStore.showIVs
+            return pokemonStore.showIVs
         }
     },
     //components: { PokemonStats }
@@ -387,6 +363,14 @@ h1 {
     width: 100%;
 }
 
+.card-change-wrapper-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10%;
+    width: 100%;
+}
+
 .card-change {
     border: none;
     outline: none;
@@ -508,30 +492,6 @@ h1 {
 
 .fade-leave-active {
     transition: opacity 800ms ease;
-}
-
-.fade-slower-enter-from {
-    opacity: 0;
-}
-
-.fade-slower-enter-to {
-    opacity: 1;
-}
-
-.fade-slower-enter-active {
-    transition: all 3200ms ease;
-}
-
-.fade-slower-leave-from {
-    opacity: 1;
-}
-
-.fade-slower-leave-to {
-    opacity: 0;
-}
-
-.fade-slower-leave-active {
-    transition: all 800ms ease;
 }
 
 .button-enter-from {
@@ -685,25 +645,12 @@ h1 {
     align-items: center;
 }
 
-.stat-base-wrapper-100 {
-    filter: brightness(120%);
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-    display: flex;
-    width: 8%;
-    max-width: 75%;
-    justify-content: flex-end;
-    text-align: center;
-    margin-bottom: 6px;
-    align-items: center;
-    animation: widthIncrease 2s ease-in 0.1s 1 normal forwards;
-}
-
 .stat-base {
     padding-right: 4px;
 }
 
 .stats-button-container {
+    margin-top: 8px;
     display: flex;
     height: 20%;
     justify-content: space-evenly;
@@ -720,134 +667,12 @@ h1 {
     background: radial-gradient(circle, rgba(38, 97, 205, 1) 0%, rgba(35, 129, 184, 1) 100%);
     color: white;
 }
-
-.checkbox-container {
-    width: 100%;
-    height: 10%;
+.last-stats-wrapper{
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin-bottom: 16px;
-}
-
-.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider {
-    background-color: transparent;
-    border-color: #44cc66;
-}
-
-.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider:before {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    opacity: 0.7;
-}
-
-.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider:after {
-    opacity: 0;
-    -webkit-transform: translateY(-20px);
-    transform: translateY(-20px);
-}
-
-.toggler-wrapper.label-checkbox input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
-    left: calc(100% - 19px - 3px);
-    background-color: #44cc66;
-}
-
-.toggler-wrapper.label-checkbox .toggler-slider {
-    background-color: transparent;
-    border: 2px solid #eb4f37;
-}
-
-.toggler-wrapper.label-checkbox .toggler-slider:before {
-    content: 'All Levels';
-    position: absolute;
-    top: -20px;
-    right: -70px;
-    left: -12px;
-    font-size: 75%;
-    text-transform: uppercase;
-    font-weight: 500;
-    opacity: 0;
-    -webkit-transition: all 300ms ease;
-    transition: all 300ms ease;
-    -webkit-transform: translateY(-20px);
-    transform: translateY(-20px);
-}
-
-.toggler-wrapper.label-checkbox .toggler-slider:after {
-    content: 'Level 100 ONLY';
-    position: absolute;
-    top: -20px;
-    right: -100px;
-    left: -25px;
-    font-size: 75%;
-    text-transform: uppercase;
-    font-weight: 500;
-    opacity: 0.7;
-    -webkit-transition: all 300ms ease;
-    transition: all 300ms ease;
-}
-
-.toggler-wrapper.label-checkbox .toggler-knob {
-    width: calc(25px - 6px);
-    height: calc(25px - 6px);
-    border-radius: 50%;
-    left: 2px;
-    top: 1px;
-    background-color: #eb4f37;
-}
-
-.toggler-wrapper {
-    display: block;
-    width: 45px;
-    height: 25px;
-    cursor: pointer;
-    position: relative;
-}
-
-.toggler-wrapper input[type="checkbox"] {
-    display: none;
-}
-
-.toggler-wrapper input[type="checkbox"]:checked+.toggler-slider {
-    background-color: #44cc66;
-}
-
-.toggler-wrapper .toggler-slider {
-    background-color: #ccc;
-    position: absolute;
-    border-radius: 100px;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    -webkit-transition: all 300ms ease;
-    transition: all 300ms ease;
-}
-
-.toggler-wrapper .toggler-knob {
-    position: absolute;
-    -webkit-transition: all 300ms ease;
-    transition: all 300ms ease;
-}
-
-@keyframes widthIncrease {
-    0% {
-        width: 8%;
-    }
-
-    100% {
-        width: 100%
-    }
-}
-
-@keyframes widthDecrease{
-    0% {
-        width: 100%;
-    }
-
-    100% {
-        width: 6%;
-    }
+    height: 30%;
+    flex-direction: column;
+    justify-content: space-around;
 }
 </style>
 

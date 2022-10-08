@@ -6,6 +6,11 @@ export const usePokemonStore = defineStore({
   state: () => ({
     pokemonData: {},
     pokemonID: 0,
+    showIVs: false,
+    counterIV: 0,
+    counterEV: 0,
+    arrayIVs: [],
+    arrayEVs: [],
   }),
   getters: {
     changePokemon: async (state) => {
@@ -33,6 +38,22 @@ export const usePokemonStore = defineStore({
         this.pokemonID = 898
       }
       this.pokemonID--;
-    }
+    },
+    returnIV(array){
+      if (this.counterIV > 5) {
+        this.counterIV = 0
+      }
+      let IV = array[this.counter]
+      this.counterIV++
+      return IV
+    },
+    returnIV(array){
+      if (this.counterEV > 5) {
+        this.counterEV = 0
+      }
+      let EV = array[this.counter]
+      this.counterEV++
+      return EV
+    },
   },
 });
