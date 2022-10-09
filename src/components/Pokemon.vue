@@ -1,5 +1,5 @@
 <template>
-    <section class="pokemon-section" :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }">
+    <section class="pokemon-section" :class="{ 'disabled': returnShowIVs() }">
         <Transition name="button">
             <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
                 :disabled="Object.entries(checkPokemon()).length === 0"
@@ -8,7 +8,7 @@
             <!--the if is just there for transition purposes -->
         </Transition>
         <Transition name="fade" mode="out-in">
-            <div class="pokemon" :class="{'disabled': stats}"
+            <div class="pokemon" :class="{'disabled': stats }"
                 v-if="Object.entries(checkPokemon()).length > 0 && !stats">
                 <div class="info-container">
                     <h1 :class="colorText()">
@@ -63,8 +63,8 @@
                                 <p class="stat-name">{{returnStatNames(stat.stat.name)}}</p>
                             </div>
                             <div class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="{'width': pokemonLevel+'%'}">
-                                <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
+                                :style="{'width': pokemonLevel*0.75+'%'}">
+                                <p class="stat-base" >{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
                         </li>
                     </ul>
@@ -236,7 +236,11 @@ export default {
             const pokemonStore = usePokemonStore();
             pokemonStore.showIVs = !pokemonStore.showIVs
             return pokemonStore.showIVs
-        }
+        },
+        returnShowIVs(){
+            const pokemonStore = usePokemonStore();
+            return pokemonStore.showIVs
+        },
     },
     //components: { PokemonStats }
 }
@@ -452,7 +456,7 @@ h1 {
 }
 
 .disabled {
-    opacity: 0;
+    pointer-events: none;
 }
 
 .active {
@@ -636,7 +640,6 @@ h1 {
     border-bottom-right-radius: 8px;
     border-top-right-radius: 8px;
     display: flex;
-    width: 6%;
     min-width: 6%;
     max-width: 75%;
     justify-content: flex-end;
