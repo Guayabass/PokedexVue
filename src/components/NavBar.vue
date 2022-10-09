@@ -1,6 +1,6 @@
 <template>
     <nav id="nav">
-        <div class="nav-container">
+        <div class="nav-container" :class="{ 'disabled': returnShowIVs() }">
             <figure class="pokedex-image-figure">
                 <img src="../assets/images/pokedex.png" class="pokedex-nav-image">
             </figure>
@@ -10,14 +10,22 @@
 </template>
 
 <script>
+import { usePokemonStore } from '../stores/pokemonStore.js';
 
 export default {
-    name: 'NavBar'
+    name: 'NavBar',
+    methods: {
+        returnShowIVs() {
+            const pokemonStore = usePokemonStore();
+            return pokemonStore.showIVs
+        }
+    }
 }
 
 </script>
 
 <style>
+
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
 
 #nav {
