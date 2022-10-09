@@ -12,12 +12,12 @@ const pokemonStore = usePokemonStore()
 
 <template>
   <main id="PokemonApp">
+    <NavBar></NavBar>
+    <PokemonSearch></PokemonSearch>
+    <Pokemon ></Pokemon>
     <Transition name="fade">
       <CustomIVsModal v-if="pokemonStore.showIVs"></CustomIVsModal>
     </Transition>
-    <NavBar></NavBar>
-    <PokemonSearch></PokemonSearch>
-    <Pokemon></Pokemon>
   </main>
 
 </template>
@@ -35,6 +35,10 @@ const pokemonStore = usePokemonStore()
   height: 100vh;
   background-color: white;
   margin: 0 auto;
+}
+
+.disabled{
+  pointer-events: none;
 }
 
 .fade-enter-from {
