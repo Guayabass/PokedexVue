@@ -37,10 +37,6 @@ const pokemonStore = usePokemonStore()
   margin: 0 auto;
 }
 
-.disabled{
-  pointer-events: none;
-}
-
 .fade-enter-from {
     opacity: 0;
 }
