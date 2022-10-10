@@ -71,7 +71,7 @@
                     <div class="stats-button-container">
                         <button class="stats-button" @click="showIVModal()">Custom IVs</button>
                         <button class="stats-button">Custom EVs</button>
-                        <button class="stats-button">Custom Nature</button>
+                         <button class="stats-button">Custom Nature</button><!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
                     </div>
                 </div>
                 <!-- <div class="checkbox-container">
