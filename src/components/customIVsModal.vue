@@ -5,17 +5,24 @@
         <span class="close" @click="showIVModal()"><i class="fa-solid fa-xmark"></i></span>
       </div>
       <div class="modal-body">
-        <h3 class="title">Enter the custom <span class="blue">IV</span> values you desire for each of the <span
-            class="blue">available</span> stats and click the <span class="blue">confirm</span> button to <span
-            class="blue">apply</span> the changes to the <span class="blue">global</span> stats.</h3>
-        <div class="ivs-container" :class="{'shake' : hp > 31 || hp < 0 && invalid}">
-          <button class="decrement-btn" @click="decreaseIV('hp')"> - </button>
-          <input class="iv-input" type="number" min="0" max="31" step="1" id="hp-input" v-model="hp" required>
-          <button class="increment-btn" @click="increaseIV('hp')"> + </button>
-        </div>
-        <Transition name="fade">
-          <p v-if="hp > 31 || hp < 0 && invalid">Please enter a value between 0 and 31</p>
-        </Transition>
+        <h3 class="title">Enter the custom <span class="blue">IV</span> values you desire for each of the
+          available stats and click the <span class="blue">confirm</span> button to apply the changes to the <span
+            class="blue">global</span> stats.</h3>
+        <ul>
+          <li class="ivs-container" v-for="(iv, key, index) in ivsObject">
+            <h3 class="ivs-title">{{key}}'s <span class="blue">IVs</span>:</h3>
+            <i class="fa-solid fa-arrow-right-long"></i>
+            <div class="btn-container" :class="{'shake' : iv > 31 || iv < 0 && invalid}">
+              <button class="decrement-btn" @click="decreaseIV(iv, key)"> - </button>
+              <input class="iv-input" type="number" min="0" max="31" step="1" :id="iv+'-input'" v-model="ivsObject[key]"
+                required>
+              <button class="increment-btn" @click="increaseIV(iv, key)"> + </button>
+            </div>
+            <Transition name="fade">
+              <p v-if="iv > 31 || iv < 0 && invalid">Please enter a value between 0 and 31</p>
+            </Transition>
+          </li>
+        </ul>
       </div>
       <div class="modal-footer">
       </div>
@@ -32,17 +39,61 @@ export default {
     return {
       disabled: false,
       invalid: false,
-      hp: 0,
+      ivsObject: {
+        HP: 0,
+        Attack: 0,
+        Defense: 0,
+        SpecialAttack: 0,
+        SpecialDefense: 0,
+        Speed: 0,
+      },
+      //hp: 0,
     }
   },
   watch: {
-    hp() {
-      if (this.hp > 31 || this.hp < 0) {
+    //can'tt use a for or else it'll only work on the last one (Speed)
+    'ivsObject.HP': function (newValue) {
+      if (newValue > 31 || newValue < 0) {
         this.invalid = true
       } else {
         this.invalid = false
       }
-    }
+    },
+    'ivsObject.Attack': function (newValue) {
+      if (newValue > 31 || newValue < 0) {
+        this.invalid = true
+      } else {
+        this.invalid = false
+      }
+    },
+    'ivsObject.Defense': function (newValue) {
+      if (newValue > 31 || newValue < 0) {
+        this.invalid = true
+      } else {
+        this.invalid = false
+      }
+    },
+    'ivsObject.SpecialAttack': function (newValue) {
+      if (newValue > 31 || newValue < 0) {
+        this.invalid = true
+      } else {
+        this.invalid = false
+      }
+    },
+    'ivsObject.SpecialDefense': function (newValue) {
+      if (newValue > 31 || newValue < 0) {
+        this.invalid = true
+      } else {
+        this.invalid = false
+      }
+    },
+    'ivsObject.Speed': function (newValue) {
+      if (newValue > 31 || newValue < 0) {
+        this.invalid = true
+      } else {
+        this.invalid = false
+      }
+    },
   },
   methods: {
     showIVModal() {
@@ -54,27 +105,26 @@ export default {
       const pokemonStore = usePokemonStore();
       return pokemonStore.showIVs
     },
-    increaseIV(stat) {
-      if (stat === 'hp') {
-        if (this.hp > 31) {
-          this.hp = 31
-        } else if (this.hp < 0) {
-          this.hp = 0
-        } else {
-          this.hp++
-        }
+    increaseIV(iv, key) {
+      if (iv > 31) {
+        this.ivsObject[key] = 31
+      } else if (iv < 0) {
+        this.ivsObject[key] = 0
+      } else {
+        this.ivsObject[key]++
       }
     },
-    decreaseIV(stat) {
-      if (stat === 'hp') {
-        if (this.hp > 31) {
-          this.hp = 31
-        } else if (this.hp < 0) {
-          this.hp = 0
-        } else {
-          this.hp--
-        }
+    decreaseIV(iv, key) {
+      if (iv > 31) {
+        this.ivsObject[key] = 31
+      } else if (iv < 0) {
+        this.ivsObject[key] = 0
+      } else {
+        this.ivsObject[key]--
       }
+    },
+    returnKey(key){
+      return key
     }
   }
 }
@@ -143,6 +193,10 @@ export default {
   text-align: center;
   line-height: 32px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-footer {
@@ -183,8 +237,21 @@ input {
 }
 
 .ivs-container {
+  height: calc(100%/6);
+  width: 50%;
+  display: flex;
+  margin: 16px 0;
+  justify-content: space-evenly;
+}
+
+.ivs-container i {
+  font-size: 36px;
+  color: #24a1e9;
+}
+
+.btn-container {
   width: 25%;
-  height: 20%;
+  height: 15%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -203,29 +270,29 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
   text-align: center;
-  font-size: 40px;
+  font-size: 24px;
   border: none;
   background-color: #24a1e9;
   color: white;
 }
 
 .decrement-btn {
-  padding: 15px 5px 15px 25px;
+  padding: 5px 3px 5px 10px;
   border-radius: 45px 0 0 45px;
   text-align: center;
 }
 
 .increment-btn {
-  padding: 15px 25px 15px 5px;
+  padding: 5px 10px 5px 3px;
   border-radius: 0 45px 45px 0;
   text-align: center;
 }
 
-.ivs-container button {
+.btn-container button {
   color: white;
   background-color: #24a1e9;
   border: none;
-  font-size: 40px;
+  font-size: 24px;
   cursor: pointer;
 }
 
