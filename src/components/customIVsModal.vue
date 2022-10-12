@@ -11,7 +11,6 @@
         <ul>
           <li class="ivs-container" v-for="(iv, key, index) in ivsObject">
             <h3 class="ivs-title">{{key}}'s <span class="blue">IVs</span>:</h3>
-            <i class="fa-solid fa-arrow-right-long"></i>
             <div class="btn-container" :class="{'shake' : iv > 31 || iv < 0 && invalid}">
               <button class="decrement-btn" @click="decreaseIV(iv, key)"> - </button>
               <input class="iv-input" type="number" min="0" max="31" step="1" :id="iv+'-input'" v-model="ivsObject[key]"
@@ -19,7 +18,7 @@
               <button class="increment-btn" @click="increaseIV(iv, key)"> + </button>
             </div>
             <Transition name="fade">
-              <p v-if="iv > 31 || iv < 0 && invalid">Please enter a value between 0 and 31</p>
+              <p v-show="iv > 31 || iv < 0 && invalid">Please enter a value between 0 and 31</p>
             </Transition>
           </li>
         </ul>
@@ -51,7 +50,8 @@ export default {
     }
   },
   watch: {
-    //can'tt use a for or else it'll only work on the last one (Speed)
+    //can't use a for or else it'll only work on the last one (Speed)
+    //can't use a deep handler either because it'll react the same way since it gets triggered on every nested change.
     'ivsObject.HP': function (newValue) {
       if (newValue > 31 || newValue < 0) {
         this.invalid = true
@@ -236,12 +236,24 @@ input {
   color: #24a1e9;
 }
 
+ul {
+  width: 80%;
+  height: 100%;
+}
+
 .ivs-container {
-  height: calc(100%/6);
-  width: 50%;
+  height: 10%;
+  width: 100%;
   display: flex;
   margin: 16px 0;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ivs-container h3{
+  width: 40%;
+  text-align: right;
+  margin-right: 25%;
 }
 
 .ivs-container i {
@@ -249,9 +261,13 @@ input {
   color: #24a1e9;
 }
 
+li :nth-last-child(){
+  margin-top: 16px;
+}
+
 .btn-container {
-  width: 25%;
-  height: 15%;
+  width: 12%;
+  height: 10%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,13 +293,13 @@ input[type=number] {
 }
 
 .decrement-btn {
-  padding: 5px 3px 5px 10px;
+  padding: 0 3px 0 10px;
   border-radius: 45px 0 0 45px;
   text-align: center;
 }
 
 .increment-btn {
-  padding: 5px 10px 5px 3px;
+  padding: 0 10px 0 3px;
   border-radius: 0 45px 45px 0;
   text-align: center;
 }

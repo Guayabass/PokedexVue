@@ -67,12 +67,12 @@
                                 <p class="stat-base" >{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
                         </li>
-                    </ul>
-                    <div class="stats-button-container">
+                        <div class="stats-button-container">
                         <button class="stats-button" @click="showIVModal()">Custom IVs</button>
                         <button class="stats-button">Custom EVs</button>
                          <button class="stats-button">Custom Nature</button><!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
                     </div>
+                    </ul>
                 </div>
                 <!-- <div class="checkbox-container">
                     <label class="toggler-wrapper label-checkbox">
@@ -365,6 +365,7 @@ h1 {
     justify-content: center;
     height: 15%;
     width: 100%;
+    text-align: center;
 }
 
 .card-change-wrapper-stats {
@@ -381,8 +382,9 @@ h1 {
     cursor: pointer;
     background-color: transparent;
     font-size: 28px;
+    width: 28px;
     color: #207fb6;
-    margin-left: 8px;
+    text-align: center;
 }
 
 .tooltip-container {
@@ -403,12 +405,16 @@ h1 {
     margin-top: 4px;
     position: absolute;
     z-index: 1;
-    top: 75%;
+    top: 70%;
     left: 50%;
     margin-left: -60px;
     /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
     opacity: 0;
     transition: opacity 1s;
+}
+
+.last-stats-wrapper .tooltip-container .tooltiptext {
+    top: 150%;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -609,6 +615,8 @@ h1 {
 }
 
 .stats {
+    width: 100%;
+    height: 100%;
     list-style-type: none;
 }
 
@@ -656,6 +664,7 @@ h1 {
     margin-top: 8px;
     display: flex;
     height: 20%;
+    width: 100%;
     justify-content: space-evenly;
     align-items: center;
 }
