@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-if="returnShowIVs() || disabled">
+  <div class="modal" v-if="returnShowIVs()">
     <div class="modal-content">
       <div class="modal-header">
         <span class="close" @click="showIVModal()"><i class="fa-solid fa-xmark"></i></span>
@@ -18,12 +18,18 @@
               <button class="increment-btn" @click="increaseIV(iv, key)"> + </button>
             </div>
             <Transition name="fade">
-              <p v-show="iv > 31 || iv < 0 && invalid">Please enter a value between 0 and 31</p>
+              <div class="warning-wrapper">
+                <p v-show="iv > 31 || iv < 0 && invalid">Please enter a value between 0 and 31</p>
+              </div>
             </Transition>
           </li>
         </ul>
       </div>
       <div class="modal-footer">
+        <div class="btns-container">
+          <button class="btn-confirm">Confirm</button>
+          <button class="btn-cancel" @click="showIVModal()">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
@@ -36,7 +42,6 @@ export default {
   name: 'customIVsModal',
   data() {
     return {
-      disabled: false,
       invalid: false,
       ivsObject: {
         HP: 0,
@@ -123,7 +128,7 @@ export default {
         this.ivsObject[key]--
       }
     },
-    returnKey(key){
+    returnKey(key) {
       return key
     }
   }
@@ -143,7 +148,7 @@ export default {
 
 .modal {
   position: absolute;
-  z-index: 100;
+  z-index: 1;
   /* Sit on top */
   left: 0;
   top: 0;
@@ -250,7 +255,7 @@ ul {
   align-items: center;
 }
 
-.ivs-container h3{
+.ivs-container h3 {
   width: 40%;
   text-align: right;
   margin-right: 25%;
@@ -261,7 +266,7 @@ ul {
   color: #24a1e9;
 }
 
-li :nth-last-child(){
+li :nth-last-child() {
   margin-top: 16px;
 }
 
@@ -338,6 +343,59 @@ input[type=number] {
 
 .shake {
   animation: shake 300ms linear 1 normal;
+}
+
+.btns-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btns-container button {
+  font-size: 18px;
+  border: #fefefe solid 3px;
+  font-weight: 700;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  margin: 0 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.btns-container button::before {
+  transition: all 500ms ease;
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 50%;
+  opacity: 0;
+  left: 50%;
+  bottom: 0;
+}
+
+.btns-container .btn-confirm::before {
+  background-color: rgb(140, 184, 74);
+}
+
+.btns-container .btn-cancel::before {
+  background-color: lightcoral;
+}
+
+.btns-container button:hover::before {
+  transition: all 500ms ease;
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  opacity: 1;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
 }
 
 @keyframes shake {
