@@ -11,17 +11,12 @@
         <ul>
           <li class="ivs-container" v-for="(iv, key, index) in ivsObject">
             <h3 class="ivs-title">{{key}}'s <span class="blue">IVs</span>:</h3>
-            <div class="btn-container" :class="{'shake' : iv > 31 || iv < 0 && invalid}">
-              <button class="decrement-btn" @click="decreaseIV(iv, key)"> - </button>
-              <input class="iv-input" type="number" min="0" max="31" step="1" :id="iv+'-input'" v-model="ivsObject[key]"
+            <div class="btn-container" >
+              <button class="decrement-btn" @click="decreaseIV(key)"> - </button>
+              <input class="iv-input" type="number" min="0" max="31" step="1" :id="iv+'-input'" v-model.number="ivsObject[key]"
                 required>
-              <button class="increment-btn" @click="increaseIV(iv, key)"> + </button>
+              <button class="increment-btn" @click="increaseIV(key)"> + </button>
             </div>
-            <Transition name="fade">
-              <div class="warning-wrapper">
-                <p v-show="iv > 31 || iv < 0 && invalid">Please enter a value between 0 and 31</p>
-              </div>
-            </Transition>
           </li>
         </ul>
       </div>
@@ -42,7 +37,6 @@ export default {
   name: 'customIVsModal',
   data() {
     return {
-      invalid: false,
       ivsObject: {
         HP: 0,
         Attack: 0,
@@ -54,52 +48,52 @@ export default {
       //hp: 0,
     }
   },
-  watch: {
-    //can't use a for or else it'll only work on the last one (Speed)
+   watch: {
+     //can't use a for or else it'll only work on the last one (Speed)
     //can't use a deep handler either because it'll react the same way since it gets triggered on every nested change.
-    'ivsObject.HP': function (newValue) {
-      if (newValue > 31 || newValue < 0) {
-        this.invalid = true
-      } else {
-        this.invalid = false
-      }
-    },
-    'ivsObject.Attack': function (newValue) {
-      if (newValue > 31 || newValue < 0) {
-        this.invalid = true
-      } else {
-        this.invalid = false
-      }
-    },
-    'ivsObject.Defense': function (newValue) {
-      if (newValue > 31 || newValue < 0) {
-        this.invalid = true
-      } else {
-        this.invalid = false
-      }
-    },
-    'ivsObject.SpecialAttack': function (newValue) {
-      if (newValue > 31 || newValue < 0) {
-        this.invalid = true
-      } else {
-        this.invalid = false
-      }
-    },
-    'ivsObject.SpecialDefense': function (newValue) {
-      if (newValue > 31 || newValue < 0) {
-        this.invalid = true
-      } else {
-        this.invalid = false
-      }
-    },
-    'ivsObject.Speed': function (newValue) {
-      if (newValue > 31 || newValue < 0) {
-        this.invalid = true
-      } else {
-        this.invalid = false
-      }
-    },
-  },
+     'ivsObject.HP': function (newValue) {
+       if (newValue > 31) {
+          this.ivsObject['HP'] = 0
+       } else if (newValue < 0) {
+          this.ivsObject['HP'] = 31
+       }
+     },
+     'ivsObject.Attack': function (newValue) {
+      if (newValue > 31) {
+          this.ivsObject['Attack'] = 0
+       } else if (newValue < 0) {
+          this.ivsObject['Attack'] = 31
+       }
+     },
+     'ivsObject.Defense': function (newValue) {
+      if (newValue > 31) {
+          this.ivsObject['Defense'] = 0
+       } else if (newValue < 0) {
+          this.ivsObject['Defense'] = 31
+       }
+     },
+     'ivsObject.SpecialAttack': function (newValue) {
+      if (newValue > 31) {
+          this.ivsObject['SpecialAttack'] = 0
+       } else if (newValue < 0) {
+          this.ivsObject['SpecialAttack'] = 31
+       }
+     },
+     'ivsObject.SpecialDefense': function (newValue) {
+      if (newValue > 31) {
+          this.ivsObject['SpecialDefense'] = 0
+       } else if (newValue < 0) {
+          this.ivsObject['SpecialDefense'] = 31
+       }
+     },
+     'ivsObject.Speed': function (newValue) {
+      if (newValue > 31) {
+          this.ivsObject['Speed'] = 0
+       } else if (newValue < 0) {
+          this.ivsObject['Speed'] = 31
+       }
+     },
+   },
   methods: {
     showIVModal() {
       const pokemonStore = usePokemonStore();
@@ -110,27 +104,24 @@ export default {
       const pokemonStore = usePokemonStore();
       return pokemonStore.showIVs
     },
-    increaseIV(iv, key) {
-      if (iv > 31) {
-        this.ivsObject[key] = 31
-      } else if (iv < 0) {
-        this.ivsObject[key] = 0
-      } else {
-        this.ivsObject[key]++
-      }
+    increaseIV(key) {
+      // if (iv > 31) {
+      //   this.ivsObject[key] = 31
+      // } else if (iv < 0) {
+      //   this.ivsObject[key] = 0
+      // } else {
+         this.ivsObject[key]++
+      // }
     },
-    decreaseIV(iv, key) {
-      if (iv > 31) {
-        this.ivsObject[key] = 31
-      } else if (iv < 0) {
-        this.ivsObject[key] = 0
-      } else {
+    decreaseIV(key) {
+      // if (iv > 31) {
+      //   this.ivsObject[key] = 31
+      // } else if (iv < 0) {
+      //   this.ivsObject[key] = 0
+      // } else {
         this.ivsObject[key]--
-      }
+      // }
     },
-    returnKey(key) {
-      return key
-    }
   }
 }
 
@@ -397,6 +388,7 @@ input[type=number] {
   bottom: 0;
   z-index: -1;
 }
+
 
 @keyframes shake {
   0% {
