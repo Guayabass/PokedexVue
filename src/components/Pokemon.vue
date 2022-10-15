@@ -64,7 +64,7 @@
                             </div>
                             <div class="stat-base-wrapper" :class="colorTextBackground()"
                                 :style="{'width': pokemonLevel*0.75+'%'}">
-                                <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
+                                <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat, index)}}</p>
                             </div>
                         </li>
                         <div class="stats-button-container">
@@ -120,9 +120,11 @@ import { statNames } from '../exports/statNames';
 
 export default {
     name: "Pokemon",
-    setup() {
+    // setup() {
+    //     const pokemonStore = usePokemonStore()
 
-    },
+    //     return { pokemonStore } 
+    // }, //realized a bit too late that you could do this.
     data() {
         return {
             stats: false,
@@ -219,29 +221,28 @@ export default {
         returnStatNames(key) {
             return statNames.find(element => element.key === key).value
         },
-        baseStatMultiplier(statName, stat) {
+        baseStatMultiplier(statName, stat, index) {
             const pokemonStore = usePokemonStore();
-            this.arrayIVs = pokemonStore.arrayIVs
-            if (this.counterIV > 5) {
-                this.counterIV = 0
-            }
+            // if (this.counterIV > 5) {
+            //     this.counterIV = 0
+            // }
             let statValue = 0
             if (statName === 'hp') {
                 if (stat === 1) {
-                    this.counterIV++
+                    // this.counterIV++
                     return 1
                 } else {
-                    statValue = (2 * stat + this.arrayIVs[this.counterIV] + (this.EV / 4)) * this.pokemonLevel
+                    statValue = (2 * stat + pokemonStore.arrayIVs[index] + (this.EV / 4)) * this.pokemonLevel
                     statValue = (statValue / 100) + 10
                     statValue = statValue + parseFloat(this.pokemonLevel)
-                    this.counterIV++
+                    // this.counterIV++
                     return Math.round(statValue)
                 }
             }
             else {
-                statValue = (2 * stat + this.arrayIVs[this.counterIV] + (this.EV / 4)) * this.pokemonLevel
+                statValue = (2 * stat + pokemonStore.arrayIVs[index] + (this.EV / 4)) * this.pokemonLevel
                 statValue = (statValue / 100) + 5
-                this.counterIV++
+                // this.counterIV++
                 return Math.round(statValue)
             }
         },
@@ -686,6 +687,7 @@ h1 {
     width: 30%;
     font-size: 12px;
     border: none;
+    cursor: pointer;
     padding: 6px 0;
     border-radius: 20px;
     font-weight: 400;

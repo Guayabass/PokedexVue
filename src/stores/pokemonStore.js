@@ -6,19 +6,16 @@ export const usePokemonStore = defineStore({
   state: () => ({
     pokemonData: {},
     pokemonID: 0,
-    customStats: false,
     showIVs: false,
-    counterIV: 0,
-    counterEV: 0,
-    arrayIVs: [],
+    arrayIVs: [0,0,0,0,0,0],
     arrayEVs: [],
   }),
   getters: {
     changePokemon: async (state) => {
       try {
-        let pokemonToFind
+        let pokemonToFind;
         pokemonToFind = await fetch(`${pokeapi}/${state.pokemonID}`);
-        state.pokemonData = await pokemonToFind.json()
+        state.pokemonData = await pokemonToFind.json();
       } catch (error) {
         alert("Pokemon was not found :(");
         console.log(error);
@@ -27,21 +24,18 @@ export const usePokemonStore = defineStore({
   },
   actions: {
     nextPokemon() {
-      if (this.pokemonID >= 898){
-        this.pokemonID = 1
+      if (this.pokemonID >= 898) {
+        this.pokemonID = 1;
       }
       this.pokemonID++;
       //pokemonStore.pokemonSprite = 'src/assets/pokemon/shiny/' + pokemonStore.pokemonID + '.png'
       //console.log(pokemonStore.pokemonSprite)
     },
     previousPokemon() {
-      if (this.pokemonID <= 1){
-        this.pokemonID = 898
+      if (this.pokemonID <= 1) {
+        this.pokemonID = 898;
       }
       this.pokemonID--;
     },
-    setArrayIVs(array){
-      this.arrayIVs = array
-    }
   },
 });

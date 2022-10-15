@@ -117,9 +117,9 @@ export default {
       for (let IV in this.ivsObject) {
         this.customIVs.push(this.ivsObject[IV])
       }
-      pokemonStore.setArrayIVs(this.customIVs)
       //pokemonStore.customStats = true
-      console.log(this.customIVs)
+      pokemonStore.arrayIVs = this.customIVs
+      console.log(pokemonStore.arrayIVs)
       //console.log(this.confirmedIVs)
       //console.log(this.confirmedIVs[0])
     }
