@@ -64,14 +64,15 @@
                             </div>
                             <div class="stat-base-wrapper" :class="colorTextBackground()"
                                 :style="{'width': pokemonLevel*0.75+'%'}">
-                                <p class="stat-base" >{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
+                                <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat)}}</p>
                             </div>
                         </li>
                         <div class="stats-button-container">
-                        <button class="stats-button" @click="showIVModal()">Custom IVs</button>
-                        <button class="stats-button">Custom EVs</button>
-                         <button class="stats-button">Custom Nature</button><!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
-                    </div>
+                            <button class="stats-button" @click="showIVModal()">Custom IVs</button>
+                            <button class="stats-button">Custom EVs</button>
+                            <button class="stats-button">Custom Nature</button>
+                            <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
+                        </div>
                     </ul>
                 </div>
                 <!-- <div class="checkbox-container">
@@ -119,10 +120,14 @@ import { statNames } from '../exports/statNames';
 
 export default {
     name: "Pokemon",
+    setup() {
+
+    },
     data() {
         return {
             stats: false,
-            IV: 0,
+            arrayIVs: [],
+            counterIV: 0,
             EV: 0,
             pokemonLevel: 1,
         };
@@ -215,29 +220,37 @@ export default {
             return statNames.find(element => element.key === key).value
         },
         baseStatMultiplier(statName, stat) {
+            const pokemonStore = usePokemonStore();
+            this.arrayIVs = pokemonStore.arrayIVs
+            if (this.counterIV > 5) {
+                this.counterIV = 0
+            }
             let statValue = 0
             if (statName === 'hp') {
                 if (stat === 1) {
+                    this.counterIV++
                     return 1
                 } else {
-                    statValue = (2 * stat + this.IV + (this.EV / 4)) * this.pokemonLevel
+                    statValue = (2 * stat + this.arrayIVs[this.counterIV] + (this.EV / 4)) * this.pokemonLevel
                     statValue = (statValue / 100) + 10
                     statValue = statValue + parseFloat(this.pokemonLevel)
+                    this.counterIV++
                     return Math.round(statValue)
                 }
             }
             else {
-                statValue = (2 * stat + this.IV + (this.EV / 4)) * this.pokemonLevel
+                statValue = (2 * stat + this.arrayIVs[this.counterIV] + (this.EV / 4)) * this.pokemonLevel
                 statValue = (statValue / 100) + 5
+                this.counterIV++
                 return Math.round(statValue)
             }
         },
-        showIVModal(){
+        showIVModal() {
             const pokemonStore = usePokemonStore();
             pokemonStore.showIVs = !pokemonStore.showIVs
             return pokemonStore.showIVs
         },
-        returnShowIVs(){
+        returnShowIVs() {
             const pokemonStore = usePokemonStore();
             return pokemonStore.showIVs
         },
@@ -679,7 +692,8 @@ h1 {
     background: radial-gradient(circle, rgba(38, 97, 205, 1) 0%, rgba(35, 129, 184, 1) 100%);
     color: white;
 }
-.last-stats-wrapper{
+
+.last-stats-wrapper {
     display: flex;
     width: 100%;
     height: 30%;
