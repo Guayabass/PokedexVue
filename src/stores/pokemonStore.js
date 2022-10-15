@@ -6,6 +6,7 @@ export const usePokemonStore = defineStore({
   state: () => ({
     pokemonData: {},
     pokemonID: 0,
+    customStats: false,
     showIVs: false,
     counterIV: 0,
     counterEV: 0,
@@ -39,21 +40,8 @@ export const usePokemonStore = defineStore({
       }
       this.pokemonID--;
     },
-    returnIV(array){
-      if (this.counterIV > 5) {
-        this.counterIV = 0
-      }
-      let IV = array[this.counter]
-      this.counterIV++
-      return IV
-    },
-    returnIV(array){
-      if (this.counterEV > 5) {
-        this.counterEV = 0
-      }
-      let EV = array[this.counter]
-      this.counterEV++
-      return EV
-    },
+    setArrayIVs(array){
+      this.arrayIVs = array
+    }
   },
 });
