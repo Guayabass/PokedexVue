@@ -8,7 +8,7 @@
         <h3 class="title">Enter the custom <span class="blue">IV</span> values you desire for each of the
           available stats and click the <span class="blue">confirm</span> button to apply the changes to the <span
             class="blue">global</span> stats.</h3>
-        <ul>
+        <ul class="ivs-ul">
           <li class="ivs-container" v-for="(iv, key, index) in ivsObject">
             <h3 class="ivs-title">{{key}}'s <span class="blue">IVs</span>:</h3>
             <div class="btn-container">
@@ -19,6 +19,7 @@
             </div>
           </li>
         </ul>
+        <h3><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> reset any custom IVs/EVs/Nature set.</h3>
       </div>
       <div class="modal-footer">
         <div class="btns-container">
@@ -117,11 +118,9 @@ export default {
       for (let IV in this.ivsObject) {
         this.customIVs.push(this.ivsObject[IV])
       }
-      //pokemonStore.customStats = true
       pokemonStore.arrayIVs = this.customIVs
-      console.log(pokemonStore.arrayIVs)
-      //console.log(this.confirmedIVs)
-      //console.log(this.confirmedIVs[0])
+      this.showIVModal()
+      //console.log(pokemonStore.arrayIVs)
     }
   }
 }
@@ -233,16 +232,25 @@ input {
   color: #24a1e9;
 }
 
-ul {
+.red{
+  color: red;
+  font-weight: 700;
+}
+
+.ivs-ul{ /** use <script scoped> to have independent element styling per component */
   width: 80%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .ivs-container {
   height: 10%;
   width: 100%;
   display: flex;
-  margin: 16px 0;
+  margin: 8px 0;
   justify-content: flex-start;
   align-items: center;
 }

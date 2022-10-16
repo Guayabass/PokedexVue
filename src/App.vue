@@ -23,7 +23,8 @@ const pokemonStore = usePokemonStore()
 </template>
 
 
-<style scoped>
+<style scoped> 
+/** applies only to this component because of scoped */
 * {
   padding: 0;
   margin: 0;

@@ -63,7 +63,7 @@
                                 <p class="stat-name">{{returnStatNames(stat.stat.name)}}</p>
                             </div>
                             <div class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="{'width': pokemonLevel*0.75+'%'}">
+                                :style="{'width': pokemonLevel*0.70+'%'}">
                                 <p class="stat-base">{{baseStatMultiplier(stat.stat.name, stat.base_stat, index)}}</p>
                             </div>
                         </li>
@@ -431,6 +431,10 @@ h1 {
     top: 150%;
 }
 
+.button-tooltip {
+    padding: 5px 5px;
+}
+
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip-container:hover .tooltiptext {
     visibility: visible;
@@ -642,7 +646,7 @@ h1 {
     background-color: #bababa;
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
-    width: 25%;
+    width: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -657,13 +661,15 @@ h1 {
     color: white;
 }
 
+/* .stat-name{
+    padding-right: 6px;
+} */
+
 .stat-base-wrapper {
     filter: brightness(120%);
     border-bottom-right-radius: 8px;
     border-top-right-radius: 8px;
     display: flex;
-    min-width: 6%;
-    max-width: 75%;
     justify-content: flex-end;
     text-align: center;
     margin-bottom: 6px;
