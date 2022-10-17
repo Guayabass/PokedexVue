@@ -243,14 +243,14 @@ export default {
                     statValue = (statValue / 100) + 10
                     statValue = statValue + parseFloat(this.pokemonLevel)
                     // this.counterIV++
-                    return Math.round(statValue)
+                    return Math.floor(statValue)
                 }
             }
             else {
                 statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
                 statValue = (statValue / 100) + 5
                 // this.counterIV++
-                return Math.round(statValue)
+                return Math.floor(statValue)
             }
         },
         showIVModal() {
