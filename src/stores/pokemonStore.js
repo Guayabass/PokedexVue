@@ -7,8 +7,10 @@ export const usePokemonStore = defineStore({
     pokemonData: {},
     pokemonID: 0,
     showIVs: false,
+    showEVs: false,
     arrayIVs: [0,0,0,0,0,0],
     arrayEVs: [0,0,0,0,0,0],
+    nature: '',
   }),
   getters: {
     changePokemon: async (state) => {

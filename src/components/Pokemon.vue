@@ -69,7 +69,7 @@
                         </li>
                         <div class="stats-button-container">
                             <button class="stats-button" @click="showIVModal()">Custom IVs</button>
-                            <button class="stats-button">Custom EVs</button>
+                            <button class="stats-button" @click="showEVModal()">Custom EVs</button>
                             <button class="stats-button">Custom Nature</button>
                             <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
                         </div>
@@ -93,10 +93,17 @@
                             <p class="slider-text">100</p>
                         </div>
                     </div>
-                    <div class="card-change-wrapper-stats tooltip-container">
-                        <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
-                                class="fa-solid fa-arrow-left-long"></i></button>
-                        <p class="tooltiptext">{{'Click to go back the info page!'}}</p>
+                    <div class="card-change-wrapper-container">
+                        <div class="change-btn-wrapper tooltip-container">
+                            <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
+                                    class="fa-solid fa-arrow-left-long"></i></button>
+                            <p class="tooltiptext">{{'Click to go back the info page!'}}</p>
+                        </div>
+                        <div class="change-btn-wrapper tooltip-container">
+                            <button class="card-change" @click="resetCustomStats()" :disabled="!stats"><i
+                                    class="fa-solid fa-trash"></i></button>
+                            <p class="tooltiptext">{{'Click to reset the custom stats (IVs/EVs/Nature)!'}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -225,14 +232,14 @@ export default {
             const pokemonStore = usePokemonStore();
             // if (this.counterIV > 5) {
             //     this.counterIV = 0
-            // }
+            // case usando index para saber cual es el stat 0-5 y hacer un if conteniendo cada nature que modifica el stat
             let statValue = 0
             if (statName === 'hp') {
                 if (stat === 1) {
                     // this.counterIV++
                     return 1
                 } else {
-                    statValue = (2 * stat + pokemonStore.arrayIVs[index] + (this.EV / 4)) * this.pokemonLevel
+                    statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
                     statValue = (statValue / 100) + 10
                     statValue = statValue + parseFloat(this.pokemonLevel)
                     // this.counterIV++
@@ -240,7 +247,7 @@ export default {
                 }
             }
             else {
-                statValue = (2 * stat + pokemonStore.arrayIVs[index] + (this.EV / 4)) * this.pokemonLevel
+                statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
                 statValue = (statValue / 100) + 5
                 // this.counterIV++
                 return Math.round(statValue)
@@ -255,6 +262,21 @@ export default {
             const pokemonStore = usePokemonStore();
             return pokemonStore.showIVs
         },
+        showEVModal() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.showEVs = !pokemonStore.showEVs
+            return pokemonStore.showEVs
+        },
+        returnShowEVs() {
+            const pokemonStore = usePokemonStore();
+            return pokemonStore.showEVs
+        },
+        resetCustomStats(){
+            const pokemonStore = usePokemonStore();
+            pokemonStore.arrayIVs = [0,0,0,0,0,0]
+            pokemonStore.arrayEVs = [0,0,0,0,0,0]
+            pokemonStore.nature = ''
+        }
     },
     //components: { PokemonStats }
 }
@@ -382,14 +404,6 @@ h1 {
     text-align: center;
 }
 
-.card-change-wrapper-stats {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 10%;
-    width: 100%;
-}
-
 .card-change {
     border: none;
     outline: none;
@@ -429,10 +443,8 @@ h1 {
 
 .last-stats-wrapper .tooltip-container .tooltiptext {
     top: 150%;
-}
-
-.button-tooltip {
-    padding: 5px 5px;
+    left: 42%;
+    width: 150px;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -701,12 +713,28 @@ h1 {
     color: white;
 }
 
+.card-change-wrapper-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10%;
+    width: 100%;
+}
+
 .last-stats-wrapper {
     display: flex;
     width: 100%;
     height: 30%;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.change-btn-wrapper {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>
 
