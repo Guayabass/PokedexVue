@@ -19,7 +19,7 @@
             </div>
           </li>
         </ul>
-        <h3><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> reset any custom IVs/EVs/Nature set.</h3>
+        <h3><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom IVs/EVs/Nature set.</h3>
       </div>
       <div class="modal-footer">
         <div class="btns-container">

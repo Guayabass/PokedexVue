@@ -8,6 +8,7 @@ export const usePokemonStore = defineStore({
     pokemonID: 0,
     showIVs: false,
     showEVs: false,
+    showNature: false,
     arrayIVs: [0,0,0,0,0,0],
     arrayEVs: [0,0,0,0,0,0],
     nature: '',

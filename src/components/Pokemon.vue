@@ -70,7 +70,7 @@
                         <div class="stats-button-container">
                             <button class="stats-button" @click="showIVModal()">Custom IVs</button>
                             <button class="stats-button" @click="showEVModal()">Custom EVs</button>
-                            <button class="stats-button">Custom Nature</button>
+                            <button class="stats-button" @click="showNatureModal()">Custom Nature</button>
                             <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
                         </div>
                     </ul>
@@ -267,10 +267,19 @@ export default {
             pokemonStore.showEVs = !pokemonStore.showEVs
             return pokemonStore.showEVs
         },
-        returnShowEVs() {
+        // returnShowEVs() {
+        //     const pokemonStore = usePokemonStore();
+        //     return pokemonStore.showEVs
+        // },
+        showNatureModal(){
             const pokemonStore = usePokemonStore();
-            return pokemonStore.showEVs
+            pokemonStore.showNature = !pokemonStore.showNature
+            return pokemonStore.showNature
         },
+        // returnShowNature() {
+        //     const pokemonStore = usePokemonStore();
+        //     return pokemonStore.showNature
+        // },
         resetCustomStats(){
             const pokemonStore = usePokemonStore();
             pokemonStore.arrayIVs = [0,0,0,0,0,0]

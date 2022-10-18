@@ -1,27 +1,36 @@
 <template>
-    <div class="modal" v-if="returnShowEVs()">
-      <div class="modal-content">
-        <div class="modal-header">
-          <span class="close" @click="showEVModal()"><i class="fa-solid fa-xmark"></i></span>
-        </div>
-        <div class="modal-body">
-          <h3 class="title">Enter the custom <span class="blue">EV</span> values you desire for each of the
-            available stats and click the <span class="blue">confirm</span> button to apply the changes to the <span
-              class="blue">global</span> stats.</h3>
-          <div class="select-container">
-
+  <div class="modal" v-if="returnShowNature()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close" @click="showNatureModal()"><i class="fa-solid fa-xmark"></i></span>
+      </div>
+      <div class="modal-body">
+        <h3 class="title">Select the desired <span class="blue">nature</span> you desire and click the <span
+            class="blue">confirm</span> button to apply the changes to the <span class="blue">global</span> stats.</h3>
+        <div class="select-container">
+          <div class="select-btn" @click="showNatures = !showNatures">
+            <span class="text-btn">Select a nature</span>
+            <i class="fa-solid fa-chevron-down"></i>
           </div>
-          <h3><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> reset any custom IVs/EVs/Nature set.</h3>
+          <ul class="options-ul" :class="[showNatures ? 'enabled' : 'disabled']" :disabled="!showNatures">
+            <li class="option" v-for="nature in natures">
+              <i class="fa-solid fa-arrow-right"></i>
+              <p class="option-txt">{{nature}}</p>
+            </li>
+          </ul>
         </div>
-        <div class="modal-footer">
-          <div class="btns-container">
-            <button class="btn-confirm" @click="storeEVs()">Confirm</button>
-            <button class="btn-cancel" @click="showEVModal()">Cancel</button>
-          </div>
+        <h3><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom
+          IVs/EVs/Nature set.</h3>
+      </div>
+      <div class="modal-footer">
+        <div class="btns-container">
+          <button class="btn-confirm" @click="">Confirm</button>
+          <button class="btn-cancel" @click="showNatureModal()">Cancel</button>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
@@ -30,46 +39,23 @@ export default {
   name: 'customNatureModal',
   data() {
     return {
-      evsObject: {
-        HP: 0,
-        Attack: 0,
-        Defense: 0,
-        SpecialAttack: 0,
-        SpecialDefense: 0,
-        Speed: 0,
-      },
-      customEVs: [],
+      natures: ['Hardy', 'Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Docile', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Serious', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Bashful', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Quirky'],
+      showNatures: false,
       //hp: 0,
     }
   },
   watch: {
   },
   methods: {
-    showEVModal() {
+    showNatureModal() {
       const pokemonStore = usePokemonStore();
-      pokemonStore.showEVs = !pokemonStore.showEVs
-      return pokemonStore.showEVs
+      pokemonStore.showNature = !pokemonStore.showNature
+      return pokemonStore.showNature
     },
-    returnShowEVs() {
+    returnShowNature() {
       const pokemonStore = usePokemonStore();
-      return pokemonStore.showEVs
+      return pokemonStore.showNature
     },
-    increaseEV(key) {
-      this.evsObject[key]++
-    },
-    decreaseEV(key) {
-      this.evsObject[key]--
-
-    },
-    storeEVs() {
-      const pokemonStore = usePokemonStore();
-      for (let EV in this.evsObject) {
-        this.customEVs.push(this.evsObject[EV])
-      }
-      pokemonStore.arrayEVs = this.customEVs
-      this.showEVModal()
-      //console.log(pokemonStore.arrayIVs)
-    }
   }
 }
 
@@ -175,9 +161,83 @@ export default {
   color: #24a1e9;
 }
 
-.red{
+.red {
   color: red;
   font-weight: 700;
+}
+
+.enabled {
+  opacity: 1;
+  transition: all 500ms ease;
+}
+
+.disabled {
+  opacity: 0;
+  transition: all 500ms ease;
+}
+
+.select-container {
+  width: 40%;
+  height: 75%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.select-container .select-btn {
+  display: flex;
+  font-size: 18px;
+  height: 55px;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 8px;
+  border: #24a1e9 solid 2px;
+  font-weight: 400;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.select-btn i {
+  font-size: 25px;
+}
+
+.select-container .options-ul{
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.options-ul {
+  list-style-type: none;
+  overflow: auto;
+  width: 100%;
+  height: 60%;
+}
+
+.options-ul .option{
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 16px;
+  align-items: center;
+}
+
+.options-ul .option:hover{
+  background: #f2f2f2;
+}
+
+.option i{
+  font-size: 25px;
+  color: #207fb6;
+  margin-right: 12px;
+}
+
+.option-text{
+  font-size: 18px;
+  color: #333;
 }
 
 .fade-enter-from {
