@@ -9,15 +9,22 @@
             class="blue">confirm</span> button to apply the changes to the <span class="blue">global</span> stats.</h3>
         <div class="select-container">
           <div class="select-btn" @click="showNatures = !showNatures">
-            <span class="text-btn">Select a nature</span>
+            <span v-if="!showNatures" class="text-btn">Select a nature</span>
+            <span v-else class="text-btn">{{selectedNature}}</span>
             <i class="fa-solid fa-chevron-down"></i>
           </div>
-          <ul class="options-ul" :class="[showNatures ? 'enabled' : 'disabled']" :disabled="!showNatures">
-            <li class="option" v-for="nature in natures">
-              <i class="fa-solid fa-arrow-right"></i>
-              <p class="option-txt">{{nature}}</p>
-            </li>
-          </ul>
+          <Transition name="fade" mode="out-in">
+            <ul class="options-ul" v-if="!showNatures" :disabled="!showNatures">
+              <li class="option" v-for="(nature, index) in natures" @click="setNature(nature, index)">
+                <i class="fa-solid fa-arrow-right"></i>
+                <p class="option-txt">{{nature}}</p>
+              </li>
+            </ul>
+            <div class="nature-info-container" v-else-if="showNatures" :disabled="showNatures">
+              <p>{{index}}</p>
+              <!--hacer un tipo icons.js con key igual a cada index (de 0 a 24 o lo que sea el maximo) y el value un texto diciendo que sube 10% y que baja o si es neutro-->
+            </div>
+          </Transition>
         </div>
         <h3><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom
           IVs/EVs/Nature set.</h3>
@@ -41,6 +48,8 @@ export default {
     return {
       natures: ['Hardy', 'Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Docile', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Serious', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Bashful', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Quirky'],
       showNatures: false,
+      selectedNature: '',
+      index: 0,
       //hp: 0,
     }
   },
@@ -56,6 +65,12 @@ export default {
       const pokemonStore = usePokemonStore();
       return pokemonStore.showNature
     },
+    setNature(nature, index) {
+      //console.log(nature)
+      this.selectedNature = nature
+      this.index = index
+      this.showNatures = !this.showNatures
+    }
   }
 }
 
@@ -203,7 +218,7 @@ export default {
   font-size: 25px;
 }
 
-.select-container .options-ul{
+.select-container .options-ul {
   padding: 20px;
   margin-top: 10px;
   border-radius: 8px;
@@ -217,7 +232,13 @@ export default {
   height: 60%;
 }
 
-.options-ul .option{
+.nature-info-container{
+  width: 100%;
+  height: 60%;
+  margin-top: 10px;
+}
+
+.options-ul .option {
   display: flex;
   height: 55px;
   cursor: pointer;
@@ -225,17 +246,17 @@ export default {
   align-items: center;
 }
 
-.options-ul .option:hover{
+.options-ul .option:hover {
   background: #f2f2f2;
 }
 
-.option i{
+.option i {
   font-size: 25px;
   color: #207fb6;
   margin-right: 12px;
 }
 
-.option-text{
+.option-txt {
   font-size: 18px;
   color: #333;
 }

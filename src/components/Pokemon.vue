@@ -1,5 +1,5 @@
 <template>
-    <section class="pokemon-section" :class="{ 'disabled': returnShowIVs() }">
+    <section class="pokemon-section" :class="{ 'disabled': checkFalse() }">
         <Transition name="button">
             <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
                 :disabled="Object.entries(checkPokemon()).length === 0"
@@ -258,33 +258,29 @@ export default {
             pokemonStore.showIVs = !pokemonStore.showIVs
             return pokemonStore.showIVs
         },
-        returnShowIVs() {
-            const pokemonStore = usePokemonStore();
-            return pokemonStore.showIVs
-        },
         showEVModal() {
             const pokemonStore = usePokemonStore();
             pokemonStore.showEVs = !pokemonStore.showEVs
             return pokemonStore.showEVs
         },
-        // returnShowEVs() {
-        //     const pokemonStore = usePokemonStore();
-        //     return pokemonStore.showEVs
-        // },
-        showNatureModal(){
+        showNatureModal() {
             const pokemonStore = usePokemonStore();
             pokemonStore.showNature = !pokemonStore.showNature
             return pokemonStore.showNature
         },
-        // returnShowNature() {
-        //     const pokemonStore = usePokemonStore();
-        //     return pokemonStore.showNature
-        // },
-        resetCustomStats(){
+        resetCustomStats() {
             const pokemonStore = usePokemonStore();
-            pokemonStore.arrayIVs = [0,0,0,0,0,0]
-            pokemonStore.arrayEVs = [0,0,0,0,0,0]
+            pokemonStore.arrayIVs = [0, 0, 0, 0, 0, 0]
+            pokemonStore.arrayEVs = [0, 0, 0, 0, 0, 0]
             pokemonStore.nature = ''
+        },
+        checkFalse(){
+            const pokemonStore = usePokemonStore();
+            if (pokemonStore.showNature || pokemonStore.showIVs || pokemonStore.showEVs){
+                return true
+            } else {
+                return false
+            }
         }
     },
     //components: { PokemonStats }

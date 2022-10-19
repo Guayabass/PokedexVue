@@ -142,11 +142,11 @@
     z-index: 1;
     /* Sit on top */
     left: 0;
+    pointer-events: none;
     top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
     width: 100%;
     /* Full width */
     height: 100%;

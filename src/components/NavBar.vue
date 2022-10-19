@@ -1,6 +1,6 @@
 <template>
     <nav id="nav">
-        <div class="nav-container" :class="{ 'disabled': returnShowIVs() }">
+        <div class="nav-container" :class="{ 'disabled': checkFalse() }">
             <figure class="pokedex-image-figure">
                 <img src="../assets/images/pokedex.png" class="pokedex-nav-image">
             </figure>
@@ -15,9 +15,13 @@ import { usePokemonStore } from '../stores/pokemonStore.js';
 export default {
     name: 'NavBar',
     methods: {
-        returnShowIVs() {
+        checkFalse() {
             const pokemonStore = usePokemonStore();
-            return pokemonStore.showIVs
+            if (pokemonStore.showNature || pokemonStore.showIVs || pokemonStore.showEVs){
+                return true
+            } else {
+                return false
+            }
         }
     }
 }
@@ -37,6 +41,10 @@ export default {
     justify-content: center;
     align-items: center;
     margin-top: 24px;
+}
+
+.disabled {
+    pointer-events: none;
 }
 
 .nav-title {

@@ -57,9 +57,13 @@ export default {
             //console.log(pokemonStore.pokemonData)
             //console.log(pokemonStore.pokemonID)
         },
-        returnShowIVs() {
+        checkFalse() {
             const pokemonStore = usePokemonStore();
-            return pokemonStore.showIVs
+            if (pokemonStore.showNature || pokemonStore.showIVs || pokemonStore.showEVs){
+                return true
+            } else {
+                return false
+            }
         }
     }
 }
@@ -226,7 +230,7 @@ i {
 
 <template>
     <header>
-        <div class="main-container" :class="{ 'disabled': returnShowIVs() }">
+        <div class="main-container" :class="{ 'disabled': checkFalse() }">
             <div class="sub-title-wrapper">
                 <h2 class="sub-title">Welcome to the <span class="blue" @click="focusInput">WebDex</span> website! Start
                     your search below by
