@@ -10,19 +10,30 @@
         <div class="select-container">
           <div class="select-btn" @click="showNatures = !showNatures">
             <span v-if="!showNatures" class="text-btn">Select a nature</span>
-            <span v-else class="text-btn">{{selectedNature}}</span>
+            <span v-else class="text-btn">{{selectedNature.name}}</span>
             <i class="fa-solid fa-chevron-down"></i>
           </div>
           <Transition name="fade" mode="out-in">
             <ul class="options-ul" v-if="!showNatures" :disabled="!showNatures">
               <li class="option" v-for="(nature, index) in natures" @click="setNature(nature, index)">
                 <i class="fa-solid fa-arrow-right"></i>
-                <p class="option-txt">{{nature}}</p>
+                <p class="option-txt">{{nature.name}}</p>
               </li>
             </ul>
             <div class="nature-info-container" v-else-if="showNatures" :disabled="showNatures">
-              <p>{{index}}</p>
-              <!--hacer un tipo icons.js con key igual a cada index (de 0 a 24 o lo que sea el maximo) y el value un texto diciendo que sube 10% y que baja o si es neutro-->
+                <h3><span class="blue">{{selectedNature.name}}</span> Nature:</h3>
+                <div class="nature-info">
+                <h3 v-if="selectedNature.ups === 'none' || selectedNature.downs === 'none'"><span class="blue">Raises</span> no stats at all</h3>
+                <h3 v-else>10% <span class="blue">higher</span> {{selectedNature.ups}} stat</h3>
+                <div class="nature-icon-wrapper">
+                  <i class="fa-solid fa-up-long" :class="{'green' : selectedNature.ups != 'none' || selectedNature.downs != 'none'}"></i>
+                  <i class="fa-solid fa-down-long" :class="{'red' : selectedNature.ups != 'none' || selectedNature.downs != 'none'}"></i>
+                </div>
+                <h3 v-if="selectedNature.ups === 'none' || selectedNature.downs === 'none'"><span class="blue">Lowers</span> no stats at all</h3>
+                <h3 v-else>10% <span class="blue">lower</span> {{selectedNature.downs}} stat</h3>
+              </div>
+              <!--hacer un tipo icons.js con key igual a cada index (de 0 a 24 o lo que sea el maximo) y el value un icono o imagen-->
+              <!--hacer funcion que reciba el index para compararlo con el objeto que tiene de key el index y asi con la lista saber cual es y retornar el icono y el texto (pueden ser 2 funciones y una de neutral tambien osea 3)-->
             </div>
           </Transition>
         </div>
@@ -31,7 +42,7 @@
       </div>
       <div class="modal-footer">
         <div class="btns-container">
-          <button class="btn-confirm" @click="">Confirm</button>
+          <button class="btn-confirm" @click="storeNature()">Confirm</button>
           <button class="btn-cancel" @click="showNatureModal()">Cancel</button>
         </div>
       </div>
@@ -41,19 +52,23 @@
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
+import { customNatures } from '../exports/natures.js';
 
 export default {
   name: 'customNatureModal',
+  setup() {
+    const natures = customNatures
+
+    return { natures }
+  },
   data() {
     return {
-      natures: ['Hardy', 'Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Docile', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Serious', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Bashful', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Quirky'],
+      //natures: ['Hardy', 'Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Docile', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Serious', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Bashful', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Quirky'],
       showNatures: false,
       selectedNature: '',
       index: 0,
       //hp: 0,
     }
-  },
-  watch: {
   },
   methods: {
     showNatureModal() {
@@ -70,6 +85,12 @@ export default {
       this.selectedNature = nature
       this.index = index
       this.showNatures = !this.showNatures
+    },
+    storeNature(){
+      const pokemonStore = usePokemonStore();
+      pokemonStore.nature = this.selectedNature.name
+      //console.log(pokemonStore.nature)
+      this.showNatureModal()
     }
   }
 }
@@ -172,6 +193,10 @@ export default {
   cursor: text;
 }
 
+.green {
+  color: green;
+}
+
 .blue:hover {
   color: #24a1e9;
 }
@@ -232,7 +257,7 @@ export default {
   height: 60%;
 }
 
-.nature-info-container{
+.nature-info-container {
   width: 100%;
   height: 60%;
   margin-top: 10px;
@@ -342,6 +367,30 @@ export default {
   z-index: -1;
 }
 
+.nature-info{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.nature-icon-wrapper{
+  display: flex;
+  width: 100%;
+  color: gray;
+  font-size: 24px;
+  justify-content: space-evenly;
+}
+
+/* .nature-icon-wrapper i:nth-child(1){
+  color: green;
+}
+
+.nature-icon-wrapper i:nth-child(2){
+  color: red;
+} */
 
 @keyframes shake {
   0% {

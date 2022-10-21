@@ -1,6 +1,6 @@
 <template>
     <nav id="nav">
-        <div class="nav-container" :class="{ 'disabled': checkFalse() }">
+        <div class="nav-container" :class="{ 'disabled-events': checkFalse() }">
             <figure class="pokedex-image-figure">
                 <img src="../assets/images/pokedex.png" class="pokedex-nav-image">
             </figure>
@@ -43,7 +43,7 @@ export default {
     margin-top: 24px;
 }
 
-.disabled {
+.disabled-events {
     pointer-events: none;
 }
 

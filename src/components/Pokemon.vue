@@ -1,5 +1,5 @@
 <template>
-    <section class="pokemon-section" :class="{ 'disabled': checkFalse() }">
+    <section class="pokemon-section" :class="{ 'disabled-events': checkFalse() }">
         <Transition name="button">
             <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
                 :disabled="Object.entries(checkPokemon()).length === 0"
@@ -496,7 +496,7 @@ h1 {
     transform: translateY(4px);
 }
 
-.disabled {
+.disabled-events {
     pointer-events: none;
 }
 

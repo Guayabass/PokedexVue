@@ -223,14 +223,14 @@ i {
     transform-origin: left;
 }
 
-.disabled {
+.disabled-events {
     pointer-events: none;
 }
 </style>
 
 <template>
     <header>
-        <div class="main-container" :class="{ 'disabled': checkFalse() }">
+        <div class="main-container" :class="{ 'disabled-events': checkFalse() }">
             <div class="sub-title-wrapper">
                 <h2 class="sub-title">Welcome to the <span class="blue" @click="focusInput">WebDex</span> website! Start
                     your search below by
