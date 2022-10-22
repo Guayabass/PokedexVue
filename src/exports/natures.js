@@ -26,11 +26,6 @@ export const customNatures =
                     downs: 'Special Defense',
                 },
                 {
-                    name: 'Hardy',
-                    ups: 'none',
-                    downs: 'none',
-                },
-                {
                     name: 'Bold',
                     ups: 'Defense',
                     downs: 'Attack',

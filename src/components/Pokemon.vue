@@ -234,23 +234,105 @@ export default {
             //     this.counterIV = 0
             // case usando index para saber cual es el stat 0-5 y hacer un if conteniendo cada nature que modifica el stat
             let statValue = 0
-            if (statName === 'hp') {
-                if (stat === 1) {
-                    // this.counterIV++
-                    return 1
-                } else {
-                    statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
-                    statValue = (statValue / 100) + 10
-                    statValue = statValue + parseFloat(this.pokemonLevel)
-                    // this.counterIV++
-                    return Math.floor(statValue)
-                }
-            }
-            else {
-                statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
-                statValue = (statValue / 100) + 5
-                // this.counterIV++
-                return Math.floor(statValue)
+            switch (index) {
+                case 0: //hp
+                    if (stat === 1) {
+                        // this.counterIV++
+                        return 1
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 10
+                        statValue = statValue + parseFloat(this.pokemonLevel)
+                        // this.counterIV++
+                        return Math.floor(statValue)
+                    }
+                case 1: //attack
+                    if (['Lonely', 'Brave', 'Adamant', 'Naughty'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Bold', 'Timid', 'Modest', 'Calm'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 2: //defense
+                    if (['Bold', 'Relaxed', 'Impish', 'Lax'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Lonely', 'Hasty', 'Mild', 'Gentle'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 3://Special Attack
+                    if (['Modest', 'Mild', 'Quiet', 'Rash'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Adamant', 'Impish', 'Jolly', 'Careful'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 4: //Special Defense
+                    if (['Calm', 'Gentle', 'Sassy', 'Careful'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Naughty', 'Lax', 'Naive', 'Rash'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 5: //speed
+                    if (['Timid', 'Jolly', 'Hasty', 'Naive'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Brave', 'Relaxed', 'Quiet', 'Sassy'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                default:
+                    break;
             }
         },
         showIVModal() {
@@ -274,9 +356,9 @@ export default {
             pokemonStore.arrayEVs = [0, 0, 0, 0, 0, 0]
             pokemonStore.nature = ''
         },
-        checkFalse(){
+        checkFalse() {
             const pokemonStore = usePokemonStore();
-            if (pokemonStore.showNature || pokemonStore.showIVs || pokemonStore.showEVs){
+            if (pokemonStore.showNature || pokemonStore.showIVs || pokemonStore.showEVs) {
                 return true
             } else {
                 return false
