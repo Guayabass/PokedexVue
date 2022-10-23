@@ -266,9 +266,9 @@
     color: #24a1e9;
   }
   
-  li :nth-last-child() {
+  /* li :nth-last-child() {
     margin-top: 16px;
-  }
+  } */
   
   .btn-container {
     width: 12%;
