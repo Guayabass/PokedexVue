@@ -139,6 +139,7 @@ export default {
             counterIV: 0,
             EV: 0,
             pokemonLevel: 1,
+            sentAlert: false,
         };
     },
     methods: {
@@ -149,7 +150,10 @@ export default {
         loadSprite() {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
-                alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
+                if (!this.sentAlert) {
+                    alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
+                    this.sentAlert = true
+                }
                 return "/src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
             }
             else {
@@ -160,8 +164,14 @@ export default {
         loadCry() {
             const pokemonStore = usePokemonStore();
             //console.log(pokemonStore.pokemonData.types.length)
-            const audio = new Audio("src/assets/cries/" + pokemonStore.pokemonID + ".ogg");
-            audio.play();
+            if (pokemonStore.pokemonID > 721) {
+                const audio = new Audio("src/assets/cries/" + pokemonStore.pokemonID + ".wav");
+                audio.play();
+            } else {
+                const audio = new Audio("src/assets/cries/" + pokemonStore.pokemonID + ".ogg");
+                audio.play();
+            }
+
         },
         capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -382,7 +392,8 @@ export default {
     align-items: center;
     width: 100%;
     height: 50%;
-    min-height: 500px;/** para responsive */
+    min-height: 500px;
+    /** para responsive */
     opacity: 1;
     cursor: default;
     /* transition: opacity 2000ms ease; */
