@@ -82,6 +82,7 @@ export default {
 
 header .main-container {
     width: 100%;
+    height: 35%;
     display: flex;
     justify-content: center;
     flex-direction: column;

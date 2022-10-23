@@ -150,10 +150,10 @@ export default {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
                 alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
-                return "src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
+                return "/src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
             }
             else {
-                return "src/assets/pokemon/versions/generation-v/black-white/animated/" + pokemonStore.pokemonData.id + ".gif";
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/" + pokemonStore.pokemonData.id + ".gif";
             }
             //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
         },
@@ -169,38 +169,38 @@ export default {
         loadShinySprite() {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
-                return "src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
+                return "/src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
             }
             else {
-                return "src/assets/pokemon/versions/generation-v/black-white/animated/shiny/" + pokemonStore.pokemonData.id + ".gif";
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/shiny/" + pokemonStore.pokemonData.id + ".gif";
             }
         },
         loadBackSprite() {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
-                    return "src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
+                    return "/src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
                 }
                 else {
-                    return "src/assets/pokemon/versions/generation-v/black-white/back/" + pokemonStore.pokemonData.id + ".png";
+                    return "/src/assets/pokemon/versions/generation-v/black-white/back/" + pokemonStore.pokemonData.id + ".png";
                 }
             }
             else {
-                return "src/assets/pokemon/versions/generation-v/black-white/animated/back/" + pokemonStore.pokemonData.id + ".gif";
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/" + pokemonStore.pokemonData.id + ".gif";
             }
         },
         loadShinyBackSprite() {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
-                    return "src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
+                    return "/src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
                 }
                 else {
-                    return "src/assets/pokemon/versions/generation-v/black-white/back/shiny/" + pokemonStore.pokemonData.id + ".png";
+                    return "/src/assets/pokemon/versions/generation-v/black-white/back/shiny/" + pokemonStore.pokemonData.id + ".png";
                 }
             }
             else {
-                return "src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + pokemonStore.pokemonData.id + ".gif";
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + pokemonStore.pokemonData.id + ".gif";
             }
         },
         nextPokemon() {
@@ -382,6 +382,7 @@ export default {
     align-items: center;
     width: 100%;
     height: 50%;
+    min-height: 500px;/** para responsive */
     opacity: 1;
     cursor: default;
     /* transition: opacity 2000ms ease; */
