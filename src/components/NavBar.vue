@@ -30,7 +30,7 @@ export default {
 
 <style>
 
-@import url('http://fonts.cdnfonts.com/css/pokemon-solid');
+@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
 
 #nav {
     width: 100%;
