@@ -835,6 +835,11 @@ h1 {
     align-items: center;
     justify-content: center;
 }
+
+@media only screen and (max-width: 768px) {
+    
+}
+
 </style>
 
 
