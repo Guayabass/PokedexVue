@@ -586,6 +586,10 @@ h1 {
     transition: transform 300ms ease;
 }
 
+.pokemon-change i{
+    padding: 0;
+}
+
 .pokemon-change:active {
     /*cuando es clicked*/
     transform: translateY(4px);
