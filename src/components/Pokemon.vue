@@ -129,7 +129,7 @@ import { statNames } from '../exports/statNames';
 export default {
     name: "Pokemon",
     // setup() {
-    //     const pokemonStore = usePokemonStore()
+    //     const pokemonStore = usePokemonStore()  CHANGE EL BOTON DE POKEMON EV Y IVS MAX WIDTH
 
     //     return { pokemonStore } 
     // }, //realized a bit too late that you could do this.
