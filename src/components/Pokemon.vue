@@ -136,9 +136,6 @@ export default {
     data() {
         return {
             stats: false,
-            arrayIVs: [],
-            counterIV: 0,
-            EV: 0,
             pokemonLevel: 1,
             sentAlert: false,
         };

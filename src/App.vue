@@ -1,12 +1,12 @@
 <script setup>
-import { usePokemonStore } from '../src/stores/pokemonStore';
-import PokemonSearch from './components/PokemonSearch.vue';
-import Pokemon from './components/Pokemon.vue';
-import NavBar from './components/NavBar.vue';
-import CustomIVsModal from './components/customIVsModal.vue';
-import CustomEVsModal from './components/customEVsModal.vue';
-import CustomNatureModal from './components/customNatureModal.vue';
-const pokemonStore = usePokemonStore();
+// import { usePokemonStore } from '../src/stores/pokemonStore';
+// import PokemonSearch from './components/PokemonSearch.vue';
+// import Pokemon from './components/Pokemon.vue';
+// import NavBar from './components/NavBar.vue';
+// import CustomIVsModal from './components/customIVsModal.vue';
+// import CustomEVsModal from './components/customEVsModal.vue';
+// import CustomNatureModal from './components/customNatureModal.vue';
+// const pokemonStore = usePokemonStore();
 
 
 </script>
