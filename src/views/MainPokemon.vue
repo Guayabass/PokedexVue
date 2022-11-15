@@ -25,3 +25,31 @@ const pokemonStore = usePokemonStore();
 
 
 </script>
+
+<style scoped> 
+
+.fade-enter-from {
+    opacity: 0;
+}
+
+.fade-enter-to {
+    opacity: 1;
+}
+
+.fade-enter-active {
+    transition: opacity 800ms ease;
+}
+
+.fade-leave-from {
+    opacity: 1;
+}
+
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-leave-active {
+    transition: opacity 800ms ease;
+}
+
+</style>

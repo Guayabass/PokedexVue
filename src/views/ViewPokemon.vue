@@ -1,12 +1,11 @@
 <template>
     <NavBar></NavBar>
-    <div class="pokemon-section">
+    <div class="pokemon-section" :class="{ 'disabled-events': checkFalse() }">
         <Transition name="fade" mode="out-in">
-            <div class="pokemon" :class="{ 'disabled': stats }"
-                v-if="!stats">
+            <div class="pokemon" :class="{ 'disabled': stats }" v-if="!stats && dataReady">
                 <div class="info-container">
                     <h1 :class="this.Pokemon.types[0].type.name">
-                        {{ capitalize(checkParam(name)) }}
+                        {{ capitalize(Pokemon.name) }}
                     </h1>
                     <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
                             class="fa-solid fa-play"></i>Cry</button>
@@ -35,7 +34,7 @@
                 <div class="card-change-wrapper tooltip-container">
                     <button class="card-change" @click="stats = !stats" :disabled="stats"><i
                             class="fa-solid fa-chart-simple"></i></button>
-                    <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
+                    <p class="tooltiptext">{{ 'Click to show ' + capitalize(Pokemon.name) + ' stats!' }} </p>
                 </div>
             </div>
             <div class="pokemon" :class="{ 'disabled': !stats }" v-else-if="stats">
@@ -44,7 +43,7 @@
                         Typings
                     </h1>
                     <ul class="typings">
-                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index"
+                        <li class="pokemon-type" v-for="(type, index) in Pokemon.types" :key="index"
                             :class="type.type.name + '-b'"><i :class="iconReturn(type.type.name)"></i>{{
                                     capitalize(type.type.name)
                             }}</li>
@@ -53,13 +52,13 @@
                 <div class="stats-container">
                     <h1 class="stats-title">Stats</h1>
                     <ul class="stats">
-                        <li v-for="(stat, index) in checkPokemon().stats" :key="index">
+                        <li v-for="(stat, index) in Pokemon.stats" :key="index">
                             <div class="stat-name-wrapper">
                                 <p class="stat-name">{{ returnStatNames(stat.stat.name) }}</p>
                             </div>
                             <div class="stat-base-wrapper" :class="colorTextBackground()"
                                 :style="{ 'width': pokemonLevel * 0.70 + '%' }">
-                                <p class="stat-base">{{ baseStatMultiplier(stat.stat.name, stat.base_stat, index) }}</p>
+                                <p class="stat-base">{{ baseStatMultiplier(stat.base_stat, index) }}</p>
                             </div>
                         </li>
                         <div class="stats-button-container">
@@ -97,34 +96,76 @@
         </Transition>
     </div>
 
+    <Transition name="fade-modal">
+        <CustomIVsModal v-if="pokemonStore.showIVs"></CustomIVsModal>
+    </Transition>
+    <Transition name="fade-modal">
+        <CustomEVsModal v-if="pokemonStore.showEVs"></CustomEVsModal>
+    </Transition>
+    <Transition name="fade-modal">
+        <CustomNatureModal v-if="pokemonStore.showNature"></CustomNatureModal>
+    </Transition>
+
 </template>
 
 <script>
 import NavBar from '../components/NavBar.vue';
+import CustomEVsModal from '../components/customEVsModal.vue';
+import CustomIVsModal from '../components/customIVsModal.vue';
+import CustomNatureModal from '../components/customNatureModal.vue';
+import { usePokemonStore } from '../stores/pokemonStore.js';
+import { icons } from '../exports/icons';
+import { statNames } from '../exports/statNames';
+import { pokeapi } from '../exports/pokeapi'
 
 export default {
     name: "ViewPokemon",
     props: ["name"],
+    setup() {
+        const pokemonStore = usePokemonStore();
+
+        return { pokemonStore }
+    },
     data() {
         return {
             stats: false,
             pokemonLevel: 1,
             sentAlert: false,
+            dataReady: false,
             Pokemon: {},
         };
     },
+    async mounted() {
+        try {
+            if (/^[a-zA-Z]+$/.test(this.name)) {
+                const pokemonToFind = await fetch(`${pokeapi}/${this.name.toLowerCase()}`)
+                const pokemon = await pokemonToFind.json()
+                this.Pokemon = pokemon
+                this.dataReady = true
+                //console.log(this.name)
+            } else {
+                const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
+                const pokemon = await pokemonToFind.json()
+                this.Pokemon = pokemon
+                this.dataReady = true
+            }
+        } catch (error) {
+            alert('Pokemon was not found :(')
+            console.log(error)
+        }
+    },
     methods: {
-        async checkParam(name){
+        async checkParam(name) {
             try {
-                    if (/^[a-zA-Z]+$/.test(name)) {
-                        const pokemonToFind = await fetch(`${pokeapi}/${this.name.toLowerCase()}`)
-                        const pokemon = await pokemonToFind.json()
-                        this.Pokemon = pokemon
-                    } else {
-                        const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
-                        const pokemon = await pokemonToFind.json()
-                        this.Pokemon = pokemon
-                    }
+                if (/^[a-zA-Z]+$/.test(name)) {
+                    const pokemonToFind = await fetch(`${pokeapi}/${this.name.toLowerCase()}`)
+                    const pokemon = await pokemonToFind.json()
+                    this.Pokemon = pokemon
+                } else {
+                    const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
+                    const pokemon = await pokemonToFind.json()
+                    this.Pokemon = pokemon
+                }
             } catch (error) {
                 alert('Pokemon was not found :(')
                 console.log(error)
@@ -137,10 +178,10 @@ export default {
         loadCry() {
             //console.log(pokemonStore.pokemonData.types.length)
             if (this.Pokemon.id > 721) {
-                const audio = new Audio("src/assets/cries/" + this.Pokemon.id + ".wav");
+                const audio = new Audio("/src/assets/cries/" + this.Pokemon.id + ".wav");
                 audio.play();
             } else {
-                const audio = new Audio("src/assets/cries/" + this.Pokemon.id + ".ogg");
+                const audio = new Audio("/src/assets/cries/" + this.Pokemon.id + ".ogg");
                 audio.play();
             }
 
@@ -195,16 +236,183 @@ export default {
                 return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + this.Pokemon.id + ".gif";
             }
         },
+        iconReturn(key) {
+            return icons.find(element => element.key === key).value
+        },
+        returnStatNames(key) {
+            return statNames.find(element => element.key === key).value
+        },
+        baseStatMultiplier(stat, index) {
+            const pokemonStore = usePokemonStore();
+            // if (this.counterIV > 5) {
+            //     this.counterIV = 0
+            // case usando index para saber cual es el stat 0-5 y hacer un if conteniendo cada nature que modifica el stat
+            let statValue = 0
+            switch (index) {
+                case 0: //hp
+                    if (stat === 1) {
+                        // this.counterIV++
+                        return 1
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 10
+                        statValue = statValue + parseFloat(this.pokemonLevel)
+                        // this.counterIV++
+                        return Math.floor(statValue)
+                    }
+                case 1: //attack
+                    if (['Lonely', 'Brave', 'Adamant', 'Naughty'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Bold', 'Timid', 'Modest', 'Calm'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 2: //defense
+                    if (['Bold', 'Relaxed', 'Impish', 'Lax'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Lonely', 'Hasty', 'Mild', 'Gentle'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 3://Special Attack
+                    if (['Modest', 'Mild', 'Quiet', 'Rash'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Adamant', 'Impish', 'Jolly', 'Careful'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 4: //Special Defense
+                    if (['Calm', 'Gentle', 'Sassy', 'Careful'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Naughty', 'Lax', 'Naive', 'Rash'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                case 5: //speed
+                    if (['Timid', 'Jolly', 'Hasty', 'Naive'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 1.10
+                        return Math.floor(statValue)
+                    }
+                    else if (['Brave', 'Relaxed', 'Quiet', 'Sassy'].includes(pokemonStore.nature)) {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        statValue = statValue * 0.90
+                        return Math.floor(statValue)
+                    } else {
+                        statValue = (2 * stat + pokemonStore.arrayIVs[index] + (pokemonStore.arrayEVs[index] / 4)) * this.pokemonLevel
+                        statValue = (statValue / 100) + 5
+                        return Math.floor(statValue)
+                    }
+                default:
+                    break;
+            }
+        },
+        showIVModal() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.showIVs = !pokemonStore.showIVs
+            return pokemonStore.showIVs
+        },
+        showEVModal() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.showEVs = !pokemonStore.showEVs
+            return pokemonStore.showEVs
+        },
+        showNatureModal() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.showNature = !pokemonStore.showNature
+            return pokemonStore.showNature
+        },
+        resetCustomStats() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.arrayIVs = [0, 0, 0, 0, 0, 0]
+            pokemonStore.arrayEVs = [0, 0, 0, 0, 0, 0]
+            pokemonStore.nature = ''
+        },
+        checkFalse() {
+            const pokemonStore = usePokemonStore();
+            if (pokemonStore.showNature || pokemonStore.showIVs || pokemonStore.showEVs) {
+                return true
+            } else {
+                return false
+            }
+        }
     },
-    components: { NavBar }
+    components: { NavBar, CustomEVsModal, CustomIVsModal, CustomNatureModal }
 }
 </script>
 
 <style>
 @import '../assets/css/Pokemon.css';
-    .pokemon-section{
-       display: flex;
-       justify-content: center;
-       align-items: center; 
-    }
+
+.pokemon-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fade-modal-enter-from {
+    opacity: 0;
+}
+
+.fade-modal-enter-to {
+    opacity: 1;
+}
+
+.fade-modal-enter-active {
+    transition: opacity 800ms ease;
+}
+
+.fade-modal-leave-from {
+    opacity: 1;
+}
+
+.fade-modal-leave-to {
+    opacity: 0;
+}
+
+.fade-modal-leave-active {
+    transition: opacity 800ms ease;
+}
 </style>
