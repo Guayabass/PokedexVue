@@ -1,5 +1,7 @@
 <template>
-    <NavBar></NavBar>
+    <router-link :to="{ name: 'Home' }">
+        <NavBar></NavBar>
+    </router-link>
     <div class="pokemon-section" :class="{ 'disabled-events': checkFalse() }">
         <Transition name="fade" mode="out-in">
             <div class="pokemon" :class="{ 'disabled': stats }" v-if="!stats && dataReady">
@@ -95,6 +97,9 @@
             </div>
         </Transition>
     </div>
+    <div class="input-container">
+        <ShareLink :route="name"></ShareLink>
+    </div>
 
     <Transition name="fade-modal">
         <CustomIVsModal v-if="pokemonStore.showIVs"></CustomIVsModal>
@@ -113,6 +118,7 @@ import NavBar from '../components/NavBar.vue';
 import CustomEVsModal from '../components/customEVsModal.vue';
 import CustomIVsModal from '../components/customIVsModal.vue';
 import CustomNatureModal from '../components/customNatureModal.vue';
+import ShareLink from '../components/ShareLink.vue';
 import { usePokemonStore } from '../stores/pokemonStore.js';
 import { icons } from '../exports/icons';
 import { statNames } from '../exports/statNames';
@@ -379,12 +385,25 @@ export default {
             }
         }
     },
-    components: { NavBar, CustomEVsModal, CustomIVsModal, CustomNatureModal }
+    components: { NavBar, CustomEVsModal, CustomIVsModal, CustomNatureModal, ShareLink }
 }
 </script>
 
 <style>
 @import '../assets/css/Pokemon.css';
+
+* {
+    text-decoration: none;
+}
+
+.input-container {
+    display: flex;
+    height: 200px;
+    width: 80%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: flex-end;
+}
 
 .pokemon-section {
     display: flex;
