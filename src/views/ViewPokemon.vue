@@ -401,8 +401,9 @@ export default {
     height: 200px;
     width: 80%;
     margin: 0 auto;
-    justify-content: center;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .pokemon-section {
@@ -434,4 +435,5 @@ export default {
 .fade-modal-leave-active {
     transition: opacity 800ms ease;
 }
+
 </style>
