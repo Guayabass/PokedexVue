@@ -38,10 +38,20 @@
                 <div class="text-wrapper">
                     <p class="sprite-text">Shiny</p>
                 </div>
-                <div class="card-change-wrapper tooltip-container">
-                    <button class="card-change" @click="stats = !stats" :disabled="stats"><i
-                            class="fa-solid fa-chart-simple"></i></button>
-                    <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
+                <div class="main-card-button-container">
+                    <div class="card-change-wrapper tooltip-container">
+                        <button class="favorite-button"> <i class="fa-solid fa-star"></i></button>
+                        <p class="tooltiptext">{{ 'Click to favorite '+ capitalize(checkPokemon().name) + '!' }}</p>
+                    </div>
+                    <div class="card-change-wrapper tooltip-container">
+                        <button class="card-change" @click="stats = !stats" :disabled="stats"><i
+                                class="fa-solid fa-chart-simple"></i></button>
+                        <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
+                    </div>
+                    <div class="card-change-wrapper tooltip-container">
+                        <router-link :to="'/pokemon/' + checkPokemon().name"><button class="share-button"><i class="fa-solid fa-share"></i></button></router-link>
+                        <p class="tooltiptext">{{ 'Click to share '+ capitalize(checkPokemon().name) + '!' }}</p>
+                    </div>
                 </div>
             </div>
             <div class="pokemon" :class="{ 'disabled': !stats }" v-else-if="stats">
@@ -497,11 +507,13 @@ h1 {
     align-items: center;
     justify-content: center;
     height: 15%;
-    width: 100%;
+    width: 33%;
     text-align: center;
 }
 
-.card-change {
+.card-change,
+.share-button,
+.favorite-button {
     border: none;
     outline: none;
     cursor: pointer;
@@ -510,6 +522,14 @@ h1 {
     width: 28px;
     color: #207fb6;
     text-align: center;
+}
+
+.main-card-button-container {
+    display: flex;
+    width: 100%;
+    height: 15%;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .tooltip-container {
@@ -536,6 +556,11 @@ h1 {
     /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
     opacity: 0;
     transition: opacity 1s;
+}
+
+.main-card-button-container .tooltip-container .tooltiptext{
+    top: 200%;
+    left: 50%;
 }
 
 .last-stats-wrapper .tooltip-container .tooltiptext {
@@ -935,7 +960,7 @@ h1 {
         font-size: 9px;
     }
 
-    .stat-base{
+    .stat-base {
         font-size: 10px;
     }
 }

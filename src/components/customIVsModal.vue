@@ -272,7 +272,7 @@ input {
 
 .btn-container {
   width: 12%;
-  max-width: 12%;
+  max-width: 10%;
   height: 10%;
   display: flex;
   align-items: center;

@@ -412,6 +412,15 @@ export default {
     align-items: center;
 }
 
+.card-change-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15%;
+    width: 100% !important;
+    text-align: center;
+}
+
 .fade-modal-enter-from {
     opacity: 0;
 }
