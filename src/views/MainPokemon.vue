@@ -1,7 +1,7 @@
 <template>
     <NavBar></NavBar>
     <PokemonSearch></PokemonSearch>
-    <Pokemon></Pokemon>
+    <router-view/>
     <Transition name="fade">
         <CustomIVsModal v-if="pokemonStore.showIVs"></CustomIVsModal>
     </Transition>
@@ -16,7 +16,7 @@
 <script setup>
 import { usePokemonStore } from '../stores/pokemonStore';
 import PokemonSearch from '../components/PokemonSearch.vue';
-import Pokemon from '../components/Pokemon.vue';
+//import PokemonSprite from '../components/PokemonSprite.vue';
 import NavBar from '../components/NavBar.vue';
 import CustomIVsModal from '../components/customIVsModal.vue';
 import CustomEVsModal from '../components/customEVsModal.vue';

@@ -6,7 +6,7 @@
         <Transition name="fade" mode="out-in">
             <div class="pokemon" :class="{ 'disabled': stats }" v-if="!stats && dataReady">
                 <div class="info-container">
-                    <h1 :class="this.Pokemon.types[0].type.name">
+                    <h1 :class="Pokemon.types[0].type.name">
                         {{ capitalize(Pokemon.name) }}
                     </h1>
                     <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
@@ -444,5 +444,4 @@ export default {
 .fade-modal-leave-active {
     transition: opacity 800ms ease;
 }
-
 </style>

@@ -1,34 +1,44 @@
-import { createRouter, createWebHistory} from 'vue-router'
-import ViewPokemon from '../views/ViewPokemon.vue'
-import Main from '../views/MainPokemon.vue'
-import Home from '../views/LandingPage.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import ViewPokemon from "../views/ViewPokemon.vue";
+import SpritePokemon from "../components/PokemonSprite.vue";
+import StatsPokemon from "../components/PokemonStats.vue";
+import Main from "../views/MainPokemon.vue";
+import Home from "../views/LandingPage.vue";
 
 const routes = [
-    {
-        path: '/',
-        redirect: '/home'
-    },
-    {
-        path: '/home',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/pokemon',
-        name: 'Main',
-        component: Main
-    },
-    {
-        path: '/pokemon/:name',
-        name: 'Pokemon',
-        component: ViewPokemon,
-        props: true
-    }
-]
+  {
+    path: "/",
+    redirect: "/home",
+  },
+  {
+    path: "/home",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/pokemon",
+    name: "Main",
+    component: Main,
+    children: [
+        {
+            path: ":name",
+            name: "PokemonSprite",
+            component: SpritePokemon,
+            props: true,
+        },
+        {
+            path: ":name/stats",
+            name: "PokemonStats",
+            component: StatsPokemon,
+            props: true,
+        }
+    ],
+  },
+];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
+  history: createWebHistory(),
+  routes,
+});
 
-export default router
+export default router;

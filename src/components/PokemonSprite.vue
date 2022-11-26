@@ -8,13 +8,12 @@
             <!--the if is just there for transition purposes -->
         </Transition>
         <Transition name="fade" mode="out-in">
-            <div class="pokemon" :class="{ 'disabled': stats }"
-                v-if="Object.entries(checkPokemon()).length > 0 && !stats">
+            <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
                 <div class="info-container">
                     <h1 :class="colorText()">
                         {{ capitalize(checkPokemon().name) }}
                     </h1>
-                    <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
+                    <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i
                             class="fa-solid fa-play"></i>Cry</button>
                     <!-- <p class="cry-text">Cry</p> -->
                 </div>
@@ -41,80 +40,17 @@
                 <div class="main-card-button-container">
                     <div class="card-change-wrapper tooltip-container">
                         <button class="favorite-button"> <i class="fa-solid fa-star"></i></button>
-                        <p class="tooltiptext">{{ 'Click to favorite '+ capitalize(checkPokemon().name) + '!' }}</p>
+                        <p class="tooltiptext">{{ 'Click to favorite ' + capitalize(checkPokemon().name) + '!' }}</p>
                     </div>
                     <div class="card-change-wrapper tooltip-container">
-                        <button class="card-change" @click="stats = !stats" :disabled="stats"><i
-                                class="fa-solid fa-chart-simple"></i></button>
+                        <router-link :to="'/pokemon/' + checkPokemon().name + '/stats'"><button class="card-change"><i
+                                    class="fa-solid fa-chart-simple"></i></button></router-link>
                         <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
                     </div>
                     <div class="card-change-wrapper tooltip-container">
-                        <router-link :to="'/pokemon/' + checkPokemon().name"><button class="share-button"><i class="fa-solid fa-share"></i></button></router-link>
-                        <p class="tooltiptext">{{ 'Click to share '+ capitalize(checkPokemon().name) + '!' }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="pokemon" :class="{ 'disabled': !stats }" v-else-if="stats">
-                <div class="typings-container">
-                    <h1>
-                        Typings
-                    </h1>
-                    <ul class="typings">
-                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index"
-                            :class="type.type.name + '-b'"><i :class="iconReturn(type.type.name)"></i>{{
-                                    capitalize(type.type.name)
-                            }}</li>
-                    </ul>
-                </div>
-                <div class="stats-container">
-                    <h1 class="stats-title">Stats</h1>
-                    <ul class="stats">
-                        <li v-for="(stat, index) in checkPokemon().stats" :key="index">
-                            <div class="stat-name-wrapper">
-                                <p class="stat-name">{{ returnStatNames(stat.stat.name) }}</p>
-                            </div>
-                            <div class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="{ 'width': pokemonLevel * 0.70 + '%' }">
-                                <p class="stat-base">{{ baseStatMultiplier(stat.stat.name, stat.base_stat, index) }}</p>
-                            </div>
-                        </li>
-                        <div class="stats-button-container">
-                            <button class="stats-button" @click="showIVModal()">Custom IVs</button>
-                            <button class="stats-button" @click="showEVModal()">Custom EVs</button>
-                            <button class="stats-button" @click="showNatureModal()">Custom Nature</button>
-                            <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
-                        </div>
-                    </ul>
-                </div>
-                <!-- <div class="checkbox-container">
-                    <label class="toggler-wrapper label-checkbox">
-                        <input type="checkbox" @change="this.level100 = !this.level100, timeoutToggle(),triggeredChangeStats = true">
-                        <div class="toggler-slider">
-                            <div class="toggler-knob"></div>
-                        </div>
-                    </label>
-                </div> -->
-                <div class="last-stats-wrapper">
-                    <div class="slider-container">
-                        <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
-                            :style="'background: linear-gradient(90deg, rgb(23, 114, 212) ' + pokemonLevel + '%, rgb(214, 214, 214) ' + pokemonLevel + '%);'">
-                        <div class="slider-text-container">
-                            <p class="slider-text">1</p>
-                            <p class="slider-text">Level: {{ pokemonLevel }}</p>
-                            <p class="slider-text">100</p>
-                        </div>
-                    </div>
-                    <div class="card-change-wrapper-container">
-                        <div class="change-btn-wrapper tooltip-container">
-                            <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
-                                    class="fa-solid fa-arrow-left-long"></i></button>
-                            <p class="tooltiptext">{{ 'Click to go back the info page!' }}</p>
-                        </div>
-                        <div class="change-btn-wrapper tooltip-container">
-                            <button class="card-change" @click="resetCustomStats()" :disabled="!stats"><i
-                                    class="fa-solid fa-trash"></i></button>
-                            <p class="tooltiptext">{{ 'Click to reset the custom stats (IVs/EVs/Nature)!' }}</p>
-                        </div>
+                        <router-link :to="'/pokemon/' + checkPokemon().name"><button class="share-button"><i
+                                    class="fa-solid fa-share"></i></button></router-link>
+                        <p class="tooltiptext">{{ 'Click to share ' + capitalize(checkPokemon().name) + '!' }}</p>
                     </div>
                 </div>
             </div>
@@ -131,13 +67,15 @@
 
 <script>
 import { usePokemonStore } from '../stores/pokemonStore.js';
+import { pokeapi } from '../exports/pokeapi'
 import { icons } from '../exports/icons';
 import { statNames } from '../exports/statNames';
 
 //const pokemonStore = usePokemonStore()
 
 export default {
-    name: "Pokemon",
+    name: "PokemonSprite",
+    props: ["name"],
     // setup() {
     //     const pokemonStore = usePokemonStore()  CHANGE EL BOTON DE POKEMON EV Y IVS MAX WIDTH
 
@@ -145,10 +83,31 @@ export default {
     // }, //realized a bit too late that you could do this.
     data() {
         return {
-            stats: false,
-            pokemonLevel: 1,
             sentAlert: false,
+            dataReady: false,
         };
+    },
+    async mounted() {
+        try {
+            if (/^[a-zA-Z]+$/.test(this.name)) {
+                const pokemonToFind = await fetch(`${pokeapi}/${this.name.toLowerCase()}`)
+                const pokemon = await pokemonToFind.json()
+                let ID = ''
+                ID = pokemon.id
+                this.addPokemon(pokemon, ID)
+                this.dataReady = true
+                //console.log(this.name)
+            } else {
+                const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
+                const pokemon = await pokemonToFind.json()
+                this.addPokemon(pokemon, this.name)
+                this.$router.replace('/pokemon/' + pokemon.name)
+                this.dataReady = true
+            }
+        } catch (error) {
+            alert('Pokemon was not found :(')
+            console.log(error)
+        }
     },
     methods: {
         checkPokemon() {
@@ -221,15 +180,22 @@ export default {
                 return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + pokemonStore.pokemonData.id + ".gif";
             }
         },
+        addPokemon(pokemon, id) {
+            const pokemonStore = usePokemonStore()
+            pokemonStore.pokemonData = pokemon
+            pokemonStore.pokemonID = id
+        },
         nextPokemon() {
             const pokemonStore = usePokemonStore();
             pokemonStore.nextPokemon();
             pokemonStore.changePokemon;
+            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name)
         },
         previousPokemon() {
             const pokemonStore = usePokemonStore();
             pokemonStore.previousPokemon();
             pokemonStore.changePokemon;
+            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name)
         },
         colorText() {
             const pokemonStore = usePokemonStore();
@@ -388,582 +354,7 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
-@import url('http://fonts.cdnfonts.com/css/pokemon-solid');
-@import '../assets/css/color.css';
-
-.pokemon-section {
-    display: flex;
-    font-family: 'Lato', sans-serif;
-    justify-content: space-evenly;
-    /**space between for responsive in media*/
-    align-items: center;
-    width: 100%;
-    height: 50%;
-    min-height: 500px;
-    /** para responsive */
-    opacity: 1;
-    cursor: default;
-    /* transition: opacity 2000ms ease; */
-}
-
-.bug .dark .dragon .electric .fairy .fighting .fire .flying .ghost .grass .ground .ice .normal .poison .psychic .rock .steel .water .bug-b .dark-b .dragon-b .electric-b .fairy-b .fighting-b .fire-b .flying-b .ghost-b .grass-b .ground-b .ice-b .normal-b .poison-b .psychic-b .rock-b .steel-b .water-b {
-    font-size: 24px;
-    font-weight: 800;
-}
-
-.pokemon {
-    width: 400px;
-    height: 500px;
-    margin-top: 48px;
-    /* border: 1px black solid; */
-    border-radius: 25px;
-    background: linear-gradient(145deg, #e6e6e6, #ffffff);
-    box-shadow: 35px 35px 70px #bababa,
-        -35px -35px 70px #ffffff;
-    /**transition: opacity 2000ms ease;**/
-    cursor: default;
-}
-
-h1 {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 800;
-}
-
-.sprites-container {
-    display: flex;
-    width: 100%;
-    height: 50%;
-    flex-wrap: wrap;
-    /* border-bottom: 1px black solid; */
-}
-
-.pokemon-figure {
-    width: 50%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin: 0;
-}
-
-.pokemon-sprite {
-    width: fit-content;
-    height: fit-content;
-}
-
-.info-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 20%;
-    margin: 8px 0;
-}
-
-.typings-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 20%;
-    margin-top: 8px;
-}
-
-.cry-button {
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: white;
-    border-radius: 24px;
-    display: flex;
-    justify-content: center;
-    width: 100px;
-    font-size: 20px;
-    margin: 4px 0;
-    padding: 8px 0;
-    transition: all 300ms ease;
-
-}
-
-.cry-button:active {
-    /*cuando es clicked*/
-    transform: translateY(4px);
-}
-
-.cry-text {
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.info-container i {
-    padding: 0 8px;
-}
-
-.card-change-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 15%;
-    width: 33%;
-    text-align: center;
-}
-
-.card-change,
-.share-button,
-.favorite-button {
-    border: none;
-    outline: none;
-    cursor: pointer;
-    background-color: transparent;
-    font-size: 28px;
-    width: 28px;
-    color: #207fb6;
-    text-align: center;
-}
-
-.main-card-button-container {
-    display: flex;
-    width: 100%;
-    height: 15%;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.tooltip-container {
-    /*container del tooltip*/
-    position: relative;
-    display: flex;
-    /*border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-
-.tooltip-container .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: rgb(155, 155, 155);
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    margin-top: 4px;
-    position: absolute;
-    z-index: 1;
-    top: 70%;
-    left: 50%;
-    margin-left: -60px;
-    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
-    opacity: 0;
-    transition: opacity 1s;
-}
-
-.main-card-button-container .tooltip-container .tooltiptext{
-    top: 200%;
-    left: 50%;
-}
-
-.last-stats-wrapper .tooltip-container .tooltiptext {
-    top: 150%;
-    left: 42%;
-    width: 150px;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip-container:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-
-.tooltip-container .tooltiptext::after {
-    /*para que tenga flecha*/
-    content: " ";
-    position: absolute;
-    bottom: 100%;
-    /* At the top of the tooltip */
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent rgb(83, 81, 81) transparent;
-}
-
-.pokemon-sprite-anim:hover {
-    background-color: rgb(212, 245, 242);
-    transition: all 350ms ease;
-}
-
-.pokemon-sprite:hover {
-    background-color: rgb(212, 245, 242);
-    transition: all 350ms ease;
-}
-
-.pokemon-change {
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: #207fb6;
-    font-size: 48px;
-    background-color: transparent;
-    transition: transform 300ms ease;
-}
-
-.pokemon-change i {
-    padding: 0;
-}
-
-.pokemon-change:active {
-    /*cuando es clicked*/
-    transform: translateY(4px);
-}
-
-.disabled-events {
-    pointer-events: none;
-}
-
-.active {
-    opacity: 1;
-}
-
-.text-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-.sprite-text {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 800;
-}
-
-.fade-enter-from {
-    opacity: 0;
-}
-
-.fade-enter-to {
-    opacity: 1;
-}
-
-.fade-enter-active {
-    transition: opacity 800ms ease;
-}
-
-.fade-leave-from {
-    opacity: 1;
-}
-
-.fade-leave-to {
-    opacity: 0;
-}
-
-.fade-leave-active {
-    transition: opacity 800ms ease;
-}
-
-.button-enter-from {
-    opacity: 0;
-}
-
-.button-enter-to {
-    opacity: 1;
-}
-
-.button-enter-active {
-    transition: opacity 2500ms ease;
-}
-
-.pokemon-type {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35%;
-    border-radius: 24px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    height: 40px;
-    transition: all 300ms ease-in-out;
-}
-
-.pokemon-type:hover {
-    filter: brightness(120%);
-}
-
-.typings {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: 8px 0;
-    width: 100%;
-}
-
-.slider-container {
-    width: 100%;
-    display: flex;
-    height: 10%;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 80%;
-    height: 20px;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: 0.2s;
-    transition: opacity 0.2;
-    border-radius: 12px;
-    box-shadow: 0px 1px 10px 1px black;
-}
-
-.slider:hover {
-    opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 30px;
-    height: 30px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.slider-text-container {
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.slider-text {
-    width: calc(80% / 3);
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 8px;
-}
-
-.slider-text:nth-child(1) {
-    text-align: left;
-}
-
-.slider-text:nth-child(2) {
-    text-align: center;
-}
-
-.slider-text:nth-child(3) {
-    text-align: right;
-}
-
-.stats-container {
-    width: 90%;
-    height: 45%;
-    margin: 0 auto;
-}
-
-.stats-title {
-    margin-bottom: 8px;
-    text-align: center;
-}
-
-.stats {
-    width: 100%;
-    height: 100%;
-    list-style-type: none;
-}
-
-.stats li {
-    display: flex;
-}
-
-.stat-name-wrapper {
-    background-color: #bababa;
-    border-bottom-left-radius: 8px;
-    border-top-left-radius: 8px;
-    width: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 6px;
-    text-align: center;
-}
-
-.stat-name,
-.stat-base {
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-}
-
-/* .stat-name{
-    padding-right: 6px;
-} */
-
-.stat-base-wrapper {
-    filter: brightness(120%);
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-    display: flex;
-    justify-content: flex-end;
-    text-align: center;
-    margin-bottom: 6px;
-    align-items: center;
-}
-
-.stat-base {
-    padding-right: 4px;
-}
-
-.stats-button-container {
-    margin-top: 8px;
-    display: flex;
-    height: 20%;
-    width: 100%;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.stats-button {
-    width: 30%;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    padding: 6px 0;
-    border-radius: 20px;
-    font-weight: 400;
-    background: radial-gradient(circle, rgba(38, 97, 205, 1) 0%, rgba(35, 129, 184, 1) 100%);
-    color: white;
-}
-
-.card-change-wrapper-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 10%;
-    width: 100%;
-}
-
-.last-stats-wrapper {
-    display: flex;
-    width: 100%;
-    height: 30%;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.change-btn-wrapper {
-    height: 100%;
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@media only screen and (max-width: 768px) {
-    .pokemon-change {
-        z-index: 2;
-    }
-}
-
-@media only screen and (max-width: 476px) and (min-width: 452px) {
-    .pokemon-change {
-        z-index: 2;
-        margin: 0 16px;
-    }
-
-    .pokemon {
-        background: linear-gradient(145deg, #e6e6e6, #ffffff);
-        box-shadow: 15px 15px 30px #bababa,
-            -15px -15px 30px #ffffff;
-    }
-}
-
-@media only screen and (max-width: 452px) {
-    .pokemon-change {
-        z-index: 2;
-    }
-
-    .pokemon {
-        background: linear-gradient(145deg, #e6e6e6, #ffffff);
-        box-shadow: 15px 15px 30px #bababa,
-            -15px -15px 30px #ffffff;
-    }
-
-    .stat-name,
-    .stat-base {
-        font-size: 11px;
-    }
-
-    .stats li {
-        height: 10%;
-    }
-
-    .stats-button-container {
-        align-items: flex-start;
-        margin-top: 24px;
-    }
-}
-
-@media only screen and (max-width: 388px) {
-    .pokemon-change {
-        z-index: 2;
-    }
-
-    .pokemon {
-        background: linear-gradient(145deg, #e6e6e6, #ffffff);
-        box-shadow: 15px 15px 30px #bababa,
-            -15px -15px 30px #ffffff;
-    }
-
-    .typings li {
-        font-size: 14px;
-    }
-
-    .stat-name,
-    .stat-base {
-        font-size: 11px;
-    }
-
-    .stats-button-container {
-        height: 40%;
-    }
-
-    .stats-button {
-        font-size: 10px;
-    }
-}
-
-@media only screen and (max-width: 350px) {
-    .pokemon-change {
-        z-index: 2;
-    }
-
-    .pokemon {
-        background: linear-gradient(145deg, #e6e6e6, #ffffff);
-        box-shadow: 15px 15px 30px #bababa,
-            -15px -15px 30px #ffffff;
-    }
-
-    .typings li {
-        font-size: 14px;
-    }
-
-    .stat-name {
-        font-size: 9px;
-    }
-
-    .stats-button {
-        font-size: 9px;
-    }
-
-    .stat-base {
-        font-size: 10px;
-    }
-}
+@import '../assets/css/Pokemon.css';
 </style>
 
 

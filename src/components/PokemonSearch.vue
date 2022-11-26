@@ -41,6 +41,7 @@ export default {
                         const pokemon = await pokemonToFind.json()
                         //console.log(pokemon)
                         this.addPokemon(pokemon, this.pokemonNameOrID)
+                        this.$router.replace('/pokemon/' + pokemon.name)
                         return pokemon
                     }
                 }
@@ -270,8 +271,8 @@ i {
                     <span class="content-pokemon">Pokemon's Name/ID</span>
                 </label>
             </div>
-            <button class="btn btn-search" @click="searchPokemon()"><i
-                    class="fa-sharp fa-solid fa-magnifying-glass"></i>Search Pokemon</button>
+            <router-link :to="'/pokemon/' + pokemonNameOrID"><button class="btn btn-search" @click="searchPokemon()"><i
+                    class="fa-sharp fa-solid fa-magnifying-glass"></i>Search Pokemon</button></router-link>
         </div>
     </header>
     <!--<header class="search">
