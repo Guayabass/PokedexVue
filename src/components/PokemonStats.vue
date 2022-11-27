@@ -71,11 +71,35 @@
 import { usePokemonStore } from '../stores/pokemonStore.js';
 import { icons } from '../exports/icons';
 import { statNames } from '../exports/statNames';
+import { pokeapi } from '../exports/pokeapi'
 
 //const pokemonStore = usePokemonStore()
 
 export default {
     name: "PokemonStats",
+    props: ["name"],
+    async mounted() {
+        try {
+            if (/^[a-zA-Z]+$/.test(this.name)) {
+                const pokemonToFind = await fetch(`${pokeapi}/${this.name.toLowerCase()}`)
+                const pokemon = await pokemonToFind.json()
+                let ID = ''
+                ID = pokemon.id
+                this.addPokemon(pokemon, ID)
+                //this.dataReady = true
+                //console.log(this.name)
+            } else {
+                const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
+                const pokemon = await pokemonToFind.json()
+                this.addPokemon(pokemon, this.name)
+                this.$router.replace('/pokemon/' + pokemon.name + '/stats')
+                //this.dataReady = true
+            }
+        } catch (error) {
+            alert('Pokemon was not found :(')
+            console.log(error)
+        }
+    },
     data() {
         return {
             //stats: false,
@@ -91,20 +115,27 @@ export default {
         capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
-        nextPokemon() {
+        async nextPokemon() {
             const pokemonStore = usePokemonStore();
             pokemonStore.nextPokemon();
-            pokemonStore.changePokemon;
+            await pokemonStore.changePokemon;
+            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name + '/stats')
         },
-        previousPokemon() {
+        async previousPokemon() {
             const pokemonStore = usePokemonStore();
             pokemonStore.previousPokemon();
-            pokemonStore.changePokemon;
+            await pokemonStore.changePokemon;
+            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name  + '/stats')
         },
         colorTextBackground() {
             const pokemonStore = usePokemonStore();
             let background = pokemonStore.pokemonData.types[0].type.name + "-b";
             return background;
+        },
+        addPokemon(pokemon, id) {
+            const pokemonStore = usePokemonStore()
+            pokemonStore.pokemonData = pokemon
+            pokemonStore.pokemonID = id
         },
         iconReturn(key) {
             return icons.find(element => element.key === key).value
@@ -247,7 +278,12 @@ export default {
             } else {
                 return false
             }
-        }
+        },
+        addPokemon(pokemon, id) {
+            const pokemonStore = usePokemonStore()
+            pokemonStore.pokemonData = pokemon
+            pokemonStore.pokemonID = id
+        },
     },
     //components: { PokemonStats }
 }
