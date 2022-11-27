@@ -112,6 +112,14 @@ h1 {
     padding: 0 8px;
 }
 
+.main-card-button-container{
+    display: flex;
+    height: 15%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
 .card-change-wrapper {
     display: flex;
     align-items: center;
@@ -121,7 +129,7 @@ h1 {
     text-align: center;
 }
 
-.card-change {
+.card-change, .share-button, .favorite-button {
     border: none;
     outline: none;
     cursor: pointer;

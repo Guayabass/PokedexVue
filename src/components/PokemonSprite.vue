@@ -132,10 +132,10 @@ export default {
             const pokemonStore = usePokemonStore();
             //console.log(pokemonStore.pokemonData.types.length)
             if (pokemonStore.pokemonID > 721) {
-                const audio = new Audio("src/assets/cries/" + pokemonStore.pokemonID + ".wav");
+                const audio = new Audio("/src/assets/cries/" + pokemonStore.pokemonID + ".wav");
                 audio.play();
             } else {
-                const audio = new Audio("src/assets/cries/" + pokemonStore.pokemonID + ".ogg");
+                const audio = new Audio("/src/assets/cries/" + pokemonStore.pokemonID + ".ogg");
                 audio.play();
             }
 
@@ -185,16 +185,16 @@ export default {
             pokemonStore.pokemonData = pokemon
             pokemonStore.pokemonID = id
         },
-        nextPokemon() {
+        async nextPokemon() {
             const pokemonStore = usePokemonStore();
             pokemonStore.nextPokemon();
-            pokemonStore.changePokemon;
+            await pokemonStore.changePokemon;
             this.$router.push('/pokemon/' + pokemonStore.pokemonData.name)
         },
-        previousPokemon() {
+        async previousPokemon() {
             const pokemonStore = usePokemonStore();
             pokemonStore.previousPokemon();
-            pokemonStore.changePokemon;
+            await pokemonStore.changePokemon;
             this.$router.push('/pokemon/' + pokemonStore.pokemonData.name)
         },
         colorText() {
@@ -355,6 +355,12 @@ export default {
 
 <style>
 @import '../assets/css/Pokemon.css';
+
+.main-card-button-container .tooltip-container .tooltiptext {
+    top: 170%;
+    left: 50%;
+    margin-left: -60px;
+}
 </style>
 
 

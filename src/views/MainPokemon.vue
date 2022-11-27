@@ -1,5 +1,7 @@
 <template>
-    <NavBar></NavBar>
+    <router-link :to="{ name: 'Home' }">
+        <NavBar></NavBar>
+    </router-link>
     <PokemonSearch></PokemonSearch>
     <router-view/>
     <Transition name="fade">
