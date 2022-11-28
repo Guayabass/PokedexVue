@@ -34,6 +34,12 @@ const routes = [
         }
     ],
   },
+  {
+    path: "/pokemon/:name/share",
+    name: "Share",
+    component: ViewPokemon,
+    props: true,
+  }
 ];
 
 const router = createRouter({

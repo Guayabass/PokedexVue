@@ -1,8 +1,9 @@
 <template>
+    <section :class="{ 'disabled-events': checkFalse() }">
     <router-link :to="{ name: 'Home' }">
         <NavBar></NavBar>
     </router-link>
-    <div class="pokemon-section" :class="{ 'disabled-events': checkFalse() }">
+    <div class="pokemon-section">
         <Transition name="fade" mode="out-in">
             <div class="pokemon" :class="{ 'disabled': stats }" v-if="!stats && dataReady">
                 <div class="info-container">
@@ -110,7 +111,7 @@
     <Transition name="fade-modal">
         <CustomNatureModal v-if="pokemonStore.showNature"></CustomNatureModal>
     </Transition>
-
+</section>
 </template>
 
 <script>
@@ -154,6 +155,7 @@ export default {
                 const pokemon = await pokemonToFind.json()
                 this.Pokemon = pokemon
                 this.dataReady = true
+                //console.log(this.name)
             }
         } catch (error) {
             alert('Pokemon was not found :(')
@@ -161,22 +163,6 @@ export default {
         }
     },
     methods: {
-        async checkParam(name) {
-            try {
-                if (/^[a-zA-Z]+$/.test(name)) {
-                    const pokemonToFind = await fetch(`${pokeapi}/${this.name.toLowerCase()}`)
-                    const pokemon = await pokemonToFind.json()
-                    this.Pokemon = pokemon
-                } else {
-                    const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
-                    const pokemon = await pokemonToFind.json()
-                    this.Pokemon = pokemon
-                }
-            } catch (error) {
-                alert('Pokemon was not found :(')
-                console.log(error)
-            }
-        },
         colorTextBackground() {
             let background = this.Pokemon.types[0].type.name + "-b";
             return background;
