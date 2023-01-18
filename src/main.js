@@ -9,6 +9,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './router'
+import "./index.css";
 
 library.add(faSearch)
 
