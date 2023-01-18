@@ -8,7 +8,7 @@ import Home from "../views/LandingPage.vue";
 const routes = [
   {
     path: "/",
-    redirect: "/pokemon",
+    redirect: "/home",
   },
   {
     path: "/home",
