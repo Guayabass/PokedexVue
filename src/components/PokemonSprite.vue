@@ -39,8 +39,9 @@
                 </div>
                 <div class="main-card-button-container">
                     <div class="card-change-wrapper tooltip-container">
-                        <button class="favorite-button"> <i class="fa-solid fa-star"></i></button>
+                        <button class="favorite-button" @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i class="fa-solid fa-star"></i></button>
                         <p class="tooltiptext">{{ 'Click to favorite ' + capitalize(checkPokemon().name) + '!' }}</p>
+                        <!--Once you favorite add the favoriteID to auth store FavoriteIDs-->
                     </div>
                     <div class="card-change-wrapper tooltip-container">
                         <router-link :to="'/pokemon/' + checkPokemon().name + '/stats'"><button class="card-change"><i
@@ -70,17 +71,19 @@ import { usePokemonStore } from '../stores/pokemonStore.js';
 import { pokeapi } from '../exports/pokeapi'
 import { icons } from '../exports/icons';
 import { statNames } from '../exports/statNames';
+import { useAuthStore } from '@/stores/authStore.js';
 
 //const pokemonStore = usePokemonStore()
 
 export default {
     name: "PokemonSprite",
     props: ["name"],
-    // setup() {
-    //     const pokemonStore = usePokemonStore()  CHANGE EL BOTON DE POKEMON EV Y IVS MAX WIDTH
+    setup() {
+        const pokemonStore = usePokemonStore()
+        const authStore = useAuthStore()
 
-    //     return { pokemonStore } 
-    // }, //realized a bit too late that you could do this.
+        return { pokemonStore, authStore}
+    }, //realized a bit too late that you could do this.
     data() {
         return {
             sentAlert: false,

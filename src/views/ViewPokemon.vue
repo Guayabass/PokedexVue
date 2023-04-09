@@ -1,3 +1,4 @@
+<!-- SHARE POKEMON -->
 <template>
     <section :class="{ 'disabled-events': checkFalse() }">
     <router-link :to="{ name: 'Home' }">
