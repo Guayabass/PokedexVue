@@ -39,9 +39,10 @@
                 </div>
                 <div class="main-card-button-container">
                     <div class="card-change-wrapper tooltip-container">
-                        <button class="favorite-button" @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i class="fa-solid fa-star"></i></button>
+                        <button v-if="!checkFavorite(checkPokemon().id)" class="favorite-button" @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i class="fa-solid fa-star"></i></button>
+                        <button v-else-if="checkFavorite(checkPokemon().id) || authStore.favChange" class="favorite-button" @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i class="fa-solid fa-star"></i></button>
                         <p class="tooltiptext">{{ 'Click to favorite ' + capitalize(checkPokemon().name) + '!' }}</p>
-                        <!--Once you favorite add the favoriteID to auth store FavoriteIDs-->
+                        <!--change color when loaded for previously added favorites-->
                     </div>
                     <div class="card-change-wrapper tooltip-container">
                         <router-link :to="'/pokemon/' + checkPokemon().name + '/stats'"><button class="card-change"><i
@@ -350,6 +351,9 @@ export default {
             } else {
                 return false
             }
+        },
+        checkFavorite(id){
+            
         }
     },
     //components: { PokemonStats }
