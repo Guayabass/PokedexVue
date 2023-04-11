@@ -6,6 +6,7 @@ export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     isLoggedIn: false,
+    favChange: false,
     username: "none",
     password: "none",
     //favoriteID: 0, //make localstorage to be able to delete pokemon always
@@ -38,6 +39,7 @@ export const useAuthStore = defineStore({
         });
     },
     async addFavorite(name, id) {
+      if (this.isLoggedIn){
       const fav = {
         pokemonID: id,
         pokemonName: name,
@@ -47,11 +49,15 @@ export const useAuthStore = defineStore({
         .post(localhostApi + "favorites", fav)
         .then((response) => {
           console.log(response)
+          this.favChange = true;
         })
         .catch((error) => {
           console.log(error.code);
           //alert(error.message);
         });
+      } else {
+        alert('Please make sure that you login/register before you can add favorites!')
+      }
     },
     setUserId(id) {
       this.userId = id;
