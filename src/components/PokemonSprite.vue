@@ -39,8 +39,12 @@
                 </div>
                 <div class="main-card-button-container">
                     <div class="card-change-wrapper tooltip-container">
-                        <button v-if="!checkFavorite(checkPokemon().id)" class="favorite-button" @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i class="fa-solid fa-star"></i></button>
-                        <button v-else-if="checkFavorite(checkPokemon().id) || authStore.favChange" class="favorite-button" @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i class="fa-solid fa-star"></i></button>
+                        <button v-if="!favChange" class="favorite-button"
+                            @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i
+                                class="fa-solid fa-star"></i></button>
+                        <button v-else-if="favChange" class="favorite-button"
+                            @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i
+                                class="fa-solid fa-star"></i></button><!-- call remove method here and somehow send id and index or remake remove method-->
                         <p class="tooltiptext">{{ 'Click to favorite ' + capitalize(checkPokemon().name) + '!' }}</p>
                         <!--change color when loaded for previously added favorites-->
                     </div>
@@ -73,6 +77,7 @@ import { pokeapi } from '../exports/pokeapi'
 import { icons } from '../exports/icons';
 import { statNames } from '../exports/statNames';
 import { useAuthStore } from '@/stores/authStore.js';
+import { storeToRefs } from 'pinia'
 
 //const pokemonStore = usePokemonStore()
 
@@ -83,13 +88,25 @@ export default {
         const pokemonStore = usePokemonStore()
         const authStore = useAuthStore()
 
-        return { pokemonStore, authStore}
+        const { pokemonID } = storeToRefs(pokemonStore)
+
+        return { pokemonStore, authStore, pokemonID }
     }, //realized a bit too late that you could do this.
     data() {
         return {
             sentAlert: false,
             dataReady: false,
+            favChange: false,
         };
+    },
+    watch: {
+        pokemonID(newValue) {
+            if (this.authStore.favorites.find(e => e.id === newValue)) {
+                this.favChange = true;
+            } else {
+                this.favChange = false;
+            }
+        }
     },
     async mounted() {
         try {
@@ -352,9 +369,6 @@ export default {
                 return false
             }
         },
-        checkFavorite(id){
-            
-        }
     },
     //components: { PokemonStats }
 }

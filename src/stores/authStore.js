@@ -6,7 +6,6 @@ export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     isLoggedIn: false,
-    favChange: false,
     username: "none",
     password: "none",
     //favoriteID: 0, //make localstorage to be able to delete pokemon always
