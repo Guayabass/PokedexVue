@@ -1,10 +1,10 @@
 <template>
   <NavBar></NavBar>
   <div v-if="authStore.favorites.length > 0" class="fav-container">
-    <div class="favs" v-for="(fav, index, key) in authStore.favorites" :key="key">
+    <div class="favs" v-for="(fav, key) in authStore.favorites" :key="key">
       <img class="fav-sprite" :src="loadSprite(fav.id)" :alt="fav" />
       <h2>{{ fav.name }}</h2>
-      <button @click="authStore.deleteFavorite(fav.id, index)">delete</button>
+      <button @click="authStore.deleteFavorite(fav.id)">delete</button>
     </div>
   </div>
   <div v-else class="fav-container">

@@ -16,7 +16,7 @@ export const useAuthStore = defineStore({
   }),
   getters: {},
   actions: {
-    async deleteFavorite(id, index) {
+    async deleteFavorite(id) {
       let favoriteID;
       await axios
         .get(localhostApi + "favorites/" + this.userId + "/" + id)
@@ -29,6 +29,8 @@ export const useAuthStore = defineStore({
       await axios
         .delete(localhostApi + "favorites/" + favoriteID)
         .then((response) => {
+          const index = this.favorites.findIndex(i => i.id === id);
+          //console.log(index)
           if (index > -1) { // only splice array when item is found
             this.favorites.splice(index, 1); // 2nd parameter means remove one item only
           }
@@ -48,7 +50,7 @@ export const useAuthStore = defineStore({
         .post(localhostApi + "favorites", fav)
         .then((response) => {
           console.log(response)
-          this.favChange = true;
+          console.log('added to favorites!')
         })
         .catch((error) => {
           console.log(error.code);
