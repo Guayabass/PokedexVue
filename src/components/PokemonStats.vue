@@ -297,4 +297,5 @@ export default {
 
 <style>
 @import '../assets/css/Pokemon.css';
+
 </style>

@@ -55,6 +55,7 @@ const logOut = () => {
     authStore.username = "none";
     authStore.password = "none";
     authStore.favorites = [];
+    authStore.favoriteIDs = [];
     authStore.userId = 0;
   })
 };

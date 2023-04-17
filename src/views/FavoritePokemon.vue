@@ -1,5 +1,7 @@
 <template>
-  <NavBar></NavBar>
+  <router-link :to="{ name: 'Home' }">
+    <NavBar></NavBar>
+  </router-link>
   <div v-if="authStore.favorites.length > 0" class="fav-container">
     <div class="favs" v-for="(fav, key) in authStore.favorites" :key="key">
       <img class="fav-sprite" :src="loadSprite(fav.id)" :alt="fav" />
@@ -9,7 +11,9 @@
   </div>
   <div v-else class="fav-container">
     <div class="sub-title-wrapper">
-      <h2 class="sub-title">You currently have no <span @click="pustToPokemon()" class="blue">favorites!</span> Click<span @click="pustToPokemon()" class="blue"> here</span> to be able to lookup your favorite pokemon and <span @click="pustToPokemon()" class="blue">favorite/share</span> them!</h2>
+      <h2 class="sub-title">You currently have no <span @click="pustToPokemon()" class="blue">favorites!</span> Click<span
+          @click="pustToPokemon()" class="blue"> here</span> to be able to lookup your favorite pokemon and <span
+          @click="pustToPokemon()" class="blue">favorite/share</span> them!</h2>
     </div>
   </div>
 </template>
@@ -31,7 +35,7 @@ export default {
   },
   async mounted() {
     if (this.authStore.isLoggedIn) {
-      await axios.get(localhostApi + 'favorites/' + this.authStore.userId).then(response => { //PASS THE USERID AS PROPS INSTEAD
+      await axios.get(localhostApi + 'favorites/' + this.authStore.userId).then(response => {
         response.data.forEach(element => {
           if (this.authStore.favorites.find(e => e.id === element.pokemonID)) {
             console.log('Duplicate ID, not adding to array.')
@@ -44,6 +48,7 @@ export default {
               pokemon.name = element.pokemonName,
 
               this.authStore.favorites.push(pokemon);
+            this.authStore.favoriteIDs.push(element.pokemonID)
           }
         });
         //console.log(this.authStore.favorites)
@@ -71,7 +76,7 @@ export default {
       }
       //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
     },
-    pustToPokemon(){
+    pustToPokemon() {
       this.router.push('/pokemon/');
     }
   },
@@ -80,12 +85,10 @@ export default {
 </script>
 
 <style>
-
-.fav-container{
+.fav-container {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 </style>

@@ -39,13 +39,13 @@
                 </div>
                 <div class="main-card-button-container">
                     <div class="card-change-wrapper tooltip-container">
-                        <button v-if="!favChange" class="favorite-button"
-                            @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i
-                                class="fa-solid fa-star"></i></button>
-                        <button v-else-if="favChange" class="favorite-button"
-                            @click="authStore.addFavorite(checkPokemon().name, checkPokemon().id)"> <i
-                                class="fa-solid fa-star"></i></button><!-- call remove method here and somehow send id and index or remake remove method-->
-                        <p class="tooltiptext">{{ 'Click to favorite ' + capitalize(checkPokemon().name) + '!' }}</p>
+                        <button :style="{ 'color': checkFavorite() }" class="favorite-button"
+                            @click="addOrRemoveFavorite()">
+                            <i class="fa-solid fa-star"></i></button>
+                        <p v-if="!favChange" class="tooltiptext">{{ 'Favorite ' + capitalize(checkPokemon().name) +
+                            '!' }}</p>
+                        <p v-else-if="favChange" class="tooltiptext">{{ 'Unfavorite ' +
+                            capitalize(checkPokemon().name) + '!' }}</p>
                         <!--change color when loaded for previously added favorites-->
                     </div>
                     <div class="card-change-wrapper tooltip-container">
@@ -97,16 +97,27 @@ export default {
             sentAlert: false,
             dataReady: false,
             favChange: false,
+            //isFavorite: false,
         };
     },
     watch: {
-        pokemonID(newValue) {
-            if (this.authStore.favorites.find(e => e.id === newValue)) {
-                this.favChange = true;
-            } else {
-                this.favChange = false;
-            }
-        }
+        // favChange() {
+        //     if (this.favChange) {
+        //         //console.log('favChange watch true')
+        //         this.authStore.addFavorite(this.checkPokemon().name, this.checkPokemon().id)
+        //     } else {
+        //         //console.log('favChange watch false')
+        //         this.authStore.deleteFavorite(this.checkPokemon().id)
+        //     }
+        // },
+        // pokemonID(newValue) {
+        //     if (this.authStore.favoriteIDs.find(e => e === newValue)) {
+        //         //console.log(this.authStore.favoriteIDs)
+        //         this.isFavorite = true;
+        //     } else {
+        //         this.isFavorite = false;
+        //     }
+        // }
     },
     async mounted() {
         try {
@@ -369,6 +380,22 @@ export default {
                 return false
             }
         },
+        checkFavorite() {
+            if (this.authStore.favoriteIDs.find(e => e === this.pokemonID)) {
+                this.favChange = true;
+                return 'gold'
+            } else {
+                this.favChange = false;
+                return '#207fb6'
+            }
+        },
+        addOrRemoveFavorite() {
+            if (this.authStore.favoriteIDs.find(e => e === this.pokemonID)) {
+                this.authStore.deleteFavorite(this.pokemonID)
+            } else {
+                this.authStore.addFavorite(this.checkPokemon().name, this.pokemonID)
+            }
+        }
     },
     //components: { PokemonStats }
 }

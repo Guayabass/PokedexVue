@@ -8,7 +8,7 @@ export const useAuthStore = defineStore({
     isLoggedIn: false,
     username: "none",
     password: "none",
-    //favoriteID: 0, //make localstorage to be able to delete pokemon always
+    favoriteIDs: [],
     userId: 0,
     favorites: [],
     //repassword: "",
@@ -18,6 +18,7 @@ export const useAuthStore = defineStore({
   actions: {
     async deleteFavorite(id) {
       let favoriteID;
+      const index = this.favorites.findIndex((fav) => fav.id === id);
       await axios
         .get(localhostApi + "favorites/" + this.userId + "/" + id)
         .then((response) => {
@@ -29,35 +30,51 @@ export const useAuthStore = defineStore({
       await axios
         .delete(localhostApi + "favorites/" + favoriteID)
         .then((response) => {
-          const index = this.favorites.findIndex(i => i.id === id);
-          //console.log(index)
-          if (index > -1) { // only splice array when item is found
-            this.favorites.splice(index, 1); // 2nd parameter means remove one item only
+          //console.log(index);
+          if (index > -1) {
+            // only splice array when item is found
+            this.favorites.splice(index, 1);
+            this.favoriteIDs.splice(index, 1); // 2nd parameter means remove one item only
+            //console.log(this.favoriteIDs)
           }
+          console.log("removed from favorites!");
         })
         .catch((error) => {
           console.log(error.code);
         });
     },
     async addFavorite(name, id) {
-      if (this.isLoggedIn){
-      const fav = {
-        pokemonID: id,
-        pokemonName: name,
-        user: this.userId,
-      };
-      await axios
-        .post(localhostApi + "favorites", fav)
-        .then((response) => {
-          console.log(response)
-          console.log('added to favorites!')
-        })
-        .catch((error) => {
-          console.log(error.code);
-          //alert(error.message);
-        });
+      if (this.isLoggedIn) {
+        const fav = {
+          pokemonID: id,
+          pokemonName: name,
+          user: this.userId,
+        };
+        await axios
+          .post(localhostApi + "favorites", fav)
+          .then((response) => {
+            if (this.favorites.find((e) => e.id === id)) {
+              console.log("Duplicate ID, not adding to array.");
+            } else {
+              const pokemon = {
+                id: 0,
+                name: "",
+              };
+              (pokemon.id = id),
+                (pokemon.name = name),
+                this.favoriteIDs.push(id);
+              this.favorites.push(pokemon);
+              console.log("added to favorites!");
+            }
+          })
+          .catch((error) => {
+            console.log(error.code);
+            //alert(error.message);
+          });
       } else {
-        alert('Please make sure that you login/register before you can add favorites!')
+        alert(
+          "Please make sure that you login/register before you can add favorites!"
+        );
       }
     },
     setUserId(id) {
@@ -66,7 +83,14 @@ export const useAuthStore = defineStore({
   },
   persist: [
     {
-      paths: ["isLoggedIn", "username", "password", "userId", "favorites"],
+      paths: [
+        "isLoggedIn",
+        "username",
+        "password",
+        "userId",
+        "favorites",
+        "favoriteIDs",
+      ],
       storage: sessionStorage,
     },
   ],
