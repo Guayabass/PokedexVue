@@ -137,6 +137,7 @@ h1 {
     font-size: 28px;
     width: 28px;
     color: #207fb6;
+    transition: all 1000ms;
     text-align: center;
 }
 
