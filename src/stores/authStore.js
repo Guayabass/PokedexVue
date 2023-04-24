@@ -16,7 +16,7 @@ export const useAuthStore = defineStore({
   }),
   getters: {},
   actions: {
-    async deleteFavorite(id) {
+    async deleteFavorite(id, name) {
       let favoriteID;
       const index = this.favorites.findIndex((fav) => fav.id === id);
       await axios
@@ -35,9 +35,8 @@ export const useAuthStore = defineStore({
             // only splice array when item is found
             this.favorites.splice(index, 1);
             this.favoriteIDs.splice(index, 1); // 2nd parameter means remove one item only
-            //console.log(this.favoriteIDs)
+            alert("Removed " + this.capitalize(name) + " from favorites!");
           }
-          console.log("removed from favorites!");
         })
         .catch((error) => {
           console.log(error.code);
@@ -64,7 +63,7 @@ export const useAuthStore = defineStore({
                 (pokemon.name = name),
                 this.favoriteIDs.push(id);
               this.favorites.push(pokemon);
-              console.log("added to favorites!");
+              alert("Added " + this.capitalize(name) + " to favorites!")
             }
           })
           .catch((error) => {
@@ -79,6 +78,9 @@ export const useAuthStore = defineStore({
     },
     setUserId(id) {
       this.userId = id;
+    },
+    capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     },
   },
   persist: [

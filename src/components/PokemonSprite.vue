@@ -100,25 +100,6 @@ export default {
             //isFavorite: false,
         };
     },
-    watch: {
-        // favChange() {
-        //     if (this.favChange) {
-        //         //console.log('favChange watch true')
-        //         this.authStore.addFavorite(this.checkPokemon().name, this.checkPokemon().id)
-        //     } else {
-        //         //console.log('favChange watch false')
-        //         this.authStore.deleteFavorite(this.checkPokemon().id)
-        //     }
-        // },
-        // pokemonID(newValue) {
-        //     if (this.authStore.favoriteIDs.find(e => e === newValue)) {
-        //         //console.log(this.authStore.favoriteIDs)
-        //         this.isFavorite = true;
-        //     } else {
-        //         this.isFavorite = false;
-        //     }
-        // }
-    },
     async mounted() {
         try {
             if (/^[a-zA-Z]+$/.test(this.name)) {
@@ -391,7 +372,7 @@ export default {
         },
         addOrRemoveFavorite() {
             if (this.authStore.favoriteIDs.find(e => e === this.pokemonID)) {
-                this.authStore.deleteFavorite(this.pokemonID)
+                this.authStore.deleteFavorite(this.pokemonID, this.checkPokemon().name)
             } else {
                 this.authStore.addFavorite(this.checkPokemon().name, this.pokemonID)
             }
