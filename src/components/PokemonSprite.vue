@@ -372,7 +372,7 @@ export default {
         },
         addOrRemoveFavorite() {
             if (this.authStore.favoriteIDs.find(e => e === this.pokemonID)) {
-                this.authStore.deleteFavorite(this.pokemonID, this.checkPokemon().name)
+                this.authStore.deleteFavorite(this.pokemonID)
             } else {
                 this.authStore.addFavorite(this.checkPokemon().name, this.pokemonID)
             }
