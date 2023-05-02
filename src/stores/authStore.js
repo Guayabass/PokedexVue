@@ -11,6 +11,7 @@ export const useAuthStore = defineStore({
     favoriteIDs: [],
     userId: 0,
     favorites: [],
+    registerOrLogin: false,
     //repassword: "",
     //errorMessage: "",
   }),

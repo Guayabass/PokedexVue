@@ -11,13 +11,6 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../src/stores/authStore';
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from 'firebase/auth';
-// import PokemonSearch from './components/PokemonSearch.vue';
-// import Pokemon from './components/Pokemon.vue';
-// import NavBar from './components/NavBar.vue';
-// import CustomIVsModal from './components/customIVsModal.vue';
-// import CustomEVsModal from './components/customEVsModal.vue';
-// import CustomNatureModal from './components/customNatureModal.vue';
-// const pokemonStore = usePokemonStore();
 const authStore = useAuthStore();
 const router = useRouter();
 
@@ -57,6 +50,7 @@ const logOut = () => {
     authStore.favorites = [];
     authStore.favoriteIDs = [];
     authStore.userId = 0;
+    authStore.registerOrLogin = false;
   })
 };
 

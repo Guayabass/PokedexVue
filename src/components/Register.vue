@@ -1,5 +1,5 @@
 <template>
-  <section class="register-section">
+  <section class="auth-section">
     <div class="register-form-wrapper">
       <div class="register-form">
         <h2><span class="blue">Register</span></h2>
@@ -10,12 +10,12 @@
           </label>
         </div>
         <div class="form">
-          <input placeholder="Password" type="password" name="Register" required v-model="user.username">
+          <input placeholder="Password" type="password" name="Register" required v-model="user.password">
           <label for="Register" class="label-name">
             <span class="content-pokemon">Password</span>
           </label>
         </div>
-        <p class="register-text">Already registered? </p><span class="blue">Log in</span>
+        <p class="register-text">Already registered? </p><span class="blue" @click="authStore.registerOrLogin = false">Log in</span>
         <!-- make router link for clicking Log in -->
       </div>
       <div class="btn-wrapper">
@@ -82,7 +82,7 @@ const registerDB = async () => {
   font-family: "Lato", sans-serif;
 }
 
-.register-section {
+.auth-section {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
