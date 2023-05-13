@@ -1,5 +1,4 @@
 <template>
-  <section class="auth-section">
     <div class="register-form-wrapper">
       <div class="register-form">
         <h2><span class="blue">Register</span></h2>
@@ -22,7 +21,6 @@
         <button class="register-button" @click="register">Register</button>
       </div>
     </div>
-  </section>
 </template>
 
 <script setup>
@@ -80,19 +78,6 @@ const registerDB = async () => {
 
 * {
   font-family: "Lato", sans-serif;
-}
-
-.auth-section {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  height: 35%;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .register-form-wrapper{

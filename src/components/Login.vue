@@ -1,5 +1,5 @@
 <template>
-  <section class="auth-section">
+
     <div class="login-form-wrapper">
       <div class="login-form">
         <h2><span class="blue">Login</span></h2>
@@ -25,7 +25,6 @@
         <button class="login-button" @click="login">Login</button>
       </div>
     </div>
-  </section>
 </template>
 
 <script setup>
@@ -93,19 +92,6 @@ const loginDB = async () => {
 
 * {
     font-family: "Lato", sans-serif;
-}
-
-.auth-section {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    height: 35%;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .login-form-wrapper {
