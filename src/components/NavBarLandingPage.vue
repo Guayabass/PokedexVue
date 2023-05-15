@@ -1,15 +1,14 @@
 <template>
     <nav class="landing-nav">
+        <figure class="figure-landing-page">
+            <img src="../assets/images/pokedex.png" class="image-landing-page">
+        </figure>
         <input type="checkbox" id="check">
         <label for="check" class="checkbtn">
             <i class="fa-solid fa-bars"></i>
         </label>
-        <figure class="figure-landing-page">
-            <img src="../assets/images/pokedex.png" class="image-landing-page">
-        </figure>
         <ul class="landing-ul">
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="#" class="active">Login</a></li>
             <li><a href="#">Register</a></li>
             <li><a href="#">WebDex</a></li>
         </ul>
@@ -92,45 +91,52 @@ a:hover {
     display: none;
 }
 
-@media (max-width: 952px) {
-    nav ul li a {
+ @media (max-width: 952px) { /*remake yourself this doesnt work because of how the rest is done */
+    nav .landing-ul li a {
         font-size: 16px;
     }
 }
 
 @media (max-width: 858px) {
+    .landing-nav{
+        display: flex;
+        justify-content: space-between;   
+    }
+
     .checkbtn {
         display: block;
     }
 
-    ul {
+    .landing-ul {
         position: fixed;
         width: 100%;
         height: 100vh;
         background: #2c3e50;
         top: 80px;
+        z-index: 1000;
         left: -100%;
         text-align: center;
         transition: all .5s;
     }
 
-    nav ul li {
-        display: block;
+    nav .landing-ul li {
+        display: flex;
+        flex-direction: column;
         margin: 50px 0;
         line-height: 30px;
     }
 
-    nav ul li a {
+    nav .landing-ul li a {
         font-size: 20px;
     }
 
-    a.active,
-    a:hover {
+    .landing-ul a.active,
+    .landing-ul a:hover {
         background: none;
         color: #0082e6;
     }
 
-    #check:checked ~ ul{
+    #check:checked ~ .landing-ul{
         left: 0;
     }
 }
