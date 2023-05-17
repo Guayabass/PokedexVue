@@ -8,14 +8,49 @@
             <i class="fa-solid fa-bars"></i>
         </label>
         <ul class="landing-ul">
-            <li><a href="#" class="active">Login</a></li>
-            <li><a href="#">Register</a></li>
-            <li><a href="#">WebDex</a></li>
+            <li><a @click="loginChange()" :class="{ 'active': login }">Login</a></li>
+            <li><a @click="registerChange()" :class="{ 'active': register }">Register</a></li>
+            <li><a @click="webdexChange()" :class="{ 'active': webdex }">WebDex</a></li>
         </ul>
     </nav>
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+export default {
+    name: 'NavBarLandingPage',
+    setup(){
+        const router = useRouter();
+        return {router}
+    },
+    data() {
+        return {
+            login: true,
+            register: false,
+            webdex: false,
+        };
+    },
+    methods: {
+        loginChange(){
+            this.login = true
+            this.register = false
+            this.webdex = false
+            this.router.push('/login')
+        },
+        registerChange(){
+            this.login = false
+            this.register = true
+            this.webdex = false
+            this.router.push('/register')
+        },
+        webdexChange(){
+            this.login = false
+            this.register = false
+            this.webdex = true
+            this.router.push('/pokemon')
+        }
+    }
+}
 
 </script>
 
@@ -75,6 +110,7 @@ a.active,
 a:hover {
     background: #047bd6;
     transition: .5s;
+    cursor: pointer;
 }
 
 .checkbtn {

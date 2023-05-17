@@ -22,17 +22,20 @@ const routes = [
   {
     path: "/home",
     name: "Home",
+    redirect: "/login",
     component: Home,
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: Login,
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: Register,
+    children: [
+      {
+        path: "/login",
+        name: "login",
+        component: Login,
+      },
+      {
+        path: "/register",
+        name: "register",
+        component: Register,
+      },
+  ],
   },
   {
     path: "/pokemon",

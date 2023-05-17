@@ -1,5 +1,4 @@
 <template>
-
     <div class="login-form-wrapper">
       <div class="login-form">
         <h2><span class="blue">Login</span></h2>
@@ -18,7 +17,7 @@
         <Transition name="fade" mode="out-in">
             <p class="error-msg" v-if="errMsg">{{ errMsg }}</p><!-- position right -->
         </Transition>
-        <p class="login-text">Don't have an account? </p><span class="blue" @click="authStore.registerOrLogin = true">Register</span>
+        <p class="login-text">Don't have an account? </p><span class="blue" @click="redirectRegister()">Register</span>
         <!-- make router link for clicking Log in -->
       </div>
       <div class="btn-wrapper">
@@ -85,6 +84,11 @@ const loginDB = async () => {
             console.log(error.code)
         });
 };
+
+const redirectRegister = () => {
+    authStore.registerOrLogin = !authStore.registerOrLogin
+    router.push('/register')
+}
 </script>
 
 <style>
@@ -95,15 +99,15 @@ const loginDB = async () => {
 }
 
 .login-form-wrapper {
-    height: 100%;
+    height: 80%;
     width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-left: 4px solid blue;
+    border-left: 4px solid rgb(55, 176, 251);
     ;
-    border-right: 4px solid blue;
+    border-right: 4px solid rgb(55, 176, 251);
     ;
 }
 

@@ -14,8 +14,7 @@
             <span class="content-pokemon">Password</span>
           </label>
         </div>
-        <p class="register-text">Already registered? </p><span class="blue" @click="authStore.registerOrLogin = false">Log in</span>
-        <!-- make router link for clicking Log in -->
+        <p class="register-text">Already registered? </p><span class="blue" @click="redirectLogin()">Log in</span>
       </div>
       <div class="btn-wrapper">
         <button class="register-button" @click="register">Register</button>
@@ -71,6 +70,11 @@ const registerDB = async () => {
     });
 };
 
+const redirectLogin = () => {
+    authStore.registerOrLogin = !authStore.registerOrLogin
+    router.push('/login')
+}
+
 </script>
 
 <style>
@@ -81,14 +85,14 @@ const registerDB = async () => {
 }
 
 .register-form-wrapper{
-  height: 100%;
+  height: 80%;
   width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-left: 4px solid blue;;
-  border-right: 4px solid blue;;
+  border-left: 4px solid rgb(55, 176, 251);
+  border-right: 4px solid rgb(55, 176, 251);
 }
 
 .register-form {

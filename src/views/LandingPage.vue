@@ -3,16 +3,24 @@
         <nav-bar-landing-page></nav-bar-landing-page>
         <div class="title-section">
             <span class="landing-title">WebDex</span>
+            <figure>
+                <img src="../assets/images/pikachu.png">
+            </figure>
             <h2 class="landing-subtitle">The <span class="blue">online</span> Pokedex!
                 <span class="blue">Login</span> to access/add your <span class="blue">Favorite</span> pokemon or <span
                     class="blue">Register</span> to start now!
             </h2>
         </div>
         <div class="auth-section">
-            <Transition name="fade" mode="out-in">
+            <router-view v-slot="{ Component }">
+                <Transition name="page-fade" mode="out-in">
+                    <component :is="Component" />
+                </Transition>
+            </router-view>
+            <!-- <Transition name="fade" mode="out-in">
                 <Login v-if="!authStore.registerOrLogin"></Login>
                 <Register v-else-if="authStore.registerOrLogin"></Register>
-            </Transition>
+            </Transition> -->
         </div>
     </section>
     <!-- <router-link :to="{ name: 'Main' }">Pokemon</router-link> -->
@@ -35,21 +43,23 @@ export default {
 </script>
 
 <style>
-.landing-page{
+.landing-page {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
 }
-.landing-page .title-section{
+
+.landing-page .title-section {
     justify-content: center;
 }
+
 .auth-section {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    height: 35%;
+    height: 60%;
     width: 100%;
     overflow: hidden;
     display: flex;
@@ -63,7 +73,7 @@ export default {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    height: 30%;
+    height: 40%;
     width: 100%;
 }
 
@@ -89,5 +99,17 @@ export default {
     text-align: center;
     width: 80%;
     line-height: 40px;
+}
+
+.page-fade-enter-active, .page-fade-leave-active {
+    transition: opacity 800ms ease;
+}
+
+.page-fade-enter-to, .page-fade-leave-from{
+    opacity: 1;
+}
+
+.page-fade-enter-from, .page-fade-leave-to{
+    opacity: 0;
 }
 </style>
