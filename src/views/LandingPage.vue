@@ -112,4 +112,19 @@ export default {
 .page-fade-enter-from, .page-fade-leave-to{
     opacity: 0;
 }
+@media (max-width: 500px) {
+    .landing-subtitle{
+        font-size: 16px;
+        margin: 24px 0;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 750px) and (min-width: 500px) {
+    .landing-subtitle{
+        font-size: 20px;
+        margin: 24px 0;
+        line-height: 24px;
+    }
+}
 </style>

@@ -73,7 +73,7 @@ const registerDB = async () => {
 const redirectLogin = () => {
     authStore.registerOrLogin = !authStore.registerOrLogin
     router.push('/login')
-}
+};
 
 </script>
 
@@ -105,7 +105,7 @@ const redirectLogin = () => {
 }
 
 .register-button {
-  width: 20%;
+  width: 30%;
   height: 50px;
   border: 1px solid;
   background: #2691d9;
@@ -137,5 +137,16 @@ const redirectLogin = () => {
 
 h2 .blue {
   cursor: default;
+}
+
+@media (max-width: 1000px) {
+    .register-form-wrapper{
+        width: 60%;
+    }
+}
+@media (max-width: 570px) {
+    .register-form-wrapper{
+        width: 80%;
+    }
 }
 </style>
