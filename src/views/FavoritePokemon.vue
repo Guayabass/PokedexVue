@@ -2,20 +2,26 @@
   <router-link :to="{ name: 'Home' }">
     <NavBar></NavBar>
   </router-link>
-  <div v-if="authStore.favorites.length > 0" class="fav-container">
-    <div class="favs" v-for="(fav, key) in authStore.favorites" :key="key">
-      <img class="fav-sprite" :src="loadSprite(fav.id)" :alt="fav" />
-      <h2>{{ fav.name }}</h2>
-      <button @click="authStore.deleteFavorite(fav.id)">delete</button>
-    </div>
-  </div>
-  <div v-else class="fav-container">
-    <div class="sub-title-wrapper">
-      <h2 class="sub-title">You currently have no <span @click="pustToPokemon()" class="blue">favorites!</span> Click<span
-          @click="pustToPokemon()" class="blue"> here</span> to be able to lookup your favorite pokemon and <span
-          @click="pustToPokemon()" class="blue">favorite/share</span> them!</h2>
-    </div>
-  </div>
+  <Suspense>
+    <template #default>
+      <div v-if="authStore.favorites.length > 0" class="fav-container">
+        <div class="favs" v-for="(fav, key) in authStore.favorites" :key="key">
+          <FavoritePokemonSprite :name="fav.name" :id="fav.id" />
+        </div>
+      </div>
+      <div v-else class="fav-container">
+        <div class="sub-title-wrapper">
+          <h2 class="sub-title">You currently have no <span @click="pustToPokemon()" class="blue">favorites!</span>
+            Click<span @click="pustToPokemon()" class="blue"> here</span> to be able to lookup your favorite pokemon and
+            <span @click="pustToPokemon()" class="blue">favorite/share</span> them!
+          </h2>
+        </div>
+      </div>
+    </template>
+    <template #fallback>
+      Loading...
+    </template>
+  </Suspense>
 </template>
 
 <script>
@@ -24,6 +30,7 @@ import axios from 'axios';
 import { localhostApi } from '../exports/nestapi.js';
 import { useRouter } from 'vue-router';
 import NavBar from '../components/NavBar.vue'
+import FavoritePokemonSprite from '../components/FavoritePokemonSprite.vue'
 export default {
   name: 'FavoritePokemon',
   setup() {
@@ -67,20 +74,11 @@ export default {
     }
   },
   methods: {
-    loadSprite(id) {
-      if (id > 649) {
-        return "/src/assets/pokemon/" + id + ".png";
-      }
-      else {
-        return "/src/assets/pokemon/versions/generation-v/black-white/animated/" + id + ".gif";
-      }
-      //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
-    },
     pustToPokemon() {
       this.router.push('/pokemon/');
     }
   },
-  components: { NavBar },
+  components: { NavBar, FavoritePokemonSprite },
 };
 </script>
 
