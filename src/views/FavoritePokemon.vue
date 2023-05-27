@@ -86,7 +86,10 @@ export default {
 .fav-container {
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.favs{
+  width: 33%;
 }
 </style>

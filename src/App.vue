@@ -1,6 +1,7 @@
 <template>
   <main id="PokemonApp">
-    <button v-if="authStore.isLoggedIn" @click="logOut"><i class="fa-solid fa-right-from-bracket"></i>Sign Out</button>
+    <!-- <button class="sign-out-button" v-if="authStore.isLoggedIn" @click="logOut"><i
+        class="fa-solid fa-right-from-bracket"></i> Sign Out</button> -->
     <!-- <router-link to="/pokemon/test">pokemon</router-link>  -->
     <router-view />
   </main>
@@ -10,7 +11,7 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../src/stores/authStore';
-import { getAuth, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, setPersistence, browserSessionPersistence } from 'firebase/auth';
 const authStore = useAuthStore();
 const router = useRouter();
 
@@ -41,18 +42,6 @@ onMounted(() => {
     });
 });
 
-const logOut = () => {
-  signOut(auth).then(() => {
-    router.push("/home")
-    authStore.isLoggedIn = false;
-    authStore.username = "none";
-    authStore.password = "none";
-    authStore.favorites = [];
-    authStore.favoriteIDs = [];
-    authStore.userId = 0;
-    authStore.registerOrLogin = false;
-  })
-};
 
 
 </script>
@@ -97,9 +86,37 @@ const logOut = () => {
   transition: opacity 800ms ease;
 }
 
+.sign-out-button {
+  display: inline-block;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  outline: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0 26px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 7px;
+  background-color: #0070f3;
+  color: white;
+  font-weight: 400;
+  font-size: 16px;
+  box-shadow: 0 4px 14px 0 rgb(0 118 255 / 39%);
+  transition: 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sign-out-button:hover {
+  background: rgba(0, 118, 255, 0.9);
+  box-shadow: 0 6px 20px rgb(0 118 255 / 23%);
+}
+
 @media only screen and (max-width: 768px) {
   #PokemonApp {
     width: 100%;
+  }
+  .sign-out-button{
+    display: none;
   }
 }
 </style>

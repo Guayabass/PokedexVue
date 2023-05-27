@@ -1,28 +1,28 @@
 <template>
     <div class="login-form-wrapper">
-      <div class="login-form">
-        <h2><span class="blue">Login</span></h2>
-        <div class="form">
-          <input placeholder="Email" type="text" name="Login" required v-model="user.username">
-          <label for="Login" class="label-name">
-            <span class="content-pokemon">Username</span>
-          </label>
+        <div class="login-form">
+            <h2><span class="blue">Login</span></h2>
+            <div class="form">
+                <input placeholder="Email" type="text" name="Login" required v-model="user.username">
+                <label for="Login" class="label-name">
+                    <span class="content-pokemon">Username</span>
+                </label>
+            </div>
+            <div class="form">
+                <input placeholder="Password" type="password" name="Login" required v-model="user.password">
+                <label for="Login" class="label-name">
+                    <span class="content-pokemon">Password</span>
+                </label>
+            </div>
+            <Transition name="fade" mode="out-in">
+                <p class="error-msg" v-if="errMsg">{{ errMsg }}</p><!-- position right -->
+            </Transition>
+            <p class="login-text">Don't have an account? </p><span class="blue" @click="redirectRegister()">Register</span>
+            <!-- make router link for clicking Log in -->
         </div>
-        <div class="form">
-          <input placeholder="Password" type="password" name="Login" required v-model="user.password">
-          <label for="Login" class="label-name">
-            <span class="content-pokemon">Password</span>
-          </label>
+        <div class="btn-wrapper">
+            <button class="login-button" @click="login">Login</button>
         </div>
-        <Transition name="fade" mode="out-in">
-            <p class="error-msg" v-if="errMsg">{{ errMsg }}</p><!-- position right -->
-        </Transition>
-        <p class="login-text">Don't have an account? </p><span class="blue" @click="redirectRegister()">Register</span>
-        <!-- make router link for clicking Log in -->
-      </div>
-      <div class="btn-wrapper">
-        <button class="login-button" @click="login">Login</button>
-      </div>
     </div>
 </template>
 
@@ -44,30 +44,29 @@ const auth = getAuth();
 const authStore = useAuthStore()
 
 const login = () => {
-
-    signInWithEmailAndPassword(auth, user.username, user.password)
-        .then((data) => {
-            console.log('successfully signed in')
-            //console.log(auth.currentUser)
-            loginDB();
-        })
-        .catch((error) => {
-            console.log(error.code)
-            switch (error.code) {
-                case "auth/invalid-email":
-                    errMsg.value = "Invalid Email"
-                    break;
-                case "auth/user-not-found":
-                    errMsg.value = "No account was found with that email"
-                    break;
-                case "auth/wrong-password":
-                    errMsg.value = "Wrong password"
-                    break;
-                default:
-                    errMsg.value = "Wrong email or password"
-                    break;
-            }
-        });
+        signInWithEmailAndPassword(auth, user.username, user.password)
+            .then((data) => {
+                console.log('successfully signed in')
+                //console.log(auth.currentUser)
+                loginDB();
+            })
+            .catch((error) => {
+                console.log(error.code)
+                switch (error.code) {
+                    case "auth/invalid-email":
+                        errMsg.value = "Invalid Email"
+                        break;
+                    case "auth/user-not-found":
+                        errMsg.value = "No account was found with that email"
+                        break;
+                    case "auth/wrong-password":
+                        errMsg.value = "Wrong password"
+                        break;
+                    default:
+                        errMsg.value = "Wrong email or password"
+                        break;
+                }
+            });
 };
 
 const loginDB = async () => {
@@ -155,19 +154,19 @@ h2 .blue {
     cursor: default;
 }
 
-.error-msg{
+.error-msg {
     color: red;
 }
 
 @media (max-width: 1000px) {
-    .login-form-wrapper{
+    .login-form-wrapper {
         width: 60%;
     }
 }
+
 @media (max-width: 570px) {
-    .login-form-wrapper{
+    .login-form-wrapper {
         width: 80%;
     }
 }
-
 </style>

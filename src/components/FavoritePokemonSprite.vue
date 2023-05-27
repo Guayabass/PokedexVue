@@ -30,7 +30,7 @@
             </div>
             <div class="main-card-button-container">
                 <div class="card-change-wrapper tooltip-container">
-                    <button @click="authStore.deleteFavorite(id)" class="card-change"><i class="fa-solid fa-xmark"></i></button>
+                    <button @click="authStore.deleteFavorite(id)" class="card-change"><i class="fa-solid fa-trash"></i></button>
                     <p class="tooltiptext">{{ 'Remove ' + capitalize(name) + ' from favorites!' }}</p>
                 </div>
             </div>
@@ -140,6 +140,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import '../assets/css/Pokemon.css';
+
+.pokemon{
+    width: 350px;
+    height: 400px;
+}
+
+.card-change{
+    margin-bottom: 18px;
+    color: red;
+}
 </style>

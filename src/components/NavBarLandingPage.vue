@@ -11,43 +11,83 @@
             <li><a @click="loginChange()" :class="{ 'active': login }">Login</a></li>
             <li><a @click="registerChange()" :class="{ 'active': register }">Register</a></li>
             <li><a @click="webdexChange()" :class="{ 'active': webdex }">WebDex</a></li>
+            <li><a @click="favoritesChange()" :class="{ 'active': favorites }">Favorites</a></li>
+            <li v-if="authStore.isLoggedIn"><a @click="logoutChange()" :class="{ 'active': logout }">Sign Out</a></li>
         </ul>
     </nav>
 </template>
 
 <script>
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/authStore';
+import { signOut, getAuth } from 'firebase/auth';
 export default {
     name: 'NavBarLandingPage',
-    setup(){
+    setup() {
         const router = useRouter();
-        return {router}
+        const authStore = useAuthStore();
+        return { router, authStore }
     },
     data() {
         return {
             login: true,
             register: false,
             webdex: false,
+            favorites: false,
+            logout: false,
         };
     },
     methods: {
-        loginChange(){
+        loginChange() {
             this.login = true
             this.register = false
             this.webdex = false
+            this.favorites = false
+            this.logout = false
             this.router.push('/login')
         },
-        registerChange(){
+        registerChange() {
             this.login = false
             this.register = true
             this.webdex = false
+            this.favorites = false
+            this.logout = false
             this.router.push('/register')
         },
-        webdexChange(){
+        webdexChange() {
             this.login = false
             this.register = false
             this.webdex = true
+            this.favorites = false
+            this.logout = false
             this.router.push('/pokemon')
+        },
+        favoritesChange() {
+            this.login = false
+            this.register = false
+            this.webdex = false
+            this.favorites = true
+            this.logout = false
+            this.router.push('/pokemon/favorites')
+        },
+        logoutChange() {
+            let auth;
+            auth = getAuth()
+            signOut(auth).then(() => {
+                this.router.push("/home")
+                this.authStore.isLoggedIn = false;
+                this.authStore.username = "none";
+                this.authStore.password = "none";
+                this.authStore.favorites = [];
+                this.authStore.favoriteIDs = [];
+                this.authStore.userId = 0;
+                this.authStore.registerOrLogin = false;
+            })
+            this.login = false
+            this.register = false
+            this.webdex = false
+            this.favorites = false
+            this.logout = true
         }
     }
 }
@@ -127,16 +167,18 @@ a:hover {
     display: none;
 }
 
- @media (max-width: 952px) { /*remake yourself this doesnt work because of how the rest is done */
+@media (max-width: 952px) {
+
+    /*remake yourself this doesnt work because of how the rest is done */
     nav .landing-ul li a {
         font-size: 16px;
     }
 }
 
 @media (max-width: 858px) {
-    .landing-nav{
+    .landing-nav {
         display: flex;
-        justify-content: space-between;   
+        justify-content: space-between;
     }
 
     .checkbtn {
@@ -172,7 +214,7 @@ a:hover {
         color: #0082e6;
     }
 
-    #check:checked ~ .landing-ul{
+    #check:checked~.landing-ul {
         left: 0;
     }
 }

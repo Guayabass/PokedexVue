@@ -9,7 +9,7 @@
             <h2 class="landing-subtitle">The <span class="blue">online</span> Pokedex!
                 <span class="blue">Login</span> to access/add your <span class="blue">Favorite</span> pokemon or <span
                     class="blue">Register</span> to start now!
-            </h2>
+            </h2><!--change when logged in-->
         </div>
         <div class="auth-section">
             <router-view v-slot="{ Component }">

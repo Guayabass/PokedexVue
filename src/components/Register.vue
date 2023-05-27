@@ -1,25 +1,25 @@
 <template>
-    <div class="register-form-wrapper">
-      <div class="register-form">
-        <h2><span class="blue">Register</span></h2>
-        <div class="form">
-          <input placeholder="Email" type="text" name="Register" required v-model="user.username">
-          <label for="Register" class="label-name">
-            <span class="content-pokemon">Username</span>
-          </label>
-        </div>
-        <div class="form">
-          <input placeholder="Password" type="password" name="Register" required v-model="user.password">
-          <label for="Register" class="label-name">
-            <span class="content-pokemon">Password</span>
-          </label>
-        </div>
-        <p class="register-text">Already registered? </p><span class="blue" @click="redirectLogin()">Log in</span>
+  <div class="register-form-wrapper">
+    <div class="register-form">
+      <h2><span class="blue">Register</span></h2>
+      <div class="form">
+        <input placeholder="Email" type="text" name="Register" required v-model="user.username">
+        <label for="Register" class="label-name">
+          <span class="content-pokemon">Username</span>
+        </label>
       </div>
-      <div class="btn-wrapper">
-        <button class="register-button" @click="register">Register</button>
+      <div class="form">
+        <input placeholder="Password" type="password" name="Register" required v-model="user.password">
+        <label for="Register" class="label-name">
+          <span class="content-pokemon">Password</span>
+        </label>
       </div>
+      <p class="register-text">Already registered? </p><span class="blue" @click="redirectLogin()">Log in</span>
     </div>
+    <div class="btn-wrapper">
+      <button class="register-button" @click="register">Register</button>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -38,22 +38,21 @@ const auth = getAuth();
 const authStore = useAuthStore()
 
 const register = () => {
-
-  createUserWithEmailAndPassword(auth, user.username, user.password)
-    .then((data) => {
-      //console.log('successfully registered')
-      if (auth.currentUser) {
-        console.log('logged in')
-        authStore.isLoggedIn = true;
-        registerDB();
-      } else {
-        console.log('not logged')
-      }
-    })
-    .catch((error) => {
-      console.log(error.code)
-      alert(error.message)
-    });
+    createUserWithEmailAndPassword(auth, user.username, user.password)
+      .then((data) => {
+        //console.log('successfully registered')
+        if (auth.currentUser) {
+          console.log('logged in')
+          authStore.isLoggedIn = true;
+          registerDB();
+        } else {
+          console.log('not logged')
+        }
+      })
+      .catch((error) => {
+        console.log(error.code)
+        alert(error.message)
+      });
 };
 
 const registerDB = async () => {
@@ -71,8 +70,8 @@ const registerDB = async () => {
 };
 
 const redirectLogin = () => {
-    authStore.registerOrLogin = !authStore.registerOrLogin
-    router.push('/login')
+  authStore.registerOrLogin = !authStore.registerOrLogin
+  router.push('/login')
 };
 
 </script>
@@ -84,7 +83,7 @@ const redirectLogin = () => {
   font-family: "Lato", sans-serif;
 }
 
-.register-form-wrapper{
+.register-form-wrapper {
   height: 80%;
   width: 40%;
   display: flex;
@@ -140,13 +139,14 @@ h2 .blue {
 }
 
 @media (max-width: 1000px) {
-    .register-form-wrapper{
-        width: 60%;
-    }
+  .register-form-wrapper {
+    width: 60%;
+  }
 }
+
 @media (max-width: 570px) {
-    .register-form-wrapper{
-        width: 80%;
-    }
+  .register-form-wrapper {
+    width: 80%;
+  }
 }
 </style>
