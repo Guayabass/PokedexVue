@@ -11,17 +11,24 @@
                     class="blue">Register</span> to start now!
             </h2><!--change when logged in-->
         </div>
-        <div class="auth-section">
-            <router-view v-slot="{ Component }">
-                <Transition name="page-fade" mode="out-in">
-                    <component :is="Component" />
-                </Transition>
-            </router-view>
-            <!-- <Transition name="fade" mode="out-in">
+        <Transition name="page-fade" mode="out-in">
+            <div v-if="!authStore.isLoggedIn" class="auth-section">
+                <router-view v-slot="{ Component }">
+                    <Transition name="page-fade" mode="out-in">
+                        <component :is="Component" />
+                    </Transition>
+                </router-view>
+                <!-- <Transition name="fade" mode="out-in">
                 <Login v-if="!authStore.registerOrLogin"></Login>
                 <Register v-else-if="authStore.registerOrLogin"></Register>
             </Transition> -->
-        </div>
+            </div>
+            <div v-else class="logged-section">
+                <h2>Welcome back!</h2>
+                <span class="wave">👋</span>
+                <h2>Go to <span @click="toFavorites()" class="blue">Favorites</span></h2>
+            </div>
+        </Transition>
     </section>
     <!-- <router-link :to="{ name: 'Main' }">Pokemon</router-link> -->
 </template>
@@ -31,14 +38,22 @@ import Login from '../components/Login.vue';
 import Register from '../components/Register.vue';
 import NavBarLandingPage from '../components/NavBarLandingPage.vue'
 import { useAuthStore } from '@/stores/authStore.js';
+import { useRouter } from 'vue-router';
 
 export default {
     components: { NavBarLandingPage, Login, Register },
     setup() {
         const authStore = useAuthStore()
 
-        return { authStore }
-    }
+        const router = useRouter()
+
+        return { authStore, router }
+    },
+    methods: {
+        toFavorites() {
+            this.router.push('/pokemon/favorites')
+        }
+    },
 }
 </script>
 
@@ -101,30 +116,76 @@ export default {
     line-height: 40px;
 }
 
-.page-fade-enter-active, .page-fade-leave-active {
+.logged-section {
+    height: 60%;
+    margin-top: 48px;
+    width: 100%;
+    line-height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logged-section .blue {
+    cursor: pointer;
+}
+
+.page-fade-enter-active,
+.page-fade-leave-active {
     transition: opacity 800ms ease;
 }
 
-.page-fade-enter-to, .page-fade-leave-from{
+.page-fade-enter-to,
+.page-fade-leave-from {
     opacity: 1;
 }
 
-.page-fade-enter-from, .page-fade-leave-to{
+.page-fade-enter-from,
+.page-fade-leave-to {
     opacity: 0;
 }
+
+.wave {
+    display: inline-block;
+    /*span por default tiene display: inline que no permite rotar*/
+    font-size: 24px;
+    animation: animate-wave 500ms infinite ease-in-out;
+    /*el ease-in-out lo hace un poco mas smooth*/
+}
+
+@keyframes animate-wave {
+    0% {
+        transform: rotate(0);
+    }
+
+    50% {
+        transform: rotate(30deg);
+    }
+
+    100% {
+        transform: rotate(0);
+    }
+}
+
 @media (max-width: 500px) {
-    .landing-subtitle{
+    .landing-subtitle {
         font-size: 16px;
         margin: 24px 0;
         line-height: 24px;
     }
+    .logged-section{
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 750px) and (min-width: 500px) {
-    .landing-subtitle{
+    .landing-subtitle {
         font-size: 20px;
         margin: 24px 0;
         line-height: 24px;
     }
-}
-</style>
+    .logged-section{
+        font-size: 20px;
+    }
+}</style>
