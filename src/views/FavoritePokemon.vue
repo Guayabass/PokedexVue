@@ -92,4 +92,23 @@ export default {
 .favs{
   width: 33%;
 }
+
+@media (max-width: 1500px) {
+    .favs{
+      width: 50%;
+    }
+  }
+@media (max-width: 920px) {
+    .favs{
+      width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+    .favs{
+      width: 100%;
+      margin: 8px;
+    }
+}
+
 </style>
