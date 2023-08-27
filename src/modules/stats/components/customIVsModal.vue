@@ -1,45 +1,44 @@
 <template>
-  <div class="modal" v-if="returnShowEVs()">
+  <div class="modal" v-if="returnShowIVs()">
     <div class="modal-content">
       <div class="modal-header">
-        <span class="close" @click="showEVModal()"><i class="fa-solid fa-xmark"></i></span>
+        <span class="close" @click="showIVModal()"><i class="fa-solid fa-xmark"></i></span>
       </div>
       <div class="modal-body">
-        <h3 class="title">Enter the custom <span class="blue">EV</span> values you desire for each of the
+        <h3 class="title">Enter the custom <span class="blue">IV</span> values you desire for each of the
           available stats and click the <span class="blue">confirm</span> button to apply the changes to the <span
             class="blue">global</span> stats.</h3>
-        <ul class="evs-ul">
-          <li class="evs-container" v-for="(ev, key) in evsObject" :key="key">
-            <h3 class="evs-title">{{ key }}'s <span class="blue">EVs</span>:</h3>
+        <ul class="ivs-ul">
+          <li class="ivs-container" v-for="(iv, key) in ivsObject" :key="key">
+            <h3 class="ivs-title">{{key}}'s <span class="blue">IVs</span>:</h3>
             <div class="btn-container">
-              <button class="decrement-btn" @click="decreaseEV(key)"> - </button>
-              <input class="ev-input" type="number" min="0" max="255" step="1" :id="ev + '-input'"
-                v-model.number="evsObject[key]" required>
-              <button class="increment-btn" @click="increaseEV(key)"> + </button>
+              <button class="decrement-btn" @click="decreaseIV(key)"> - </button>
+              <input class="iv-input" type="number" min="0" max="31" step="1" :id="iv+'-input'"
+                v-model.number="ivsObject[key]" required>
+              <button class="increment-btn" @click="increaseIV(key)"> + </button>
             </div>
           </li>
         </ul>
-        <h3 class="note"><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom
-          IVs/EVs/Nature set.</h3>
+        <h3 class="note"><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom IVs/EVs/Nature set.</h3>
       </div>
       <div class="modal-footer">
         <div class="btns-container">
-          <button class="btn-confirm" @click="storeEVs()">Confirm</button>
-          <button class="btn-cancel" @click="showEVModal()">Cancel</button>
+          <button class="btn-confirm" @click="storeIVs()">Confirm</button>
+          <button class="btn-cancel" @click="showIVModal()">Cancel</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-  
+
 <script>
-import { usePokemonStore } from '../stores/pokemonStore.js';
+import { usePokemonStore } from '../store/pokemonStore.js';
 
 export default {
-  name: 'customEVsModal',
+  name: 'customIVsModal',
   data() {
     return {
-      evsObject: {
+      ivsObject: {
         HP: 0,
         Attack: 0,
         Defense: 0,
@@ -47,87 +46,87 @@ export default {
         SpecialDefense: 0,
         Speed: 0,
       },
-      customEVs: [],
+      customIVs: [],
       //hp: 0,
     }
   },
   watch: {
     //can't use a for or else it'll only work on the last one (Speed)
     //can't use a deep handler either because it'll react the same way since it gets triggered on every nested change.
-    'evsObject.HP': function (newValue) {
-      if (newValue > 255) {
-        this.evsObject['HP'] = 0
+    'ivsObject.HP': function (newValue) {
+      if (newValue > 31) {
+        this.ivsObject['HP'] = 0
       } else if (newValue < 0) {
-        this.evsObject['HP'] = 255
+        this.ivsObject['HP'] = 31
       }
     },
-    'evsObject.Attack': function (newValue) {
-      if (newValue > 255) {
-        this.evsObject['Attack'] = 0
+    'ivsObject.Attack': function (newValue) {
+      if (newValue > 31) {
+        this.ivsObject['Attack'] = 0
       } else if (newValue < 0) {
-        this.evsObject['Attack'] = 255
+        this.ivsObject['Attack'] = 31
       }
     },
-    'evsObject.Defense': function (newValue) {
-      if (newValue > 255) {
-        this.evsObject['Defense'] = 0
+    'ivsObject.Defense': function (newValue) {
+      if (newValue > 31) {
+        this.ivsObject['Defense'] = 0
       } else if (newValue < 0) {
-        this.evsObject['Defense'] = 255
+        this.ivsObject['Defense'] = 31
       }
     },
-    'evsObject.SpecialAttack': function (newValue) {
-      if (newValue > 255) {
-        this.evsObject['SpecialAttack'] = 0
+    'ivsObject.SpecialAttack': function (newValue) {
+      if (newValue > 31) {
+        this.ivsObject['SpecialAttack'] = 0
       } else if (newValue < 0) {
-        this.evsObject['SpecialAttack'] = 255
+        this.ivsObject['SpecialAttack'] = 31
       }
     },
-    'evsObject.SpecialDefense': function (newValue) {
-      if (newValue > 255) {
-        this.evsObject['SpecialDefense'] = 0
+    'ivsObject.SpecialDefense': function (newValue) {
+      if (newValue > 31) {
+        this.ivsObject['SpecialDefense'] = 0
       } else if (newValue < 0) {
-        this.evsObject['SpecialDefense'] = 255
+        this.ivsObject['SpecialDefense'] = 31
       }
     },
-    'evsObject.Speed': function (newValue) {
-      if (newValue > 255) {
-        this.evsObject['Speed'] = 0
+    'ivsObject.Speed': function (newValue) {
+      if (newValue > 31) {
+        this.ivsObject['Speed'] = 0
       } else if (newValue < 0) {
-        this.evsObject['Speed'] = 255
+        this.ivsObject['Speed'] = 31
       }
     },
   },
   methods: {
-    showEVModal() {
+    showIVModal() {
       const pokemonStore = usePokemonStore();
-      pokemonStore.showEVs = !pokemonStore.showEVs
-      return pokemonStore.showEVs
+      pokemonStore.showIVs = !pokemonStore.showIVs
+      return pokemonStore.showIVs
     },
-    returnShowEVs() {
+    returnShowIVs() {
       const pokemonStore = usePokemonStore();
-      return pokemonStore.showEVs
+      return pokemonStore.showIVs
     },
-    increaseEV(key) {
-      this.evsObject[key]++
+    increaseIV(key) {
+      this.ivsObject[key]++
     },
-    decreaseEV(key) {
-      this.evsObject[key]--
+    decreaseIV(key) {
+      this.ivsObject[key]--
 
     },
-    storeEVs() {
+    storeIVs() {
       const pokemonStore = usePokemonStore();
-      for (let EV in this.evsObject) {
-        this.customEVs.push(this.evsObject[EV])
+      for (let IV in this.ivsObject) {
+        this.customIVs.push(this.ivsObject[IV])
       }
-      pokemonStore.arrayEVs = this.customEVs
-      this.showEVModal()
+      pokemonStore.arrayIVs = this.customIVs
+      this.showIVModal()
       //console.log(pokemonStore.arrayIVs)
     }
   }
 }
 
 </script>
-  
+
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
 
@@ -143,17 +142,19 @@ export default {
   z-index: 10;
   /* Sit on top */
   left: 0;
-  pointer-events: none;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
   width: 100%;
   /* Full width */
   height: 100%;
   /* Full height */
   overflow: auto;
   /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
   /* Black w/ opacity */
 }
@@ -164,7 +165,7 @@ export default {
   pointer-events: all;
   margin: 0 auto;
   width: 60%;
-  height: 50%;
+  height: 60%;
   border-radius: 8px;
   border: none;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -231,13 +232,12 @@ input {
   color: #24a1e9;
 }
 
-.red {
+.red{
   color: red;
   font-weight: 700;
 }
 
-.evs-ul {
-  /** use <script scoped> to have independent element styling per component */
+.ivs-ul{ /** use <script scoped> to have independent element styling per component */
   width: 80%;
   height: 100%;
   display: flex;
@@ -246,7 +246,7 @@ input {
   flex-direction: column;
 }
 
-.evs-container {
+.ivs-container {
   height: 10%;
   width: 100%;
   display: flex;
@@ -255,24 +255,24 @@ input {
   align-items: center;
 }
 
-.evs-container h3 {
+.ivs-container h3 {
   width: 40%;
   text-align: right;
   margin-right: 25%;
 }
 
-.evs-container i {
+.ivs-container i {
   font-size: 36px;
   color: #24a1e9;
 }
 
 /* li :nth-last-child() {
-    margin-top: 16px;
-  } */
+  margin-top: 16px;
+} */
 
 .btn-container {
   width: 12%;
-  max-width: 12%;
+  max-width: 10%;
   height: 10%;
   display: flex;
   align-items: center;
@@ -466,33 +466,33 @@ input[type=number] {
     width: 100%;
   }
 
-  .evs-title{
+  .ivs-title{
     font-size: 12px;
   }
 
-  .evs-container h3{
+  .ivs-container h3{
     width: 55%;
     text-align: left;
     margin-right: 0;
   }
 
-  .evs-container{
+  .ivs-container{
     justify-content: space-around;
   }
 }
 
 @media only screen and (min-width: 500px){
-  .evs-container h3{
+  .ivs-container h3{
     width: 40%;
     text-align: right;
     margin-right: 25%;
   }
 
-  .evs-container{
+  .ivs-container{
     justify-content: flex-start;
   }
 
-  .evs-title{
+  .ivs-title{
     font-size: 16px;
   }
 }
@@ -511,7 +511,7 @@ input[type=number] {
     display: none;
   }
 
-  .evs-title{
+  .ivs-title{
     font-size: 16px;
   }
 }

@@ -1,8 +1,8 @@
 
 
 <script>
-import { pokeapi } from '../exports/pokeapi'
-import { usePokemonStore } from '../stores/pokemonStore.js';
+import { pokeapi } from '@/exports/pokeapi'
+import { usePokemonStore } from '../store/pokemonStore.js';
 import { ref } from 'vue'
 
 //const pokeapi = 'https://pokeapi.co/api/v2/pokemon'

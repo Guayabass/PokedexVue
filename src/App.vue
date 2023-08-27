@@ -10,7 +10,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../src/stores/authStore';
+import { useAuthStore } from '@/modules/favorites/store/authStore';
 import { getAuth, onAuthStateChanged, setPersistence, browserSessionPersistence } from 'firebase/auth';
 const authStore = useAuthStore();
 const router = useRouter();

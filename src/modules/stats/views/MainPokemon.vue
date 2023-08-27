@@ -22,10 +22,10 @@
 </template>
 
 <script setup>
-import { usePokemonStore } from '../stores/pokemonStore';
+import { usePokemonStore } from '../store/pokemonStore';
 import PokemonSearch from '../components/PokemonSearch.vue';
 //import PokemonSprite from '../components/PokemonSprite.vue';
-import NavBar from '../components/NavBar.vue';
+import NavBar from '@/components/NavBar.vue';
 import CustomIVsModal from '../components/customIVsModal.vue';
 import CustomEVsModal from '../components/customEVsModal.vue';
 import CustomNatureModal from '../components/customNatureModal.vue';

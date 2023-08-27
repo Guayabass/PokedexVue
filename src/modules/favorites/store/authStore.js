@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { localhostApi } from "../exports/nestapi.js";
+import { localhostApi } from "@/exports/nestapi.js";
 
 export const useAuthStore = defineStore({
   id: "auth",

@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import { usePokemonStore } from '../stores/pokemonStore.js';
-import { customNatures } from '../exports/natures.js';
+import { usePokemonStore } from '../store/pokemonStore.js';
+import { customNatures } from '../utils/exports/natures.js';
 
 export default {
   name: 'customNatureModal',

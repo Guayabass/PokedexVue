@@ -37,7 +37,7 @@
 import Login from '../components/Login.vue';
 import Register from '../components/Register.vue';
 import NavBarLandingPage from '../components/NavBarLandingPage.vue'
-import { useAuthStore } from '@/stores/authStore.js';
+import { useAuthStore } from '@/modules/favorites/store/authStore'
 import { useRouter } from 'vue-router';
 
 export default {

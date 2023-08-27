@@ -5,7 +5,7 @@
 .pokemon-section {
     display: flex;
     font-family: 'Lato', sans-serif;
-    justify-content: space-evenly;
+    justify-content: space-evenly !important;
     /**space between for responsive in media*/
     align-items: center;
     width: 100%;
@@ -205,6 +205,7 @@ h1 {
 .pokemon-change {
     border: none;
     outline: none;
+    z-index: 0;
     cursor: pointer;
     color: #207fb6;
     font-size: 48px;
@@ -488,7 +489,7 @@ h1 {
 
 @media only screen and (max-width: 452px) {
     .pokemon-change {
-        z-index: 2;
+        z-index: -1;
     }
 
     .pokemon {
@@ -514,7 +515,7 @@ h1 {
 
 @media only screen and (max-width: 388px) {
     .pokemon-change {
-        z-index: 2;
+        z-index: -1;
     }
 
     .pokemon {
@@ -543,7 +544,7 @@ h1 {
 
 @media only screen and (max-width: 350px) {
     .pokemon-change {
-        z-index: 2;
+        z-index: -1;
     }
 
     .pokemon {

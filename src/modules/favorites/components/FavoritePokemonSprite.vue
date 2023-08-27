@@ -40,8 +40,8 @@
 
 <script>
 import { ref } from 'vue'
-import { useAuthStore } from '../stores/authStore.js';
-import { pokeapi } from '../exports/pokeapi'
+import { useAuthStore } from '../store/authStore.js';
+import { pokeapi } from '@/exports/pokeapi'
 export default {
     name: "FavoritePokemonSprite",
     props: {
@@ -141,7 +141,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/Pokemon.css';
+@import '@/assets/css/Pokemon.css';
 
 .pokemon{
     width: 350px;

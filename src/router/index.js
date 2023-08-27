@@ -1,15 +1,13 @@
-import { createRouter, createWebHistory} from "vue-router";
-import ViewPokemon from "../views/ViewPokemon.vue";
-import SpritePokemon from "../components/PokemonSprite.vue";
-import StatsPokemon from "../components/PokemonStats.vue";
+import { createRouter, createWebHistory } from "vue-router";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
-import Main from "../views/MainPokemon.vue";
 import Home from "../views/LandingPage.vue";
-import FavoritePokemon from "../views/FavoritePokemon.vue";
+import statsRoutes from "@/modules/stats/router/stats";
+import shareRoutes from "@/modules/share/router/share";
+import favoriteRoutes from "@/modules/favorites/router/favorite";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const routes = [
+const mainRoutes = [
   {
     path: "/",
     redirect: "/home",
@@ -35,46 +33,48 @@ const routes = [
         name: "register",
         component: Register,
       },
-  ],
-  },
-  {
-    path: "/pokemon",
-    name: "Main",
-    component: Main,
-    children: [
-        {
-            path: ":name",
-            name: "PokemonSprite",
-            component: SpritePokemon,
-            props: true,
-        },
-        {
-            path: ":name/stats",
-            name: "PokemonStats",
-            component: StatsPokemon,
-            props: true,
-        }
     ],
   },
-  {
-    path: "/pokemon/:name/share",
-    name: "Share",
-    component: ViewPokemon,
-    props: true,
-  },
-  {
-    path: "/pokemon/favorites",
-    name: "favorites",
-    component: FavoritePokemon,
-    meta: {
-      requiresAuth: true,
-    }
-  }
+  //   {
+  //     path: "/pokemon",
+  //     name: "Main",
+  //     component: Main,
+  //     children: [
+  //         {
+  //             path: ":name",
+  //             name: "PokemonSprite",
+  //             component: SpritePokemon,
+  //             props: true,
+  //         },
+  //         {
+  //             path: ":name/stats",
+  //             name: "PokemonStats",
+  //             component: StatsPokemon,
+  //             props: true,
+  //         }
+  //     ],
+  //   },
+  //   {
+  //     path: "/pokemon/:name/share",
+  //     name: "Share",
+  //     component: ViewPokemon,
+  //     props: true,
+  //   },
+  //   {
+  //     path: "/pokemon/favorites",
+  //     name: "favorites",
+  //     component: FavoritePokemon,
+  //     meta: {
+  //       requiresAuth: true,
+  //     }
+  //   }
 ];
+
+// const allRoutes = routes.concat(statsRoutes)
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: [...mainRoutes, ...statsRoutes, ...favoriteRoutes, ...shareRoutes]
 });
 
 const getCurrentUser = () => { //to avoid it thinking that we logged out on refresh

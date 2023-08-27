@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { pokeapi } from '../exports/pokeapi'
+import { pokeapi } from '@/exports/pokeapi'
 export default {
     name: 'ShareLink',
     props: {

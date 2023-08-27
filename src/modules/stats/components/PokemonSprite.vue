@@ -5,61 +5,58 @@
                 :disabled="Object.entries(checkPokemon()).length === 0"
                 :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
                     class="fa-solid fa-chevron-left"></i></button>
+            <!--the if is just there for transition purposes -->
         </Transition>
         <Transition name="fade" mode="out-in">
             <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
-                <div class="typings-container">
-                    <h1>
-                        Typings
+                <div class="info-container">
+                    <h1 :class="colorText()">
+                        {{ capitalize(checkPokemon().name) }}
                     </h1>
-                    <ul class="typings">
-                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index"
-                            :class="type.type.name + '-b'"><i :class="iconReturn(type.type.name)"></i>{{
-                                    capitalize(type.type.name)
-                            }}</li>
-                    </ul>
+                    <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i
+                            class="fa-solid fa-play"></i>Cry</button>
+                    <!-- <p class="cry-text">Cry</p> -->
                 </div>
-                <div class="stats-container">
-                    <h1 class="stats-title">Stats</h1>
-                    <ul class="stats">
-                        <li v-for="(stat, index) in checkPokemon().stats" :key="index">
-                            <div class="stat-name-wrapper">
-                                <p class="stat-name">{{ returnStatNames(stat.stat.name) }}</p>
-                            </div>
-                            <div class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="{ 'width': pokemonLevel * 0.70 + '%' }">
-                                <p class="stat-base">{{ baseStatMultiplier(stat.stat.name, stat.base_stat, index) }}</p>
-                            </div>
-                        </li>
-                        <div class="stats-button-container">
-                            <button class="stats-button" @click="showIVModal()">Custom IVs</button>
-                            <button class="stats-button" @click="showEVModal()">Custom EVs</button>
-                            <button class="stats-button" @click="showNatureModal()">Custom Nature</button>
-                            <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
-                        </div>
-                    </ul>
+                <div class="text-wrapper">
+                    <p class="sprite-text">Normal</p>
                 </div>
-                <div class="last-stats-wrapper">
-                    <div class="slider-container">
-                        <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
-                            :style="'background: linear-gradient(90deg, rgb(23, 114, 212) ' + pokemonLevel + '%, rgb(214, 214, 214) ' + pokemonLevel + '%);'">
-                        <div class="slider-text-container">
-                            <p class="slider-text">1</p>
-                            <p class="slider-text">Level: {{ pokemonLevel }}</p>
-                            <p class="slider-text">100</p>
-                        </div>
+                <div class="sprites-container">
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadSprite()" :alt="checkPokemon().name" />
+                    </figure>
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadBackSprite()" :alt="checkPokemon().name" />
+                    </figure>
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadShinySprite()" :alt="checkPokemon().name" />
+                    </figure>
+                    <figure class="pokemon-figure">
+                        <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="checkPokemon().name" />
+                    </figure>
+                </div>
+                <div class="text-wrapper">
+                    <p class="sprite-text">Shiny</p>
+                </div>
+                <div class="main-card-button-container">
+                    <div class="card-change-wrapper tooltip-container">
+                        <button :style="{ 'color': checkFavorite() }" class="favorite-button"
+                            @click="addOrRemoveFavorite()">
+                            <i class="fa-solid fa-star"></i></button>
+                        <p v-if="!favChange" class="tooltiptext">{{ 'Favorite ' + capitalize(checkPokemon().name) +
+                            '!' }}</p>
+                        <p v-else-if="favChange" class="tooltiptext">{{ 'Unfavorite ' +
+                            capitalize(checkPokemon().name) + '!' }}</p>
+                        <!--change color when loaded for previously added favorites-->
                     </div>
-                    <div class="card-change-wrapper-container">
-                        <div class="change-btn-wrapper tooltip-container">
-                            <router-link :to="'/pokemon/' + checkPokemon().name"><button class="card-change"><i
-                                        class="fa-solid fa-arrow-left-long"></i></button></router-link>
-                            <p class="tooltiptext">{{ 'Click to go back the info page!' }}</p>
-                        </div>
-                        <div class="change-btn-wrapper tooltip-container">
-                            <button class="card-change" @click="resetCustomStats()"><i
-                                    class="fa-solid fa-trash"></i></button>
-                            <p class="tooltiptext">{{ 'Click to reset the custom stats (IVs/EVs/Nature)!' }}</p>
-                        </div>
+                    <div class="card-change-wrapper tooltip-container">
+                        <router-link :to="'/pokemon/' + checkPokemon().name + '/stats'"><button class="card-change"><i
+                                    class="fa-solid fa-chart-simple"></i></button></router-link>
+                        <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
+                    </div>
+                    <div class="card-change-wrapper tooltip-container">
+                        <router-link :to="'/pokemon/' + checkPokemon().name + '/share'"><button class="share-button"><i
+                                    class="fa-solid fa-share"></i></button></router-link>
+                        <p class="tooltiptext">{{ 'Click to share ' + capitalize(checkPokemon().name) + '!' }}</p>
                     </div>
                 </div>
             </div>
@@ -69,21 +66,40 @@
                 :disabled="Object.entries(checkPokemon()).length === 0"
                 :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
                     class="fa-solid fa-chevron-right"></i></button>
+            <!--the if is just there for transition purposes -->
         </Transition>
     </section>
 </template>
 
 <script>
-import { usePokemonStore } from '../stores/pokemonStore.js';
-import { icons } from '../exports/icons';
-import { statNames } from '../exports/statNames';
-import { pokeapi } from '../exports/pokeapi'
+import { usePokemonStore } from '../store/pokemonStore.js';
+import { pokeapi } from '@/exports/pokeapi'
+import { icons } from '../utils/exports/icons';
+import { statNames } from '../utils/exports/statNames';
+import { useAuthStore } from '@/modules/favorites/store/authStore';
+import { storeToRefs } from 'pinia'
 
 //const pokemonStore = usePokemonStore()
 
 export default {
-    name: "PokemonStats",
+    name: "PokemonSprite",
     props: ["name"],
+    setup() {
+        const pokemonStore = usePokemonStore()
+        const authStore = useAuthStore()
+
+        const { pokemonID } = storeToRefs(pokemonStore)
+
+        return { pokemonStore, authStore, pokemonID }
+    }, //realized a bit too late that you could do this.
+    data() {
+        return {
+            sentAlert: false,
+            dataReady: false,
+            favChange: false,
+            //isFavorite: false,
+        };
+    },
     async mounted() {
         try {
             if (/^[a-zA-Z]+$/.test(this.name)) {
@@ -92,56 +108,116 @@ export default {
                 let ID = ''
                 ID = pokemon.id
                 this.addPokemon(pokemon, ID)
-                //this.dataReady = true
+                this.dataReady = true
                 //console.log(this.name)
             } else {
                 const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
                 const pokemon = await pokemonToFind.json()
                 this.addPokemon(pokemon, this.name)
-                this.$router.replace('/pokemon/' + pokemon.name + '/stats')
-                //this.dataReady = true
+                this.$router.replace('/pokemon/' + pokemon.name)
+                this.dataReady = true
             }
         } catch (error) {
             alert('Pokemon was not found :(')
             console.log(error)
         }
     },
-    data() {
-        return {
-            //stats: false,
-            pokemonLevel: 1,
-            //sentAlert: false,
-        };
-    },
     methods: {
         checkPokemon() {
             const pokemonStore = usePokemonStore();
             return pokemonStore.pokemonData;
         },
+        loadSprite() {
+            const pokemonStore = usePokemonStore();
+            if (pokemonStore.pokemonData.id > 649) {
+                if (!this.sentAlert) {
+                    alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
+                    this.sentAlert = true
+                }
+                return "/src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
+            }
+            else {
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/" + pokemonStore.pokemonData.id + ".gif";
+            }
+            //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
+        },
+        loadCry() {
+            const pokemonStore = usePokemonStore();
+            //console.log(pokemonStore.pokemonData.types.length)
+            if (pokemonStore.pokemonID > 721) {
+                const audio = new Audio("/src/assets/cries/" + pokemonStore.pokemonID + ".wav");
+                audio.play();
+            } else {
+                const audio = new Audio("/src/assets/cries/" + pokemonStore.pokemonID + ".ogg");
+                audio.play();
+            }
+
+        },
         capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
-        async nextPokemon() {
+        loadShinySprite() {
             const pokemonStore = usePokemonStore();
-            pokemonStore.nextPokemon();
-            await pokemonStore.changePokemon;
-            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name + '/stats')
+            if (pokemonStore.pokemonData.id > 649) {
+                return "/src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
+            }
+            else {
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/shiny/" + pokemonStore.pokemonData.id + ".gif";
+            }
         },
-        async previousPokemon() {
+        loadBackSprite() {
             const pokemonStore = usePokemonStore();
-            pokemonStore.previousPokemon();
-            await pokemonStore.changePokemon;
-            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name + '/stats')
+            if (pokemonStore.pokemonData.id > 649) {
+                if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
+                    return "/src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
+                }
+                else {
+                    return "/src/assets/pokemon/versions/generation-v/black-white/back/" + pokemonStore.pokemonData.id + ".png";
+                }
+            }
+            else {
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/" + pokemonStore.pokemonData.id + ".gif";
+            }
         },
-        colorTextBackground() {
+        loadShinyBackSprite() {
             const pokemonStore = usePokemonStore();
-            let background = pokemonStore.pokemonData.types[0].type.name + "-b";
-            return background;
+            if (pokemonStore.pokemonData.id > 649) {
+                if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
+                    return "/src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
+                }
+                else {
+                    return "/src/assets/pokemon/versions/generation-v/black-white/back/shiny/" + pokemonStore.pokemonData.id + ".png";
+                }
+            }
+            else {
+                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + pokemonStore.pokemonData.id + ".gif";
+            }
         },
         addPokemon(pokemon, id) {
             const pokemonStore = usePokemonStore()
             pokemonStore.pokemonData = pokemon
             pokemonStore.pokemonID = id
+        },
+        async nextPokemon() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.nextPokemon();
+            await pokemonStore.changePokemon;
+            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name)
+        },
+        async previousPokemon() {
+            const pokemonStore = usePokemonStore();
+            pokemonStore.previousPokemon();
+            await pokemonStore.changePokemon;
+            this.$router.push('/pokemon/' + pokemonStore.pokemonData.name)
+        },
+        colorText() {
+            const pokemonStore = usePokemonStore();
+            return pokemonStore.pokemonData.types[0].type.name;
+        },
+        colorTextBackground() {
+            const pokemonStore = usePokemonStore();
+            let background = pokemonStore.pokemonData.types[0].type.name + "-b";
+            return background;
         },
         iconReturn(key) {
             return icons.find(element => element.key === key).value
@@ -285,17 +361,36 @@ export default {
                 return false
             }
         },
-        addPokemon(pokemon, id) {
-            const pokemonStore = usePokemonStore()
-            pokemonStore.pokemonData = pokemon
-            pokemonStore.pokemonID = id
+        checkFavorite() {
+            if (this.authStore.favoriteIDs.find(e => e === this.pokemonID)) {
+                this.favChange = true;
+                return 'gold'
+            } else {
+                this.favChange = false;
+                return '#207fb6'
+            }
         },
+        addOrRemoveFavorite() {
+            if (this.authStore.favoriteIDs.find(e => e === this.pokemonID)) {
+                this.authStore.deleteFavorite(this.pokemonID)
+            } else {
+                this.authStore.addFavorite(this.checkPokemon().name, this.pokemonID)
+            }
+        }
     },
     //components: { PokemonStats }
 }
 </script>
 
 <style>
-@import '../assets/css/Pokemon.css';
+@import '@/assets/css/Pokemon.css';
 
+.main-card-button-container .tooltip-container .tooltiptext {
+    top: 170%;
+    left: 50%;
+    margin-left: -60px;
+}
 </style>
+
+
+

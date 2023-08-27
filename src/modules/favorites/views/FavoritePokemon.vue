@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '../store/authStore';
 import axios from 'axios';
-import { localhostApi } from '../exports/nestapi.js';
+import { localhostApi } from '@/exports/nestapi.js';
 import { useRouter } from 'vue-router';
-import NavBar from '../components/NavBar.vue'
+import NavBar from '@/components/NavBar.vue';
 import FavoritePokemonSprite from '../components/FavoritePokemonSprite.vue'
 export default {
   name: 'FavoritePokemon',

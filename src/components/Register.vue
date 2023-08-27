@@ -27,7 +27,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { localhostApi } from '../exports/nestapi.js';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '@/modules/favorites/store/authStore'
 
 const user = {
   username: '',

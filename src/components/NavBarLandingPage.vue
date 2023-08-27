@@ -19,7 +19,7 @@
 
 <script>
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '@/modules/favorites/store/authStore'
 import { signOut, getAuth } from 'firebase/auth';
 export default {
     name: 'NavBarLandingPage',

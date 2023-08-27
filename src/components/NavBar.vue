@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { usePokemonStore } from '../stores/pokemonStore.js';
+import { usePokemonStore } from '@/modules/stats/store/pokemonStore'
 
 export default {
     name: 'NavBar',
