@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { localhostApi } from "@/exports/nestapi.js";
+import { API } from "@/exports/nestapi.js";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -21,7 +21,7 @@ export const useAuthStore = defineStore({
       let favoriteID;
       const index = this.favorites.findIndex((fav) => fav.id === id);
       await axios
-        .get(localhostApi + "favorites/" + this.userId + "/" + id)
+        .get(API + "favorites/" + this.userId + "/" + id)
         .then((response) => {
           favoriteID = response.data[0].id;
         })
@@ -29,7 +29,7 @@ export const useAuthStore = defineStore({
           console.log(error.code);
         });
       await axios
-        .delete(localhostApi + "favorites/" + favoriteID)
+        .delete(API + "favorites/" + favoriteID)
         .then((response) => {
           //console.log(index);
           if (index > -1) {
@@ -50,7 +50,7 @@ export const useAuthStore = defineStore({
           user: this.userId,
         };
         await axios
-          .post(localhostApi + "favorites", fav)
+          .post(API + "favorites", fav)
           .then((response) => {
             if (this.favorites.find((e) => e.id === id)) {
               console.log("Duplicate ID, not adding to array.");

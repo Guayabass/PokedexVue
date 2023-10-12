@@ -3,13 +3,13 @@
         <div class="login-form">
             <h2><span class="blue">Login</span></h2>
             <div class="form">
-                <input placeholder="Email" type="text" name="Login" required v-model="user.username">
+                <input data-cy="login-user" placeholder="Email" type="text" name="Login" required v-model="user.username">
                 <label for="Login" class="label-name">
                     <span class="content-pokemon">Username</span>
                 </label>
             </div>
             <div class="form">
-                <input placeholder="Password" type="password" name="Login" required v-model="user.password">
+                <input data-cy="login-user-pwd" placeholder="Password" type="password" name="Login" required v-model="user.password">
                 <label for="Login" class="label-name">
                     <span class="content-pokemon">Password</span>
                 </label>
@@ -17,11 +17,11 @@
             <Transition name="fade" mode="out-in">
                 <p class="error-msg" v-if="errMsg">{{ errMsg }}</p><!-- position right -->
             </Transition>
-            <p class="login-text">Don't have an account? </p><span class="blue" @click="redirectRegister()">Register</span>
+            <p class="login-text">Don't have an account? </p><span data-cy="register-tag" class="blue" @click="redirectRegister()">Register</span>
             <!-- make router link for clicking Log in -->
         </div>
         <div class="btn-wrapper">
-            <button class="login-button" @click="login">Login</button>
+            <button data-cy="login-btn" class="login-button" @click="login">Login</button>
         </div>
     </div>
 </template>
@@ -31,7 +31,7 @@ import { ref } from 'vue';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { localhostApi } from '../exports/nestapi.js';
+import { API } from '../exports/nestapi.js';
 import { useAuthStore } from '@/modules/favorites/store/authStore'
 
 const user = {
@@ -44,42 +44,61 @@ const auth = getAuth();
 const authStore = useAuthStore()
 
 const login = () => {
-        signInWithEmailAndPassword(auth, user.username, user.password)
-            .then((data) => {
-                console.log('successfully signed in')
-                //console.log(auth.currentUser)
-                loginDB();
-            })
-            .catch((error) => {
-                console.log(error.code)
-                switch (error.code) {
-                    case "auth/invalid-email":
-                        errMsg.value = "Invalid Email"
-                        break;
-                    case "auth/user-not-found":
-                        errMsg.value = "No account was found with that email"
-                        break;
-                    case "auth/wrong-password":
-                        errMsg.value = "Wrong password"
-                        break;
-                    default:
-                        errMsg.value = "Wrong email or password"
-                        break;
-                }
-            });
+    signInWithEmailAndPassword(auth, user.username, user.password)
+        .then((data) => {
+            console.log('successfully signed in')
+
+            loginDB();
+        })
+        .catch((error) => {
+            console.log(error.code)
+            switch (error.code) {
+                case "auth/invalid-email":
+                    errMsg.value = "Invalid Email"
+                    break;
+                case "auth/user-not-found":
+                    errMsg.value = "No account was found with that email"
+                    break;
+                case "auth/wrong-password":
+                    errMsg.value = "Wrong password"
+                    break;
+                default:
+                    errMsg.value = "Wrong email or password"
+                    break;
+            }
+        });
 };
 
 const loginDB = async () => {
-    await axios.post(localhostApi + 'authuser/login', user).then(response => {
-        authStore.setUserId(response.data.id);
-        authStore.username = user.username;
-        authStore.password = user.password;
-        router.push('/pokemon/favorites')
-        //console.log(authStore.userId);
-        console.log('exists in DB (logged in as well)')
+    await axios.post(API + 'authuser/login', user).then(response => {
+        if (response.data.id === undefined) {
+            registerDB()
+        } else {
+            authStore.setUserId(response.data.id);
+            authStore.username = user.username;
+            authStore.password = user.password;
+            router.push('/pokemon/favorites')
+            //console.log(authStore.userId);
+            console.log('exists in DB (logged in as well)')
+        }
     })
         .catch((error) => {
             console.log('error in loginDB')
+            console.log(error.code)
+        });
+};
+
+const registerDB = async () => {
+    await axios.post(API + 'authuser/create', user).then(response => {
+        //console.log(response.status);
+        authStore.setUserId(response.data.id);
+        authStore.username = user.username;
+        authStore.password = user.password;
+        authStore.isLoggedIn = true;
+        router.push('/pokemon/favorites')
+    })
+        .catch((error) => {
+            console.log('error in registerDB')
             console.log(error.code)
         });
 };

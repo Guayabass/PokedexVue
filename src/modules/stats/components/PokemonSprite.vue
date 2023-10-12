@@ -39,7 +39,7 @@
                 </div>
                 <div class="main-card-button-container">
                     <div class="card-change-wrapper tooltip-container">
-                        <button :style="{ 'color': checkFavorite() }" class="favorite-button"
+                        <button :style="{ 'color': checkFavorite() }" data-cy="favorite-btn" class="favorite-button"
                             @click="addOrRemoveFavorite()">
                             <i class="fa-solid fa-star"></i></button>
                         <p v-if="!favChange" class="tooltiptext">{{ 'Favorite ' + capitalize(checkPokemon().name) +
@@ -113,7 +113,7 @@ export default {
             } else {
                 const pokemonToFind = await fetch(`${pokeapi}/${this.name}`)//aggara el pokemon con el id
                 const pokemon = await pokemonToFind.json()
-                this.addPokemon(pokemon, this.name)
+                this.addPokemon(pokemon, pokemon.id)
                 this.$router.replace('/pokemon/' + pokemon.name)
                 this.dataReady = true
             }
@@ -142,13 +142,13 @@ export default {
             //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
         },
         loadCry() {
-            const pokemonStore = usePokemonStore();
-            //console.log(pokemonStore.pokemonData.types.length)
-            if (pokemonStore.pokemonID > 721) {
-                const audio = new Audio("/src/assets/cries/" + pokemonStore.pokemonID + ".wav");
+            //const pokemonStore = usePokemonStore();
+            console.log(this.pokemonStore.pokemonID )
+            if (this.pokemonStore.pokemonID > 721) {
+                const audio = new Audio("/src/assets/cries/" + this.pokemonStore.pokemonID + ".wav");
                 audio.play();
             } else {
-                const audio = new Audio("/src/assets/cries/" + pokemonStore.pokemonID + ".ogg");
+                const audio = new Audio("/src/assets/cries/" + this.pokemonStore.pokemonID + ".ogg");
                 audio.play();
             }
 

@@ -27,7 +27,7 @@
 <script>
 import { useAuthStore } from '../store/authStore';
 import axios from 'axios';
-import { localhostApi } from '@/exports/nestapi.js';
+import { API } from '@/exports/nestapi.js';
 import { useRouter } from 'vue-router';
 import NavBar from '@/components/NavBar.vue';
 import FavoritePokemonSprite from '../components/FavoritePokemonSprite.vue'
@@ -42,7 +42,7 @@ export default {
   },
   async mounted() {
     if (this.authStore.isLoggedIn) {
-      await axios.get(localhostApi + 'favorites/' + this.authStore.userId).then(response => {
+      await axios.get(API + 'favorites/' + this.authStore.userId).then(response => {
         response.data.forEach(element => {
           if (this.authStore.favorites.find(e => e.id === element.pokemonID)) {
             console.log('Duplicate ID, not adding to array.')
@@ -86,6 +86,7 @@ export default {
 .fav-container {
   width: 100%;
   display: flex;
+  justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
 }

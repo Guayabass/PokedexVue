@@ -3,13 +3,13 @@
     <div class="register-form">
       <h2><span class="blue">Register</span></h2>
       <div class="form">
-        <input placeholder="Email" type="text" name="Register" required v-model="user.username">
+        <input data-cy="register-user" placeholder="Email" type="text" name="Register" required v-model="user.username">
         <label for="Register" class="label-name">
           <span class="content-pokemon">Username</span>
         </label>
       </div>
       <div class="form">
-        <input placeholder="Password" type="password" name="Register" required v-model="user.password">
+        <input data-cy="register-pass" placeholder="Password" type="password" name="Register" required v-model="user.password">
         <label for="Register" class="label-name">
           <span class="content-pokemon">Password</span>
         </label>
@@ -17,7 +17,7 @@
       <p class="register-text">Already registered? </p><span class="blue" @click="redirectLogin()">Log in</span>
     </div>
     <div class="btn-wrapper">
-      <button class="register-button" @click="register">Register</button>
+      <button data-cy="register-btn" class="register-button" @click="register">Register</button>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { localhostApi } from '../exports/nestapi.js';
+import { API } from '../exports/nestapi.js';
 import { useAuthStore } from '@/modules/favorites/store/authStore'
 
 const user = {
@@ -43,7 +43,6 @@ const register = () => {
         //console.log('successfully registered')
         if (auth.currentUser) {
           console.log('logged in')
-          authStore.isLoggedIn = true;
           registerDB();
         } else {
           console.log('not logged')
@@ -56,11 +55,12 @@ const register = () => {
 };
 
 const registerDB = async () => {
-  await axios.post(localhostApi + 'authuser/create', user).then(response => {
-    //console.log(response.data);
+  await axios.post(API + 'authuser/create', user).then(response => {
+    console.log(response.status);
     authStore.setUserId(response.data.id);
     authStore.username = user.username;
     authStore.password = user.password;
+    authStore.isLoggedIn = true;
     router.push('/pokemon/favorites')
   })
     .catch((error) => {

@@ -265,13 +265,13 @@ i {
                         @click="focusInput">Pokedex's</span> ID.</h2>
             </div>
             <div class="form">
-                <input ref="inputField" placeholder="E.g: Pikachu" type="text" name="Pokemon" autocomplete="off"
+                <input ref="inputField" placeholder="E.g: Pikachu" type="text" data-cy="search-pkm" name="Pokemon" autocomplete="off"
                     required @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
                 <label for="Pokemon" class="label-name">
                     <span class="content-pokemon">Pokemon's Name/ID</span>
                 </label>
             </div>
-            <router-link :to="'/pokemon/' + pokemonNameOrID"><button class="btn btn-search" @click="searchPokemon()"><i
+            <router-link :to="'/pokemon/' + pokemonNameOrID"><button data-cy="search-pkm-btn" class="btn btn-search" @click="searchPokemon()"><i
                     class="fa-sharp fa-solid fa-magnifying-glass"></i>Search Pokemon</button></router-link>
         </div>
     </header>
