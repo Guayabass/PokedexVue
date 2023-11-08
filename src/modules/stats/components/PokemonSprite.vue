@@ -54,7 +54,7 @@
                         <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
                     </div>
                     <div class="card-change-wrapper tooltip-container">
-                        <router-link :to="'/pokemon/' + checkPokemon().name + '/share'"><button class="share-button"><i
+                        <router-link :to="'/pokemon/' + checkPokemon().name + '/share'"><button data-cy="share-btn" class="share-button"><i
                                     class="fa-solid fa-share"></i></button></router-link>
                         <p class="tooltiptext">{{ 'Click to share ' + capitalize(checkPokemon().name) + '!' }}</p>
                     </div>

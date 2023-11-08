@@ -30,7 +30,7 @@
             </div>
             <div class="main-card-button-container">
                 <div class="card-change-wrapper tooltip-container">
-                    <button @click="authStore.deleteFavorite(id)" class="card-change"><i class="fa-solid fa-trash"></i></button>
+                    <button data-cy="remove-fav-btn" @click="authStore.deleteFavorite(id)" class="card-change"><i class="fa-solid fa-trash"></i></button>
                     <p class="tooltiptext">{{ 'Remove ' + capitalize(name) + ' from favorites!' }}</p>
                 </div>
             </div>

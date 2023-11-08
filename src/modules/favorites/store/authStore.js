@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { API } from "@/exports/nestapi.js";
+import { API } from "/src/exports/nestapi.js";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -43,6 +43,7 @@ export const useAuthStore = defineStore({
         });
     },
     async addFavorite(name, id) {
+      console.log(this.userId)
       if (this.isLoggedIn) {
         const fav = {
           pokemonID: id,

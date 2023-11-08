@@ -1,6 +1,6 @@
 <template>
     <h2 class="share-title">Share this Pokemon:</h2>
-    <input v-if="dataReady" type="text" :value="'http://webdex.online/pokemon/' + Pokemon.name" readonly
+    <input data-cy="share-txt" v-if="dataReady" type="text" :value="'http://webdex.site/pokemon/' + Pokemon.name" readonly
         @focus="$event.target.select(), showText = true" ref="pokemonLink" @click="copy()" @blur="showText = false">
             <p :class="showText ? 'enabled' : 'disabled'" class="copied-text">Link copied to clipboard!</p>
 </template>

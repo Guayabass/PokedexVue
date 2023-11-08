@@ -1,1 +1,1 @@
-export const API = 'http://backend.webdex.online/api/';
+export const API = 'http://backend.webdex.site/api/';

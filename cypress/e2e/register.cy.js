@@ -1,7 +1,9 @@
 describe("Register", () => {
-  it("Register account", () => {
+  before(() => {
+    cy.logout();
     cy.visit("http://localhost:5173/home");
-
+  })
+  it("Register account", () => {
     cy.get('[data-cy="register-tag"]').click();
 
     // Get an input, type into it

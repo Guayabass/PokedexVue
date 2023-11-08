@@ -23,6 +23,7 @@
         <div class="btn-wrapper">
             <button data-cy="login-btn" class="login-button" @click="login">Login</button>
         </div>
+        <button data-cy="test-pinia" class="invisible" @click="authStore.userId = 1"></button>
     </div>
 </template>
 
@@ -73,6 +74,7 @@ const loginDB = async () => {
     await axios.post(API + 'authuser/login', user).then(response => {
         if (response.data.id === undefined) {
             registerDB()
+            console.log("response id is undefined")
         } else {
             authStore.setUserId(response.data.id);
             authStore.username = user.username;
@@ -175,6 +177,10 @@ h2 .blue {
 
 .error-msg {
     color: red;
+}
+
+.invisible {
+    visibility: hidden;
 }
 
 @media (max-width: 1000px) {
