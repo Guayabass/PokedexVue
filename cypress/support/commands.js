@@ -26,19 +26,9 @@
 
 import { initializeApp } from "firebase/app";
 import { signOut, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { fbConfig } from "/src/exports/fbConfig";
 
-
-const fbConfig = {
-    apiKey: "AIzaSyDGFVVi_t8NMc2gemQW7oLPbaarjIPSCEE",
-    authDomain: "webdex-3008e.firebaseapp.com",
-    projectId: "webdex-3008e",
-    storageBucket: "webdex-3008e.appspot.com",
-    messagingSenderId: "1092449272417",
-    appId: "1:1092449272417:web:fad23950a2091ce06be020",
-  };
-
-initializeApp(fbConfig);
-
+initializeApp(fbConfig); //import own fbconfig
 
 const auth = getAuth();
 

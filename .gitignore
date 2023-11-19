@@ -11,6 +11,7 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+.env
 coverage
 *.local
 src/assets/cries
@@ -19,6 +20,7 @@ serviceAccount.json
 cypress.env.json
 
 /cypress/videos/
+fbConfig.js
 /cypress/screenshots/
 
 # Editor directories and files
