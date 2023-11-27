@@ -49,13 +49,13 @@
                         <!--change color when loaded for previously added favorites-->
                     </div>
                     <div class="card-change-wrapper tooltip-container">
-                        <router-link :to="'/pokemon/' + checkPokemon().name + '/stats'"><button class="card-change"><i
-                                    class="fa-solid fa-chart-simple"></i></button></router-link>
+                        <button @click="router.push('/pokemon/' + checkPokemon().name + '/stats')" class="card-change"><i
+                                class="fa-solid fa-chart-simple"></i></button>
                         <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
                     </div>
                     <div class="card-change-wrapper tooltip-container">
-                        <router-link :to="'/pokemon/' + checkPokemon().name + '/share'"><button data-cy="share-btn" class="share-button"><i
-                                    class="fa-solid fa-share"></i></button></router-link>
+                        <button @click="router.push('/pokemon/' + checkPokemon().name + '/share')" data-cy="share-btn"
+                            class="share-button"><i class="fa-solid fa-share"></i></button>
                         <p class="tooltiptext">{{ 'Click to share ' + capitalize(checkPokemon().name) + '!' }}</p>
                     </div>
                 </div>
@@ -78,6 +78,7 @@ import { icons } from '../utils/exports/icons';
 import { statNames } from '../utils/exports/statNames';
 import { useAuthStore } from '@/modules/favorites/store/authStore';
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router';
 
 //const pokemonStore = usePokemonStore()
 
@@ -87,10 +88,11 @@ export default {
     setup() {
         const pokemonStore = usePokemonStore()
         const authStore = useAuthStore()
+        const router = useRouter();
 
         const { pokemonID } = storeToRefs(pokemonStore)
 
-        return { pokemonStore, authStore, pokemonID }
+        return { router, pokemonStore, authStore, pokemonID }
     }, //realized a bit too late that you could do this.
     data() {
         return {
@@ -134,21 +136,21 @@ export default {
                     alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
                     this.sentAlert = true
                 }
-                return "/src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
+                return new URL(`/assets/pokemon/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/" + pokemonStore.pokemonData.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/` + pokemonStore.pokemonData.id + `.gif`, import.meta.url).href;
             }
             //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
         },
         loadCry() {
             //const pokemonStore = usePokemonStore();
-            console.log(this.pokemonStore.pokemonID )
+            //console.log(this.pokemonStore.pokemonID )
             if (this.pokemonStore.pokemonID > 721) {
-                const audio = new Audio("/src/assets/cries/" + this.pokemonStore.pokemonID + ".wav");
+                const audio = new Audio("/assets/cries/" + this.pokemonStore.pokemonID + ".wav");
                 audio.play();
             } else {
-                const audio = new Audio("/src/assets/cries/" + this.pokemonStore.pokemonID + ".ogg");
+                const audio = new Audio("/assets/cries/" + this.pokemonStore.pokemonID + ".ogg");
                 audio.play();
             }
 
@@ -159,38 +161,38 @@ export default {
         loadShinySprite() {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
-                return "/src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
+                return new URL(`/assets/pokemon/shiny/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/shiny/" + pokemonStore.pokemonData.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/shiny/` + pokemonStore.pokemonData.id + `.gif`, import.meta.url).href;
             }
         },
         loadBackSprite() {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
-                    return "/src/assets/pokemon/" + pokemonStore.pokemonData.id + ".png";
+                    return new URL(`/assets/pokemon/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
                 }
                 else {
-                    return "/src/assets/pokemon/versions/generation-v/black-white/back/" + pokemonStore.pokemonData.id + ".png";
+                    return new URL(`/assets/pokemon/versions/generation-v/black-white/back/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
                 }
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/" + pokemonStore.pokemonData.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/back/` + pokemonStore.pokemonData.id + `.gif`, import.meta.url).href;
             }
         },
         loadShinyBackSprite() {
             const pokemonStore = usePokemonStore();
             if (pokemonStore.pokemonData.id > 649) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
-                    return "/src/assets/pokemon/shiny/" + pokemonStore.pokemonData.id + ".png";
+                    return new URL(`/assets/pokemon/shiny/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
                 }
                 else {
-                    return "/src/assets/pokemon/versions/generation-v/black-white/back/shiny/" + pokemonStore.pokemonData.id + ".png";
+                    return new URL(`/assets/pokemon/versions/generation-v/black-white/back/shiny/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
                 }
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + pokemonStore.pokemonData.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/` + pokemonStore.pokemonData.id + `.gif`, import.meta.url).href;
             }
         },
         addPokemon(pokemon, id) {

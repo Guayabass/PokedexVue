@@ -18,6 +18,7 @@ src/assets/cries
 src/assets/pokemon
 serviceAccount.json
 cypress.env.json
+public/assets
 
 /cypress/videos/
 fbConfig.js

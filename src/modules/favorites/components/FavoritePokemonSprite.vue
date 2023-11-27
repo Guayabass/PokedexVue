@@ -75,55 +75,55 @@ export default {
     },
     methods: {
         loadSprite() {
-            if (this.id > 649) {
-                return "/src/assets/pokemon/" + this.id + ".png";
+            if (this.id > 649) {               
+                return new URL(`/assets/pokemon/` + this.id + `.png`, import.meta.url).href;
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/" + this.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/` + this.id + `.gif`, import.meta.url).href;
             }
         },
         loadCry() {
             if (this.id > 721) {
-                const audio = new Audio("/src/assets/cries/" + this.id + ".wav");
+                const audio = new Audio("/assets/cries/" + this.id + ".wav");
                 audio.play();
             } else {
-                const audio = new Audio("/src/assets/cries/" + this.id + ".ogg");
+                const audio = new Audio("/assets/cries/" + this.id + ".ogg");
                 audio.play();
             }
 
         },
         loadShinySprite() {
             if (this.id > 649) {
-                return "/src/assets/pokemon/shiny/" + this.id + ".png";
+                return new URL(`/assets/pokemon/shiny/` + this.id + `.png`, import.meta.url).href;
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/shiny/" + this.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/shiny/` + this.id + `.gif`, import.meta.url).href;
             }
         },
         loadBackSprite() {
             if (this.id > 649) {
                 if (this.id > 697 || this.id < 701) {
-                    return "/src/assets/pokemon/" + this.id + ".png";
+                    return new URL(`/assets/pokemon/` + this.id + `.png`, import.meta.url).href;
                 }
                 else {
-                    return "/src/assets/pokemon/versions/generation-v/black-white/back/" + this.id + ".png";
+                    return new URL(`/assets/pokemon/versions/generation-v/black-white/back/` + this.id + `.png`, import.meta.url).href;
                 }
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/" + this.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/back/` + this.id + `.gif`, import.meta.url).href;
             }
         },
         loadShinyBackSprite() {
             if (this.id > 649) {
                 if (this.id > 697 || this.id < 701) {
-                    return "/src/assets/pokemon/shiny/" + this.id + ".png";
+                    return new URL(`/assets/pokemon/shiny/` + this.id + `.png`, import.meta.url).href;
                 }
                 else {
-                    return "/src/assets/pokemon/versions/generation-v/black-white/back/shiny/" + this.id + ".png";
+                    return new URL(`/assets/pokemon/versions/generation-v/black-white/back/shiny/` + this.id + `.png`, import.meta.url).href;
                 }
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + this.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/` + this.id + `.gif`, import.meta.url).href;
             }
         },
         capitalize(string) {

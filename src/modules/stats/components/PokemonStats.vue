@@ -51,8 +51,8 @@
                     </div>
                     <div class="card-change-wrapper-container">
                         <div class="change-btn-wrapper tooltip-container">
-                            <router-link :to="'/pokemon/' + checkPokemon().name"><button class="card-change"><i
-                                        class="fa-solid fa-arrow-left-long"></i></button></router-link>
+                            <button @click="router.push('/pokemon/' + checkPokemon().name)" class="card-change"><i
+                                        class="fa-solid fa-arrow-left-long"></i></button>
                             <p class="tooltiptext">{{ 'Click to go back the info page!' }}</p>
                         </div>
                         <div class="change-btn-wrapper tooltip-container">
@@ -78,12 +78,18 @@ import { usePokemonStore } from '../store/pokemonStore';
 import { icons } from '../utils/exports/icons';
 import { statNames } from '../utils/exports/statNames';
 import { pokeapi } from '@/exports/pokeapi'
+import { useRouter } from 'vue-router';
 
 //const pokemonStore = usePokemonStore()
 
 export default {
     name: "PokemonStats",
     props: ["name"],
+    setup() {
+        const router = useRouter();
+
+        return { router }
+    },
     async mounted() {
         try {
             if (/^[a-zA-Z]+$/.test(this.name)) {

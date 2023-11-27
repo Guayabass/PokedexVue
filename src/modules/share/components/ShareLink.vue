@@ -2,7 +2,7 @@
     <h2 class="share-title">Share this Pokemon:</h2>
     <input data-cy="share-txt" v-if="dataReady" type="text" :value="'http://webdex.site/pokemon/' + Pokemon.name" readonly
         @focus="$event.target.select(), showText = true" ref="pokemonLink" @click="copy()" @blur="showText = false">
-            <p :class="showText ? 'enabled' : 'disabled'" class="copied-text">Link copied to clipboard!</p>
+    <p :class="showText ? 'enabled' : 'disabled'" class="copied-text">Link copied to clipboard!</p>
 </template>
 
 <script>
@@ -113,23 +113,37 @@ input:hover {
 }
 
 .enabled {
-  opacity: 1;
-  transition: all 500ms ease;
+    opacity: 1;
+    transition: all 500ms ease;
 }
 
 .disabled {
-  opacity: 0;
-  transition: all 500ms ease;
+    opacity: 0;
+    transition: all 500ms ease;
 }
 
-.copied-text{
+.copied-text {
     font-family: 'Lato', sans-serif;
     margin-top: 8px;
     font-size: 16px;
-    color: skyblue;  
+    color: skyblue;
+}
+
+@media only screen and (max-width: 1000px) {
+    input {
+        width: 80%;
+        font-size: 20px;
+    }
 }
 
 @media only screen and (max-width: 768px) {
+    input {
+        width: 100%;
+        font-size: 18px;
+    }
+}
+
+@media only screen and (max-width: 420px) {
     input {
         width: 100%;
         font-size: 14px;

@@ -169,15 +169,13 @@ export default {
             return background;
         },
         loadCry() {
-            //console.log(pokemonStore.pokemonData.types.length)
             if (this.Pokemon.id > 721) {
-                const audio = new Audio("/src/assets/cries/" + this.Pokemon.id + ".wav");
+                const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".wav");
                 audio.play();
             } else {
-                const audio = new Audio("/src/assets/cries/" + this.Pokemon.id + ".ogg");
+                const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".ogg");
                 audio.play();
             }
-
         },
         capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -188,45 +186,45 @@ export default {
                     alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
                     this.sentAlert = true
                 }
-                return "/src/assets/pokemon/" + this.Pokemon.id + ".png";
+                return new URL(`/assets/pokemon/` + this.Pokemon.id + `.png`, import.meta.url).href;
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/" + this.Pokemon.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/` + this.Pokemon.id + `.gif`, import.meta.url).href;
             }
             //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
         },
         loadShinySprite() {
             if (this.Pokemon.id > 649) {
-                return "/src/assets/pokemon/shiny/" + this.Pokemon.id + ".png";
+                return new URL(`/assets/pokemon/shiny/` + this.Pokemon.id + `.png`, import.meta.url).href;
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/shiny/" + this.Pokemon.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/shiny/` + this.Pokemon.id + `.gif`, import.meta.url).href;
             }
         },
         loadBackSprite() {
             if (this.Pokemon.id > 649) {
                 if (this.Pokemon.id > 697 || this.Pokemon.id < 701) {
-                    return "/src/assets/pokemon/" + this.Pokemon.id + ".png";
+                    return new URL(`/assets/pokemon/` + this.Pokemon.id + `.png`, import.meta.url).href;
                 }
                 else {
-                    return "/src/assets/pokemon/versions/generation-v/black-white/back/" + this.Pokemon.id + ".png";
+                    return new URL(`/assets/pokemon/versions/generation-v/black-white/back/` + this.Pokemon.id + `.png`, import.meta.url).href;
                 }
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/" + this.Pokemon.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/back/` + this.Pokemon.id + `.gif`, import.meta.url).href;
             }
         },
         loadShinyBackSprite() {
             if (this.Pokemon.id > 649) {
                 if (this.Pokemon.id > 697 || this.Pokemon.id < 701) {
-                    return "/src/assets/pokemon/shiny/" + this.Pokemon.id + ".png";
+                    return new URL(`/assets/pokemon/shiny/` + this.Pokemon.id + `.png`, import.meta.url).href;
                 }
                 else {
-                    return "/src/assets/pokemon/versions/generation-v/black-white/back/shiny/" + this.Pokemon.id + ".png";
+                    return new URL(`/assets/pokemon/versions/generation-v/black-white/back/shiny/` + this.Pokemon.id + `.png`, import.meta.url).href;
                 }
             }
             else {
-                return "/src/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/" + this.Pokemon.id + ".gif";
+                return new URL(`/assets/pokemon/versions/generation-v/black-white/animated/back/shiny/` + this.Pokemon.id + `.gif`, import.meta.url).href;
             }
         },
         iconReturn(key) {

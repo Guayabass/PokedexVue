@@ -2,6 +2,11 @@
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
 @import '../css/color.css';
 
+.router, .router:visited, .router:hover, .router:active, .router:focus {
+    outline: unset;
+    border: unset;
+}
+
 .pokemon-section {
     display: flex;
     font-family: 'Lato', sans-serif;
