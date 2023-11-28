@@ -1,6 +1,6 @@
 # WebDex - Online Pokedex Web APP
 
-To try out live check out http://webdex.online
+To try out live check out http://webdex.site
 
 This template should help get you started developing with Vue 3 in Vite.
 
