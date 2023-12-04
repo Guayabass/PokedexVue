@@ -2,7 +2,11 @@
 
 To try out live check out http://webdex.site
 
-This template should help get you started developing with Vue 3 in Vite.
+To run with docker: 
+
+build image: docker build -t name .
+
+run image: docker run -p 80:8080 name
 
 ## Recommended IDE Setup
 
