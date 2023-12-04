@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
 import Home from "../views/LandingPage.vue";
@@ -72,7 +72,7 @@ const mainRoutes = [
 // const allRoutes = routes.concat(statsRoutes)
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [...mainRoutes, ...statsRoutes, ...favoriteRoutes, ...shareRoutes]
 });
 
