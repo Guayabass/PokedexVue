@@ -9,7 +9,8 @@
         </label>
       </div>
       <div class="form">
-        <input data-cy="register-pass" placeholder="Password" type="password" name="Register" required v-model="user.password">
+        <input data-cy="register-pass" placeholder="Password" type="password" name="Register" required
+          v-model="user.password">
         <label for="Register" class="label-name">
           <span class="content-pokemon">Password</span>
         </label>
@@ -38,20 +39,20 @@ const auth = getAuth();
 const authStore = useAuthStore()
 
 const register = () => {
-    createUserWithEmailAndPassword(auth, user.username, user.password)
-      .then((data) => {
-        //console.log('successfully registered')
-        if (auth.currentUser) {
-          console.log('logged in')
-          registerDB();
-        } else {
-          console.log('not logged')
-        }
-      })
-      .catch((error) => {
-        console.log(error.code)
-        alert(error.message)
-      });
+  createUserWithEmailAndPassword(auth, user.username, user.password)
+    .then((data) => {
+      //console.log('successfully registered')
+      if (auth.currentUser) {
+        console.log('logged in')
+        registerDB();
+      } else {
+        console.log('not logged')
+      }
+    })
+    .catch((error) => {
+      console.log(error.code)
+      alert(error.message)
+    });
 };
 
 const registerDB = async () => {
@@ -147,6 +148,32 @@ h2 .blue {
 @media (max-width: 570px) {
   .register-form-wrapper {
     width: 80%;
+  }
+
+  h2 .blue {
+    font-size: 18px;
+  }
+
+  .register-form {
+    height: 80%;
+  }
+
+  .btn-wrapper {
+    height: 
+    20%;
+  }
+
+  .register-button {
+    font-size: 14px;
+    height: 35px;
+  }
+
+  .register-text {
+    font-size: 14px;
+  }
+
+  .blue {
+    font-size: 14px;
   }
 }
 </style>

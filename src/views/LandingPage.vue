@@ -174,6 +174,11 @@ export default {
         margin: 24px 0;
         line-height: 24px;
     }
+    .landing-subtitle span{
+        font-size: 16px;
+        margin: 24px 0;
+        line-height: 24px;
+    }
     .logged-section{
         font-size: 16px;
     }
@@ -188,4 +193,19 @@ export default {
     .logged-section{
         font-size: 20px;
     }
-}</style>
+}
+
+@media (max-height: 700px) {
+    .landing-title{
+        font-size: 36px;
+    }
+    .title-section img{
+        width: 100%;
+        height: 70%;
+    }
+    .landing-subtitle{
+        margin: 0;
+        margin-bottom: 24px;
+    }
+}
+</style>

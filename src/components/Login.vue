@@ -9,7 +9,8 @@
                 </label>
             </div>
             <div class="form">
-                <input data-cy="login-user-pwd" placeholder="Password" type="password" name="Login" required v-model="user.password">
+                <input data-cy="login-user-pwd" placeholder="Password" type="password" name="Login" required
+                    v-model="user.password">
                 <label for="Login" class="label-name">
                     <span class="content-pokemon">Password</span>
                 </label>
@@ -17,7 +18,8 @@
             <Transition name="fade" mode="out-in">
                 <p class="error-msg" v-if="errMsg">{{ errMsg }}</p><!-- position right -->
             </Transition>
-            <p class="login-text">Don't have an account? </p><span data-cy="register-tag" class="blue" @click="redirectRegister()">Register</span>
+            <p class="login-text">Don't have an account? </p><span data-cy="register-tag" class="blue"
+                @click="redirectRegister()">Register</span>
             <!-- make router link for clicking Log in -->
         </div>
         <div class="btn-wrapper">
@@ -193,5 +195,29 @@ h2 .blue {
     .login-form-wrapper {
         width: 80%;
     }
-}
-</style>
+
+    h2 .blue{
+        font-size: 18px;
+    }
+
+    .login-form {
+        height: 80%;
+    }
+
+    .btn-wrapper {
+        height: 20%;
+    }
+
+    .login-button {
+        font-size: 14px;
+        height: 35px;
+    }
+
+    .login-text {
+        font-size: 14px;
+    }
+
+    .blue {
+        font-size: 14px;
+    }
+}</style>

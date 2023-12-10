@@ -45,6 +45,7 @@ export default {
             this.favorites = false
             this.logout = false
             this.router.push('/login')
+           // this.router.go()
         },
         registerChange() {
             this.login = false
@@ -53,6 +54,7 @@ export default {
             this.favorites = false
             this.logout = false
             this.router.push('/register')
+            //this.router.go()
         },
         webdexChange() {
             this.login = false
@@ -88,6 +90,7 @@ export default {
             this.webdex = false
             this.favorites = false
             this.logout = true
+            this.router.go()
         }
     }
 }
@@ -217,5 +220,6 @@ a:hover {
     #check:checked~.landing-ul {
         left: 0;
     }
+
 }
 </style>
