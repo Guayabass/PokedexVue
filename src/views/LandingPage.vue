@@ -169,6 +169,9 @@ export default {
 }
 
 @media (max-width: 500px) {
+    .landing-title{
+        margin-top: 24px;
+    }
     .landing-subtitle {
         font-size: 16px;
         margin: 24px 0;
@@ -198,6 +201,7 @@ export default {
 @media (max-height: 700px) {
     .landing-title{
         font-size: 36px;
+        margin-top: 24px;
     }
     .title-section img{
         width: 100%;

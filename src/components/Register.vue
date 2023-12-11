@@ -148,6 +148,7 @@ h2 .blue {
 @media (max-width: 570px) {
   .register-form-wrapper {
     width: 80%;
+    margin-top: 24px;
   }
 
   h2 .blue {
