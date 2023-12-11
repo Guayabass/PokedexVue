@@ -170,11 +170,12 @@ export default {
 
 @media (max-width: 500px) {
     .landing-title{
+        font-size: 36px;
         margin-top: 24px;
     }
     .landing-subtitle {
         font-size: 16px;
-        margin: 24px 0;
+        margin-top: 24px;
         line-height: 24px;
     }
     .landing-subtitle span{
@@ -209,7 +210,6 @@ export default {
     }
     .landing-subtitle{
         margin: 0;
-        margin-bottom: 24px;
     }
 }
 </style>
