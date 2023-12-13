@@ -180,7 +180,6 @@ export default {
     }
     .landing-subtitle span{
         font-size: 16px;
-        margin: 24px 0;
         line-height: 24px;
     }
     .logged-section{
@@ -190,8 +189,7 @@ export default {
 
 @media (max-width: 750px) and (min-width: 500px) {
     .landing-subtitle {
-        font-size: 20px;
-        margin: 24px 0;
+        font-size: 16px;
         line-height: 24px;
     }
     .logged-section{
@@ -212,8 +210,7 @@ export default {
         margin: 0;
     }
     .landing-subtitle {
-        font-size: 20px;
-        margin: 24px 0;
+        font-size: 16px;
         line-height: 24px;
     }
     .logged-section{
