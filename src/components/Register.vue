@@ -177,4 +177,36 @@ h2 .blue {
     font-size: 14px;
   }
 }
+
+@media (max-height: 900px) {
+  .register-form-wrapper {
+    margin-top: 24px;
+  }
+
+  h2 .blue {
+    font-size: 18px;
+  }
+
+  .register-form {
+    height: 80%;
+  }
+
+  .btn-wrapper {
+    height: 
+    20%;
+  }
+
+  .register-button {
+    font-size: 14px;
+    height: 35px;
+  }
+
+  .register-text {
+    font-size: 14px;
+  }
+
+  .blue {
+    font-size: 14px;
+  }
+}
 </style>

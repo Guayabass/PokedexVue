@@ -199,7 +199,7 @@ export default {
     }
 }
 
-@media (max-height: 700px) {
+@media (max-height: 800px) {
     .landing-title{
         font-size: 36px;
         margin-top: 24px;
@@ -210,6 +210,14 @@ export default {
     }
     .landing-subtitle{
         margin: 0;
+    }
+    .landing-subtitle {
+        font-size: 20px;
+        margin: 24px 0;
+        line-height: 24px;
+    }
+    .logged-section{
+        font-size: 20px;
     }
 }
 </style>

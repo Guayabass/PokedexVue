@@ -197,7 +197,7 @@ h2 .blue {
         margin-top: 24px;
     }
 
-    h2 .blue{
+    h2 .blue {
         font-size: 18px;
     }
 
@@ -221,4 +221,36 @@ h2 .blue {
     .blue {
         font-size: 14px;
     }
-}</style>
+}
+
+@media (max-height: 900px) {
+    .login-form-wrapper {
+        margin-top: 24px;
+    }
+
+    h2 .blue {
+        font-size: 18px;
+    }
+
+    .login-form {
+        height: 80%;
+    }
+
+    .btn-wrapper {
+        height: 20%;
+    }
+
+    .login-button {
+        font-size: 14px;
+        height: 35px;
+    }
+
+    .login-text {
+        font-size: 14px;
+    }
+
+    .blue {
+        font-size: 14px;
+    }  
+}
+</style>
