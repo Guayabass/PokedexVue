@@ -171,9 +171,11 @@ export default {
         loadCry() {
             if (this.Pokemon.id > 721) {
                 const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".wav");
+                audio.volume = 0.3;
                 audio.play();
             } else {
                 const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".ogg");
+                audio.volume = 0.3;
                 audio.play();
             }
         },

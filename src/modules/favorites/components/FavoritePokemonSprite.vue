@@ -85,9 +85,11 @@ export default {
         loadCry() {
             if (this.id > 721) {
                 const audio = new Audio("/assets/cries/" + this.id + ".wav");
+                audio.volume = 0.3;
                 audio.play();
             } else {
                 const audio = new Audio("/assets/cries/" + this.id + ".ogg");
+                audio.volume = 0.3;
                 audio.play();
             }
 
