@@ -174,7 +174,7 @@ export default {
                 audio.volume = 0.3;
                 audio.play();
             } else {
-                const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".ogg");
+                const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".wav");
                 audio.volume = 0.3;
                 audio.play();
             }
