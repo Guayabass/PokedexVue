@@ -9,11 +9,11 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+//import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/modules/favorites/store/authStore';
 import { getAuth, onAuthStateChanged, setPersistence, browserSessionPersistence } from 'firebase/auth';
 const authStore = useAuthStore();
-const router = useRouter();
+//const router = useRouter();
 
 let auth;
 onMounted(() => {
@@ -33,11 +33,14 @@ onMounted(() => {
       // if a user forgets to sign out.
       // ...
       // New sign-in will be persisted with session persistence.
+      // eslint-disable-next-line no-undef
       return signInWithEmailAndPassword(auth, email, password);
     })
     .catch((error) => {
       // Handle Errors here.
+      // eslint-disable-next-line no-unused-vars
       const errorCode = error.code;
+      // eslint-disable-next-line no-unused-vars
       const errorMessage = error.message;
     });
 });

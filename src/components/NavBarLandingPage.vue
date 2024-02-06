@@ -1,20 +1,54 @@
 <template>
-    <nav class="landing-nav">
-        <figure class="figure-landing-page">
-            <img src="../assets/images/pokedex.png" class="image-landing-page">
-        </figure>
-        <input type="checkbox" id="check">
-        <label for="check" class="checkbtn">
-            <i class="fa-solid fa-bars"></i>
-        </label>
-        <ul class="landing-ul">
-            <li><a @click="loginChange()" :class="{ 'active': login }">Login</a></li>
-            <li><a @click="registerChange()" :class="{ 'active': register }">Register</a></li>
-            <li><a @click="webdexChange()" :class="{ 'active': webdex }">WebDex</a></li>
-            <li><a @click="favoritesChange()" :class="{ 'active': favorites }">Favorites</a></li>
-            <li v-if="authStore.isLoggedIn"><a @click="logoutChange()" :class="{ 'active': logout }">Sign Out</a></li>
-        </ul>
-    </nav>
+  <nav class="landing-nav">
+    <figure class="figure-landing-page">
+      <img
+        src="../assets/images/pokedex.png"
+        class="image-landing-page"
+      >
+    </figure>
+    <input
+      id="check"
+      type="checkbox"
+    >
+    <label
+      for="check"
+      class="checkbtn"
+    >
+      <i class="fa-solid fa-bars" />
+    </label>
+    <ul class="landing-ul">
+      <li>
+        <a
+          :class="{ 'active': login }"
+          @click="loginChange()"
+        >Login</a>
+      </li>
+      <li>
+        <a
+          :class="{ 'active': register }"
+          @click="registerChange()"
+        >Register</a>
+      </li>
+      <li>
+        <a
+          :class="{ 'active': webdex }"
+          @click="webdexChange()"
+        >WebDex</a>
+      </li>
+      <li>
+        <a
+          :class="{ 'active': favorites }"
+          @click="favoritesChange()"
+        >Favorites</a>
+      </li>
+      <li v-if="authStore.isLoggedIn">
+        <a
+          :class="{ 'active': logout }"
+          @click="logoutChange()"
+        >Sign Out</a>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>

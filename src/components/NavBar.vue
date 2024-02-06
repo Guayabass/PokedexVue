@@ -1,12 +1,20 @@
 <template>
-    <nav id="nav">
-        <div class="nav-container" :class="{ 'disabled-events': checkFalse() }">
-            <figure class="pokedex-image-figure">
-                <img src="../assets/images/pokedex.png" class="pokedex-nav-image">
-            </figure>
-            <p class="nav-title">WebDex</p>
-        </div>
-    </nav>
+  <nav id="nav">
+    <div
+      class="nav-container"
+      :class="{ 'disabled-events': checkFalse() }"
+    >
+      <figure class="pokedex-image-figure">
+        <img
+          src="../assets/images/pokedex.png"
+          class="pokedex-nav-image"
+        >
+      </figure>
+      <p class="nav-title">
+        WebDex
+      </p>
+    </div>
+  </nav>
 </template>
 
 <script>

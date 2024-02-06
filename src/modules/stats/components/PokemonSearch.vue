@@ -71,6 +71,70 @@ export default {
 
 </script>
 
+<template>
+  <header>
+    <div
+      class="main-container"
+      :class="{ 'disabled-events': checkFalse() }"
+    >
+      <div class="sub-title-wrapper">
+        <h2 class="sub-title">
+          Welcome to the <span
+            class="blue"
+            @click="focusInput"
+          >WebDex</span> website! Start
+          your search below by
+          entering a <span
+            class="blue"
+            @click="focusInput"
+          >Pokemon's</span> name or <span
+            class="blue"
+            @click="focusInput"
+          >Pokedex's</span> ID.
+        </h2>
+      </div>
+      <div class="form">
+        <input
+          ref="inputField"
+          v-model="pokemonNameOrID"
+          placeholder="E.g: Pikachu"
+          type="text"
+          data-cy="search-pkm"
+          name="Pokemon"
+          autocomplete="off"
+          required
+          @keyup.enter="searchPokemon()"
+        >
+        <label
+          for="Pokemon"
+          class="label-name"
+        >
+          <span class="content-pokemon">Pokemon's Name/ID</span>
+        </label>
+      </div>
+      <router-link :to="'/pokemon/' + pokemonNameOrID">
+        <button
+          data-cy="search-pkm-btn"
+          class="btn btn-search"
+          @click="searchPokemon()"
+        >
+          <i
+            class="fa-sharp fa-solid fa-magnifying-glass"
+          />Search Pokemon
+        </button>
+      </router-link>
+    </div>
+  </header>
+  <!--<header class="search">
+        <label for="search">
+            Enter the Pokedex ID of the Pokemon or its name:
+            <input type="text" id="search" @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
+            
+            <button @click="searchPokemon">Search pokemon</button>
+        </label>
+    </header>-->
+</template>
+
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
 @import url('http://fonts.cdnfonts.com/css/pokemon-solid');
@@ -254,36 +318,6 @@ i {
     }
 }
 </style>
-
-<template>
-    <header>
-        <div class="main-container" :class="{ 'disabled-events': checkFalse() }">
-            <div class="sub-title-wrapper">
-                <h2 class="sub-title">Welcome to the <span class="blue" @click="focusInput">WebDex</span> website! Start
-                    your search below by
-                    entering a <span class="blue" @click="focusInput">Pokemon's</span> name or <span class="blue"
-                        @click="focusInput">Pokedex's</span> ID.</h2>
-            </div>
-            <div class="form">
-                <input ref="inputField" placeholder="E.g: Pikachu" type="text" data-cy="search-pkm" name="Pokemon" autocomplete="off"
-                    required @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
-                <label for="Pokemon" class="label-name">
-                    <span class="content-pokemon">Pokemon's Name/ID</span>
-                </label>
-            </div>
-            <router-link :to="'/pokemon/' + pokemonNameOrID"><button data-cy="search-pkm-btn" class="btn btn-search" @click="searchPokemon()"><i
-                    class="fa-sharp fa-solid fa-magnifying-glass"></i>Search Pokemon</button></router-link>
-        </div>
-    </header>
-    <!--<header class="search">
-        <label for="search">
-            Enter the Pokedex ID of the Pokemon or its name:
-            <input type="text" id="search" @keyup.enter="searchPokemon()" v-model="pokemonNameOrID">
-            
-            <button @click="searchPokemon">Search pokemon</button>
-        </label>
-    </header>-->
-</template>
 
 
 

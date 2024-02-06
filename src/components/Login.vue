@@ -1,32 +1,75 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="login-form-wrapper">
-        <div class="login-form">
-            <h2><span class="blue">Login</span></h2>
-            <div class="form">
-                <input data-cy="login-user" placeholder="Email" type="text" name="Login" required v-model="user.username">
-                <label for="Login" class="label-name">
-                    <span class="content-pokemon">Username</span>
-                </label>
-            </div>
-            <div class="form">
-                <input data-cy="login-user-pwd" placeholder="Password" type="password" name="Login" required
-                    v-model="user.password">
-                <label for="Login" class="label-name">
-                    <span class="content-pokemon">Password</span>
-                </label>
-            </div>
-            <Transition name="fade" mode="out-in">
-                <p class="error-msg" v-if="errMsg">{{ errMsg }}</p><!-- position right -->
-            </Transition>
-            <p class="login-text">Don't have an account? </p><span data-cy="register-tag" class="blue"
-                @click="redirectRegister()">Register</span>
-            <!-- make router link for clicking Log in -->
-        </div>
-        <div class="btn-wrapper">
-            <button data-cy="login-btn" class="login-button" @click="login">Login</button>
-        </div>
-        <button data-cy="test-pinia" class="invisible" @click="authStore.userId = 1"></button>
+  <div class="login-form-wrapper">
+    <div class="login-form">
+      <h2><span class="blue">Login</span></h2>
+      <div class="form">
+        <input
+          v-model="user.username"
+          data-cy="login-user"
+          placeholder="Email"
+          type="text"
+          name="Login"
+          required
+        >
+        <label
+          for="Login"
+          class="label-name"
+        >
+          <span class="content-pokemon">Username</span>
+        </label>
+      </div>
+      <div class="form">
+        <input
+          v-model="user.password"
+          data-cy="login-user-pwd"
+          placeholder="Password"
+          type="password"
+          name="Login"
+          required
+        >
+        <label
+          for="Login"
+          class="label-name"
+        >
+          <span class="content-pokemon">Password</span>
+        </label>
+      </div>
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
+        <p
+          v-if="errMsg"
+          class="error-msg"
+        >
+          {{ errMsg }}
+        </p><!-- position right -->
+      </Transition>
+      <p class="login-text">
+        Don't have an account?
+      </p><span
+        data-cy="register-tag"
+        class="blue"
+        @click="redirectRegister()"
+      >Register</span>
+      <!-- make router link for clicking Log in -->
     </div>
+    <div class="btn-wrapper">
+      <button
+        data-cy="login-btn"
+        class="login-button"
+        @click="login"
+      >
+        Login
+      </button>
+    </div>
+    <button
+      data-cy="test-pinia"
+      class="invisible"
+      @click="authStore.userId = 1"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -48,7 +91,7 @@ const authStore = useAuthStore()
 
 const login = () => {
     signInWithEmailAndPassword(auth, user.username, user.password)
-        .then((data) => {
+        .then(() => {
             console.log('successfully signed in')
 
             loginDB();
@@ -251,6 +294,6 @@ h2 .blue {
 
     .blue {
         font-size: 14px;
-    }  
+    }
 }
 </style>

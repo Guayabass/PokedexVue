@@ -1,118 +1,230 @@
 <!-- SHARE POKEMON -->
 <template>
-    <section :class="{ 'disabled-events': checkFalse() }">
+  <section :class="{ 'disabled-events': checkFalse() }">
     <router-link :to="{ name: 'Home' }">
-        <NavBar></NavBar>
+      <NavBar />
     </router-link>
     <div class="pokemon-section">
-        <Transition name="fade" mode="out-in">
-            <div class="pokemon" :class="{ 'disabled': stats }" v-if="!stats && dataReady">
-                <div class="info-container">
-                    <h1 :class="Pokemon.types[0].type.name">
-                        {{ capitalize(Pokemon.name) }}
-                    </h1>
-                    <button :class="colorTextBackground()" class="cry-button" :disabled="stats" @click="loadCry()"><i
-                            class="fa-solid fa-play"></i>Cry</button>
-                    <!-- <p class="cry-text">Cry</p> -->
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
+        <div
+          v-if="!stats && dataReady"
+          class="pokemon"
+          :class="{ 'disabled': stats }"
+        >
+          <div class="info-container">
+            <h1 :class="Pokemon.types[0].type.name">
+              {{ capitalize(Pokemon.name) }}
+            </h1>
+            <button
+              :class="colorTextBackground()"
+              class="cry-button"
+              :disabled="stats"
+              @click="loadCry()"
+            >
+              <i
+                class="fa-solid fa-play"
+              />Cry
+            </button>
+            <!-- <p class="cry-text">Cry</p> -->
+          </div>
+          <div class="text-wrapper">
+            <p class="sprite-text">
+              Normal
+            </p>
+          </div>
+          <div class="sprites-container">
+            <figure class="pokemon-figure">
+              <img
+                class="pokemon-sprite"
+                :src="loadSprite()"
+                :alt="Pokemon.name"
+              >
+            </figure>
+            <figure class="pokemon-figure">
+              <img
+                class="pokemon-sprite"
+                :src="loadBackSprite()"
+                :alt="Pokemon.name"
+              >
+            </figure>
+            <figure class="pokemon-figure">
+              <img
+                class="pokemon-sprite"
+                :src="loadShinySprite()"
+                :alt="Pokemon.name"
+              >
+            </figure>
+            <figure class="pokemon-figure">
+              <img
+                class="pokemon-sprite"
+                :src="loadShinyBackSprite()"
+                :alt="Pokemon.name"
+              >
+            </figure>
+          </div>
+          <div class="text-wrapper">
+            <p class="sprite-text">
+              Shiny
+            </p>
+          </div>
+          <div class="card-change-wrapper tooltip-container">
+            <button
+              class="card-change"
+              :disabled="stats"
+              @click="stats = !stats"
+            >
+              <i
+                class="fa-solid fa-chart-simple"
+              />
+            </button>
+            <p class="tooltiptext">
+              {{ 'Click to show ' + capitalize(Pokemon.name) + ' stats!' }}
+            </p>
+          </div>
+        </div>
+        <div
+          v-else-if="stats"
+          class="pokemon"
+          :class="{ 'disabled': !stats }"
+        >
+          <div class="typings-container">
+            <h1>
+              Typings
+            </h1>
+            <ul class="typings">
+              <li
+                v-for="(type, index) in Pokemon.types"
+                :key="index"
+                class="pokemon-type"
+                :class="type.type.name + '-b'"
+              >
+                <i :class="iconReturn(type.type.name)" />{{
+                  capitalize(type.type.name)
+                }}
+              </li>
+            </ul>
+          </div>
+          <div class="stats-container">
+            <h1 class="stats-title">
+              Stats
+            </h1>
+            <ul class="stats">
+              <li
+                v-for="(stat, index) in Pokemon.stats"
+                :key="index"
+              >
+                <div class="stat-name-wrapper">
+                  <p class="stat-name">
+                    {{ returnStatNames(stat.stat.name) }}
+                  </p>
                 </div>
-                <div class="text-wrapper">
-                    <p class="sprite-text">Normal</p>
+                <div
+                  class="stat-base-wrapper"
+                  :class="colorTextBackground()"
+                  :style="{ 'width': pokemonLevel * 0.70 + '%' }"
+                >
+                  <p class="stat-base">
+                    {{ baseStatMultiplier(stat.base_stat, index) }}
+                  </p>
                 </div>
-                <div class="sprites-container">
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadSprite()" :alt="Pokemon.name" />
-                    </figure>
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadBackSprite()" :alt="Pokemon.name" />
-                    </figure>
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadShinySprite()" :alt="Pokemon.name" />
-                    </figure>
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="Pokemon.name" />
-                    </figure>
-                </div>
-                <div class="text-wrapper">
-                    <p class="sprite-text">Shiny</p>
-                </div>
-                <div class="card-change-wrapper tooltip-container">
-                    <button class="card-change" @click="stats = !stats" :disabled="stats"><i
-                            class="fa-solid fa-chart-simple"></i></button>
-                    <p class="tooltiptext">{{ 'Click to show ' + capitalize(Pokemon.name) + ' stats!' }} </p>
-                </div>
+              </li>
+              <div class="stats-button-container">
+                <button
+                  class="stats-button"
+                  @click="showIVModal()"
+                >
+                  Custom IVs
+                </button>
+                <button
+                  class="stats-button"
+                  @click="showEVModal()"
+                >
+                  Custom EVs
+                </button>
+                <button
+                  class="stats-button"
+                  @click="showNatureModal()"
+                >
+                  Custom Nature
+                </button>
+                <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
+              </div>
+            </ul>
+          </div>
+          <div class="last-stats-wrapper">
+            <div class="slider-container">
+              <input
+                id="myRange"
+                v-model="pokemonLevel"
+                type="range"
+                min="1"
+                max="100"
+                class="slider"
+                :style="'background: linear-gradient(90deg, rgb(23, 114, 212) ' + pokemonLevel + '%, rgb(214, 214, 214) ' + pokemonLevel + '%);'"
+              >
+              <div class="slider-text-container">
+                <p class="slider-text">
+                  1
+                </p>
+                <p class="slider-text">
+                  Level: {{ pokemonLevel }}
+                </p>
+                <p class="slider-text">
+                  100
+                </p>
+              </div>
             </div>
-            <div class="pokemon" :class="{ 'disabled': !stats }" v-else-if="stats">
-                <div class="typings-container">
-                    <h1>
-                        Typings
-                    </h1>
-                    <ul class="typings">
-                        <li class="pokemon-type" v-for="(type, index) in Pokemon.types" :key="index"
-                            :class="type.type.name + '-b'"><i :class="iconReturn(type.type.name)"></i>{{
-                                    capitalize(type.type.name)
-                            }}</li>
-                    </ul>
-                </div>
-                <div class="stats-container">
-                    <h1 class="stats-title">Stats</h1>
-                    <ul class="stats">
-                        <li v-for="(stat, index) in Pokemon.stats" :key="index">
-                            <div class="stat-name-wrapper">
-                                <p class="stat-name">{{ returnStatNames(stat.stat.name) }}</p>
-                            </div>
-                            <div class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="{ 'width': pokemonLevel * 0.70 + '%' }">
-                                <p class="stat-base">{{ baseStatMultiplier(stat.base_stat, index) }}</p>
-                            </div>
-                        </li>
-                        <div class="stats-button-container">
-                            <button class="stats-button" @click="showIVModal()">Custom IVs</button>
-                            <button class="stats-button" @click="showEVModal()">Custom EVs</button>
-                            <button class="stats-button" @click="showNatureModal()">Custom Nature</button>
-                            <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
-                        </div>
-                    </ul>
-                </div>
-                <div class="last-stats-wrapper">
-                    <div class="slider-container">
-                        <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
-                            :style="'background: linear-gradient(90deg, rgb(23, 114, 212) ' + pokemonLevel + '%, rgb(214, 214, 214) ' + pokemonLevel + '%);'">
-                        <div class="slider-text-container">
-                            <p class="slider-text">1</p>
-                            <p class="slider-text">Level: {{ pokemonLevel }}</p>
-                            <p class="slider-text">100</p>
-                        </div>
-                    </div>
-                    <div class="card-change-wrapper-container">
-                        <div class="change-btn-wrapper tooltip-container">
-                            <button class="card-change" @click="stats = !stats" :disabled="!stats"><i
-                                    class="fa-solid fa-arrow-left-long"></i></button>
-                            <p class="tooltiptext">{{ 'Click to go back the info page!' }}</p>
-                        </div>
-                        <div class="change-btn-wrapper tooltip-container">
-                            <button class="card-change" @click="resetCustomStats()" :disabled="!stats"><i
-                                    class="fa-solid fa-trash"></i></button>
-                            <p class="tooltiptext">{{ 'Click to reset the custom stats (IVs/EVs/Nature)!' }}</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-change-wrapper-container">
+              <div class="change-btn-wrapper tooltip-container">
+                <button
+                  class="card-change"
+                  :disabled="!stats"
+                  @click="stats = !stats"
+                >
+                  <i
+                    class="fa-solid fa-arrow-left-long"
+                  />
+                </button>
+                <p class="tooltiptext">
+                  {{ 'Click to go back the info page!' }}
+                </p>
+              </div>
+              <div class="change-btn-wrapper tooltip-container">
+                <button
+                  class="card-change"
+                  :disabled="!stats"
+                  @click="resetCustomStats()"
+                >
+                  <i
+                    class="fa-solid fa-trash"
+                  />
+                </button>
+                <p class="tooltiptext">
+                  {{ 'Click to reset the custom stats (IVs/EVs/Nature)!' }}
+                </p>
+              </div>
             </div>
-        </Transition>
+          </div>
+        </div>
+      </Transition>
     </div>
     <div class="input-container">
-        <ShareLink :route="name"></ShareLink>
+      <ShareLink :route="name" />
     </div>
 
     <Transition name="fade-modal">
-        <CustomIVsModal v-if="pokemonStore.showIVs"></CustomIVsModal>
+      <CustomIVsModal v-if="pokemonStore.showIVs" />
     </Transition>
     <Transition name="fade-modal">
-        <CustomEVsModal v-if="pokemonStore.showEVs"></CustomEVsModal>
+      <CustomEVsModal v-if="pokemonStore.showEVs" />
     </Transition>
     <Transition name="fade-modal">
-        <CustomNatureModal v-if="pokemonStore.showNature"></CustomNatureModal>
+      <CustomNatureModal v-if="pokemonStore.showNature" />
     </Transition>
-</section>
+  </section>
 </template>
 
 <script>
@@ -128,6 +240,8 @@ import { pokeapi } from '@/exports/pokeapi'
 
 export default {
     name: "ViewPokemon",
+    components: { NavBar, CustomEVsModal, CustomIVsModal, CustomNatureModal, ShareLink },
+    // eslint-disable-next-line vue/require-prop-types
     props: ["name"],
     setup() {
         const pokemonStore = usePokemonStore();
@@ -371,8 +485,7 @@ export default {
                 return false
             }
         }
-    },
-    components: { NavBar, CustomEVsModal, CustomIVsModal, CustomNatureModal, ShareLink }
+    }
 }
 </script>
 

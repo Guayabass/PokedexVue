@@ -30,7 +30,7 @@ export const useAuthStore = defineStore({
         });
       await axios
         .delete(API + "favorites/" + favoriteID)
-        .then((response) => {
+        .then(() => {
           //console.log(index);
           if (index > -1) {
             // only splice array when item is found
@@ -52,7 +52,7 @@ export const useAuthStore = defineStore({
         };
         await axios
           .post(API + "favorites", fav)
-          .then((response) => {
+          .then(() => {
             if (this.favorites.find((e) => e.id === id)) {
               console.log("Duplicate ID, not adding to array.");
             } else {

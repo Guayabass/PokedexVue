@@ -1,8 +1,24 @@
 <template>
-    <h2 class="share-title">Share this Pokemon:</h2>
-    <input data-cy="share-txt" v-if="dataReady" type="text" :value="'http://webdex.site/pokemon/' + Pokemon.name" readonly
-        @focus="$event.target.select(), showText = true" ref="pokemonLink" @click="copy()" @blur="showText = false">
-    <p :class="showText ? 'enabled' : 'disabled'" class="copied-text">Link copied to clipboard!</p>
+  <h2 class="share-title">
+    Share this Pokemon:
+  </h2>
+  <input
+    v-if="dataReady"
+    ref="pokemonLink"
+    data-cy="share-txt"
+    type="text"
+    :value="'http://webdex.site/pokemon/' + Pokemon.name"
+    readonly
+    @focus="$event.target.select(), showText = true"
+    @click="copy()"
+    @blur="showText = false"
+  >
+  <p
+    :class="showText ? 'enabled' : 'disabled'"
+    class="copied-text"
+  >
+    Link copied to clipboard!
+  </p>
 </template>
 
 <script>
@@ -10,6 +26,7 @@ import { pokeapi } from '@/exports/pokeapi'
 export default {
     name: 'ShareLink',
     props: {
+        // eslint-disable-next-line vue/require-default-prop
         route: String
     },
     data() {

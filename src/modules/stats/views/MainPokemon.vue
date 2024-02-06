@@ -1,24 +1,27 @@
 <template>
-    <section :class="{ 'disabled-events': checkFalse() }">
-        <router-link :to="{ name: 'Home' }">
-            <NavBar></NavBar>
-        </router-link>
-        <PokemonSearch></PokemonSearch>
-        <router-view v-slot="{ Component }">
-            <Transition name="page-fade" mode="out-in">
-                <component :is="Component" />
-            </Transition>
-        </router-view>
-        <Transition name="fade">
-            <CustomIVsModal v-if="pokemonStore.showIVs"></CustomIVsModal>
-        </Transition>
-        <Transition name="fade">
-            <CustomEVsModal v-if="pokemonStore.showEVs"></CustomEVsModal>
-        </Transition>
-        <Transition name="fade">
-            <CustomNatureModal v-if="pokemonStore.showNature"></CustomNatureModal>
-        </Transition>
-    </section>
+  <section :class="{ 'disabled-events': checkFalse() }">
+    <router-link :to="{ name: 'Home' }">
+      <NavBar />
+    </router-link>
+    <PokemonSearch />
+    <router-view v-slot="{ Component }">
+      <Transition
+        name="page-fade"
+        mode="out-in"
+      >
+        <component :is="Component" />
+      </Transition>
+    </router-view>
+    <Transition name="fade">
+      <CustomIVsModal v-if="pokemonStore.showIVs" />
+    </Transition>
+    <Transition name="fade">
+      <CustomEVsModal v-if="pokemonStore.showEVs" />
+    </Transition>
+    <Transition name="fade">
+      <CustomNatureModal v-if="pokemonStore.showNature" />
+    </Transition>
+  </section>
 </template>
 
 <script setup>

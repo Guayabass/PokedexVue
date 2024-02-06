@@ -5,7 +5,9 @@
     "build": "vite build",
     "dev": "vite",
     "preview": "vite preview --port 4173",
-    "build-css": "tailwindcss build src/style.css -o src/assets/css/tailwindstyles.css"
+    "build-css": "tailwindcss build src/style.css -o src/assets/css/tailwindstyles.css",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "format": "prettier .  --write"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
@@ -26,7 +28,11 @@
     "autoprefixer": "^10.4.13",
     "cypress": "^13.1.0",
     "cypress-firebase": "^3.0.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.21.1",
     "firebase-admin": "^11.11.0",
+    "prettier": "3.2.5",
     "vite": "^3.0.4",
     "vue-cli-plugin-tailwind": "~3.0.0"
   }

@@ -1,41 +1,76 @@
 <template>
-    <section class="pokemon-section">
-        <div class="pokemon">
-            <div class="info-container">
-                <h1 :class="colorText()">
-                    {{ capitalize(name) }}
-                </h1>
-                <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i
-                        class="fa-solid fa-play"></i>Cry</button>
-            </div>
-            <div class="text-wrapper">
-                <p class="sprite-text">Normal</p>
-            </div>
-            <div class="sprites-container">
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadSprite()" :alt="name" />
-                </figure>
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadBackSprite()" :alt="name" />
-                </figure>
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadShinySprite()" :alt="name" />
-                </figure>
-                <figure class="pokemon-figure">
-                    <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="name" />
-                </figure>
-            </div>
-            <div class="text-wrapper">
-                <p class="sprite-text">Shiny</p>
-            </div>
-            <div class="main-card-button-container">
-                <div class="card-change-wrapper tooltip-container">
-                    <button data-cy="remove-fav-btn" @click="authStore.deleteFavorite(id)" class="card-change"><i class="fa-solid fa-trash"></i></button>
-                    <p class="tooltiptext">{{ 'Remove ' + capitalize(name) + ' from favorites!' }}</p>
-                </div>
-            </div>
+  <section class="pokemon-section">
+    <div class="pokemon">
+      <div class="info-container">
+        <h1 :class="colorText()">
+          {{ capitalize(name) }}
+        </h1>
+        <button
+          :class="colorTextBackground()"
+          class="cry-button"
+          @click="loadCry()"
+        >
+          <i
+            class="fa-solid fa-play"
+          />Cry
+        </button>
+      </div>
+      <div class="text-wrapper">
+        <p class="sprite-text">
+          Normal
+        </p>
+      </div>
+      <div class="sprites-container">
+        <figure class="pokemon-figure">
+          <img
+            class="pokemon-sprite"
+            :src="loadSprite()"
+            :alt="name"
+          >
+        </figure>
+        <figure class="pokemon-figure">
+          <img
+            class="pokemon-sprite"
+            :src="loadBackSprite()"
+            :alt="name"
+          >
+        </figure>
+        <figure class="pokemon-figure">
+          <img
+            class="pokemon-sprite"
+            :src="loadShinySprite()"
+            :alt="name"
+          >
+        </figure>
+        <figure class="pokemon-figure">
+          <img
+            class="pokemon-sprite"
+            :src="loadShinyBackSprite()"
+            :alt="name"
+          >
+        </figure>
+      </div>
+      <div class="text-wrapper">
+        <p class="sprite-text">
+          Shiny
+        </p>
+      </div>
+      <div class="main-card-button-container">
+        <div class="card-change-wrapper tooltip-container">
+          <button
+            data-cy="remove-fav-btn"
+            class="card-change"
+            @click="authStore.deleteFavorite(id)"
+          >
+            <i class="fa-solid fa-trash" />
+          </button>
+          <p class="tooltiptext">
+            {{ 'Remove ' + capitalize(name) + ' from favorites!' }}
+          </p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>

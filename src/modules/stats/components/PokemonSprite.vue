@@ -1,74 +1,154 @@
 <template>
-    <section class="pokemon-section" :class="{ 'disabled-events': checkFalse() }">
-        <Transition name="button">
-            <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
-                :disabled="Object.entries(checkPokemon()).length === 0"
-                :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
-                    class="fa-solid fa-chevron-left"></i></button>
-            <!--the if is just there for transition purposes -->
-        </Transition>
-        <Transition name="fade" mode="out-in">
-            <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
-                <div class="info-container">
-                    <h1 :class="colorText()">
-                        {{ capitalize(checkPokemon().name) }}
-                    </h1>
-                    <button :class="colorTextBackground()" class="cry-button" @click="loadCry()"><i
-                            class="fa-solid fa-play"></i>Cry</button>
-                    <!-- <p class="cry-text">Cry</p> -->
-                </div>
-                <div class="text-wrapper">
-                    <p class="sprite-text">Normal</p>
-                </div>
-                <div class="sprites-container">
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadSprite()" :alt="checkPokemon().name" />
-                    </figure>
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadBackSprite()" :alt="checkPokemon().name" />
-                    </figure>
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadShinySprite()" :alt="checkPokemon().name" />
-                    </figure>
-                    <figure class="pokemon-figure">
-                        <img class="pokemon-sprite" :src="loadShinyBackSprite()" :alt="checkPokemon().name" />
-                    </figure>
-                </div>
-                <div class="text-wrapper">
-                    <p class="sprite-text">Shiny</p>
-                </div>
-                <div class="main-card-button-container">
-                    <div class="card-change-wrapper tooltip-container">
-                        <button :style="{ 'color': checkFavorite() }" data-cy="favorite-btn" class="favorite-button"
-                            @click="addOrRemoveFavorite()">
-                            <i class="fa-solid fa-star"></i></button>
-                        <p v-if="!favChange" class="tooltiptext">{{ 'Favorite ' + capitalize(checkPokemon().name) +
-                            '!' }}</p>
-                        <p v-else-if="favChange" class="tooltiptext">{{ 'Unfavorite ' +
-                            capitalize(checkPokemon().name) + '!' }}</p>
-                        <!--change color when loaded for previously added favorites-->
-                    </div>
-                    <div class="card-change-wrapper tooltip-container">
-                        <button @click="router.push('/pokemon/' + checkPokemon().name + '/stats')" class="card-change"><i
-                                class="fa-solid fa-chart-simple"></i></button>
-                        <p class="tooltiptext">{{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}</p>
-                    </div>
-                    <div class="card-change-wrapper tooltip-container">
-                        <button @click="router.push('/pokemon/' + checkPokemon().name + '/share')" data-cy="share-btn"
-                            class="share-button"><i class="fa-solid fa-share"></i></button>
-                        <p class="tooltiptext">{{ 'Click to share ' + capitalize(checkPokemon().name) + '!' }}</p>
-                    </div>
-                </div>
-            </div>
-        </Transition>
-        <Transition name="button">
-            <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
-                :disabled="Object.entries(checkPokemon()).length === 0"
-                :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
-                    class="fa-solid fa-chevron-right"></i></button>
-            <!--the if is just there for transition purposes -->
-        </Transition>
-    </section>
+  <section
+    class="pokemon-section"
+    :class="{ 'disabled-events': checkFalse() }"
+  >
+    <Transition name="button">
+      <button
+        v-if="Object.entries(checkPokemon()).length > 0"
+        class="pokemon-change"
+        :disabled="Object.entries(checkPokemon()).length === 0"
+        :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }"
+        @click="previousPokemon()"
+      >
+        <i
+          class="fa-solid fa-chevron-left"
+        />
+      </button>
+      <!--the if is just there for transition purposes -->
+    </Transition>
+    <Transition
+      name="fade"
+      mode="out-in"
+    >
+      <div
+        v-if="Object.entries(checkPokemon()).length > 0"
+        class="pokemon"
+      >
+        <div class="info-container">
+          <h1 :class="colorText()">
+            {{ capitalize(checkPokemon().name) }}
+          </h1>
+          <button
+            :class="colorTextBackground()"
+            class="cry-button"
+            @click="loadCry()"
+          >
+            <i
+              class="fa-solid fa-play"
+            />Cry
+          </button>
+          <!-- <p class="cry-text">Cry</p> -->
+        </div>
+        <div class="text-wrapper">
+          <p class="sprite-text">
+            Normal
+          </p>
+        </div>
+        <div class="sprites-container">
+          <figure class="pokemon-figure">
+            <img
+              class="pokemon-sprite"
+              :src="loadSprite()"
+              :alt="checkPokemon().name"
+            >
+          </figure>
+          <figure class="pokemon-figure">
+            <img
+              class="pokemon-sprite"
+              :src="loadBackSprite()"
+              :alt="checkPokemon().name"
+            >
+          </figure>
+          <figure class="pokemon-figure">
+            <img
+              class="pokemon-sprite"
+              :src="loadShinySprite()"
+              :alt="checkPokemon().name"
+            >
+          </figure>
+          <figure class="pokemon-figure">
+            <img
+              class="pokemon-sprite"
+              :src="loadShinyBackSprite()"
+              :alt="checkPokemon().name"
+            >
+          </figure>
+        </div>
+        <div class="text-wrapper">
+          <p class="sprite-text">
+            Shiny
+          </p>
+        </div>
+        <div class="main-card-button-container">
+          <div class="card-change-wrapper tooltip-container">
+            <button
+              :style="{ 'color': checkFavorite() }"
+              data-cy="favorite-btn"
+              class="favorite-button"
+              @click="addOrRemoveFavorite()"
+            >
+              <i class="fa-solid fa-star" />
+            </button>
+            <p
+              v-if="!favChange"
+              class="tooltiptext"
+            >
+              {{ 'Favorite ' + capitalize(checkPokemon().name) +
+                '!' }}
+            </p>
+            <p
+              v-else-if="favChange"
+              class="tooltiptext"
+            >
+              {{ 'Unfavorite ' +
+                capitalize(checkPokemon().name) + '!' }}
+            </p>
+            <!--change color when loaded for previously added favorites-->
+          </div>
+          <div class="card-change-wrapper tooltip-container">
+            <button
+              class="card-change"
+              @click="router.push('/pokemon/' + checkPokemon().name + '/stats')"
+            >
+              <i
+                class="fa-solid fa-chart-simple"
+              />
+            </button>
+            <p class="tooltiptext">
+              {{ 'Click to show ' + capitalize(checkPokemon().name) + ' stats!' }}
+            </p>
+          </div>
+          <div class="card-change-wrapper tooltip-container">
+            <button
+              data-cy="share-btn"
+              class="share-button"
+              @click="router.push('/pokemon/' + checkPokemon().name + '/share')"
+            >
+              <i class="fa-solid fa-share" />
+            </button>
+            <p class="tooltiptext">
+              {{ 'Click to share ' + capitalize(checkPokemon().name) + '!' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </Transition>
+    <Transition name="button">
+      <button
+        v-if="Object.entries(checkPokemon()).length > 0"
+        class="pokemon-change"
+        :disabled="Object.entries(checkPokemon()).length === 0"
+        :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }"
+        @click="nextPokemon()"
+      >
+        <i
+          class="fa-solid fa-chevron-right"
+        />
+      </button>
+      <!--the if is just there for transition purposes -->
+    </Transition>
+  </section>
 </template>
 
 <script>

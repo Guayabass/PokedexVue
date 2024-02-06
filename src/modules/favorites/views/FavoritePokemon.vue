@@ -1,19 +1,42 @@
 <template>
   <router-link :to="{ name: 'Home' }">
-    <NavBar></NavBar>
+    <NavBar />
   </router-link>
   <Suspense>
     <template #default>
-      <div v-if="authStore.favorites.length > 0" class="fav-container">
-        <div class="favs" v-for="(fav, key) in authStore.favorites" :key="key">
-          <FavoritePokemonSprite :name="fav.name" :id="fav.id" />
+      <div
+        v-if="authStore.favorites.length > 0"
+        class="fav-container"
+      >
+        <div
+          v-for="(fav, key) in authStore.favorites"
+          :key="key"
+          class="favs"
+        >
+          <FavoritePokemonSprite
+            :id="fav.id"
+            :name="fav.name"
+          />
         </div>
       </div>
-      <div v-else class="fav-container">
+      <div
+        v-else
+        class="fav-container"
+      >
         <div class="sub-title-wrapper">
-          <h2 class="sub-title">You currently have no <span @click="pustToPokemon()" class="blue">favorites!</span>
-            Click<span @click="pustToPokemon()" class="blue"> here</span> to be able to lookup your favorite pokemon and
-            <span @click="pustToPokemon()" class="blue">favorite/share</span> them!
+          <h2 class="sub-title">
+            You currently have no <span
+              class="blue"
+              @click="pustToPokemon()"
+            >favorites!</span>
+            Click<span
+              class="blue"
+              @click="pustToPokemon()"
+            > here</span> to be able to lookup your favorite pokemon and
+            <span
+              class="blue"
+              @click="pustToPokemon()"
+            >favorite/share</span> them!
           </h2>
         </div>
       </div>
@@ -33,12 +56,18 @@ import NavBar from '@/components/NavBar.vue';
 import FavoritePokemonSprite from '../components/FavoritePokemonSprite.vue'
 export default {
   name: 'FavoritePokemon',
+  components: { NavBar, FavoritePokemonSprite },
   setup() {
     const authStore = useAuthStore()
 
     const router = useRouter()
 
     return { authStore, router }
+  },
+  data() {
+    return {
+      loaded: false
+    }
   },
   async mounted() {
     if (this.authStore.isLoggedIn) {
@@ -68,17 +97,11 @@ export default {
       console.log('not logged (fav page)')
     }
   },
-  data() {
-    return {
-      loaded: false
-    }
-  },
   methods: {
     pustToPokemon() {
       this.router.push('/pokemon/');
     }
   },
-  components: { NavBar, FavoritePokemonSprite },
 };
 </script>
 

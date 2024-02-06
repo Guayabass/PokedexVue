@@ -1,54 +1,116 @@
 <template>
-  <div class="modal" v-if="returnShowNature()">
+  <div
+    v-if="returnShowNature()"
+    class="modal"
+  >
     <div class="modal-content">
       <div class="modal-header">
-        <span class="close" @click="showNatureModal()"><i class="fa-solid fa-xmark"></i></span>
+        <span
+          class="close"
+          @click="showNatureModal()"
+        ><i class="fa-solid fa-xmark" /></span>
       </div>
       <div class="modal-body">
-        <h3 class="title-nature">Select the desired <span class="blue">nature</span> you desire and click the <span
-            class="blue">confirm</span> button to apply the changes to the <span class="blue">global</span> stats.</h3>
+        <h3 class="title-nature">
+          Select the desired <span class="blue">nature</span> you desire and click the <span
+            class="blue"
+          >confirm</span> button to apply the changes to the <span class="blue">global</span> stats.
+        </h3>
         <div class="select-container">
-          <div class="select-btn" @click="showNatures = !showNatures">
-            <span v-if="!showNatures" class="text-btn">Select a nature</span>
-            <span v-else class="text-btn">{{ selectedNature.name }}</span>
-            <i class="fa-solid fa-chevron-down"></i>
+          <div
+            class="select-btn"
+            @click="showNatures = !showNatures"
+          >
+            <span
+              v-if="!showNatures"
+              class="text-btn"
+            >Select a nature</span>
+            <span
+              v-else
+              class="text-btn"
+            >{{ selectedNature.name }}</span>
+            <i class="fa-solid fa-chevron-down" />
           </div>
-          <Transition name="fade" mode="out-in">
-            <ul class="options-ul" v-if="!showNatures" :disabled="!showNatures">
-              <li class="option" v-for="(nature, index) in natures" @click="setNature(nature, index)" :key="nature">
-                <i class="fa-solid fa-arrow-right"></i>
-                <p class="option-txt">{{ nature.name }}</p>
+          <Transition
+            name="fade"
+            mode="out-in"
+          >
+            <ul
+              v-if="!showNatures"
+              class="options-ul"
+              :disabled="!showNatures"
+            >
+              <li
+                v-for="(nature, index) in natures"
+                :key="nature"
+                class="option"
+                @click="setNature(nature, index)"
+              >
+                <i class="fa-solid fa-arrow-right" />
+                <p class="option-txt">
+                  {{ nature.name }}
+                </p>
               </li>
             </ul>
-            <div class="nature-info-container" v-else-if="showNatures" :disabled="showNatures">
+            <div
+              v-else-if="showNatures"
+              class="nature-info-container"
+              :disabled="showNatures"
+            >
               <h3><span class="blue">{{ selectedNature.name }}</span> Nature:</h3>
               <div class="nature-info">
-                <h3 v-if="selectedNature.ups === 'none' || selectedNature.downs === 'none'"><span
-                    class="blue">Raises</span> no stats at all</h3>
-                <h3 v-else>10% <span class="blue">higher</span> {{ selectedNature.ups }} stat</h3>
+                <h3 v-if="selectedNature.ups === 'none' || selectedNature.downs === 'none'">
+                  <span
+                    class="blue"
+                  >Raises</span> no stats at all
+                </h3>
+                <h3 v-else>
+                  10% <span class="blue">higher</span> {{ selectedNature.ups }} stat
+                </h3>
                 <div class="nature-icon-wrapper">
-                  <i class="fa-solid fa-up-long"
-                    :class="{ 'green': selectedNature.ups != 'none' || selectedNature.downs != 'none' }"></i>
-                  <i class="fa-solid fa-down-long"
-                    :class="{ 'red': selectedNature.ups != 'none' || selectedNature.downs != 'none' }"></i>
+                  <i
+                    class="fa-solid fa-up-long"
+                    :class="{ 'green': selectedNature.ups != 'none' || selectedNature.downs != 'none' }"
+                  />
+                  <i
+                    class="fa-solid fa-down-long"
+                    :class="{ 'red': selectedNature.ups != 'none' || selectedNature.downs != 'none' }"
+                  />
                 </div>
-                <h3 v-if="selectedNature.ups === 'none' || selectedNature.downs === 'none'"><span
-                    class="blue">Lowers</span> no stats at all</h3>
-                <h3 v-else>10% <span class="blue">lower</span> {{ selectedNature.downs }} stat</h3>
+                <h3 v-if="selectedNature.ups === 'none' || selectedNature.downs === 'none'">
+                  <span
+                    class="blue"
+                  >Lowers</span> no stats at all
+                </h3>
+                <h3 v-else>
+                  10% <span class="blue">lower</span> {{ selectedNature.downs }} stat
+                </h3>
               </div>
               <!--hacer un tipo icons.js con key igual a cada index (de 0 a 24 o lo que sea el maximo) y el value un icono o imagen-->
               <!--hacer funcion que reciba el index para compararlo con el objeto que tiene de key el index y asi con la lista saber cual es y retornar el icono y el texto (pueden ser 2 funciones y una de neutral tambien osea 3)-->
             </div>
           </Transition>
         </div>
-        <h3 class="note"><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset
+        <h3 class="note">
+          <strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset
           any custom
-          IVs/EVs/Nature set.</h3>
+          IVs/EVs/Nature set.
+        </h3>
       </div>
       <div class="modal-footer">
         <div class="btns-container">
-          <button class="btn-confirm" @click="storeNature()">Confirm</button>
-          <button class="btn-cancel" @click="showNatureModal()">Cancel</button>
+          <button
+            class="btn-confirm"
+            @click="storeNature()"
+          >
+            Confirm
+          </button>
+          <button
+            class="btn-cancel"
+            @click="showNatureModal()"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -60,7 +122,7 @@ import { usePokemonStore } from '../store/pokemonStore.js';
 import { customNatures } from '../utils/exports/natures.js';
 
 export default {
-  name: 'customNatureModal',
+  name: 'CustomNatureModal',
   setup() {
     const natures = customNatures
 

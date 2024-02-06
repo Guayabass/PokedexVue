@@ -1,24 +1,55 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="register-form-wrapper">
     <div class="register-form">
       <h2><span class="blue">Register</span></h2>
       <div class="form">
-        <input data-cy="register-user" placeholder="Email" type="text" name="Register" required v-model="user.username">
-        <label for="Register" class="label-name">
+        <input
+          v-model="user.username"
+          data-cy="register-user"
+          placeholder="Email"
+          type="text"
+          name="Register"
+          required
+        >
+        <label
+          for="Register"
+          class="label-name"
+        >
           <span class="content-pokemon">Username</span>
         </label>
       </div>
       <div class="form">
-        <input data-cy="register-pass" placeholder="Password" type="password" name="Register" required
-          v-model="user.password">
-        <label for="Register" class="label-name">
+        <input
+          v-model="user.password"
+          data-cy="register-pass"
+          placeholder="Password"
+          type="password"
+          name="Register"
+          required
+        >
+        <label
+          for="Register"
+          class="label-name"
+        >
           <span class="content-pokemon">Password</span>
         </label>
       </div>
-      <p class="register-text">Already registered? </p><span class="blue" @click="redirectLogin()">Log in</span>
+      <p class="register-text">
+        Already registered?
+      </p><span
+        class="blue"
+        @click="redirectLogin()"
+      >Log in</span>
     </div>
     <div class="btn-wrapper">
-      <button data-cy="register-btn" class="register-button" @click="register">Register</button>
+      <button
+        data-cy="register-btn"
+        class="register-button"
+        @click="register"
+      >
+        Register
+      </button>
     </div>
   </div>
 </template>
@@ -40,7 +71,7 @@ const authStore = useAuthStore()
 
 const register = () => {
   createUserWithEmailAndPassword(auth, user.username, user.password)
-    .then((data) => {
+    .then(() => {
       //console.log('successfully registered')
       if (auth.currentUser) {
         console.log('logged in')

@@ -1,30 +1,75 @@
 <template>
-  <div class="modal" v-if="returnShowIVs()">
+  <div
+    v-if="returnShowIVs()"
+    class="modal"
+  >
     <div class="modal-content">
       <div class="modal-header">
-        <span class="close" @click="showIVModal()"><i class="fa-solid fa-xmark"></i></span>
+        <span
+          class="close"
+          @click="showIVModal()"
+        ><i class="fa-solid fa-xmark" /></span>
       </div>
       <div class="modal-body">
-        <h3 class="title">Enter the custom <span class="blue">IV</span> values you desire for each of the
+        <h3 class="title">
+          Enter the custom <span class="blue">IV</span> values you desire for each of the
           available stats and click the <span class="blue">confirm</span> button to apply the changes to the <span
-            class="blue">global</span> stats.</h3>
+            class="blue"
+          >global</span> stats.
+        </h3>
         <ul class="ivs-ul">
-          <li class="ivs-container" v-for="(iv, key) in ivsObject" :key="key">
-            <h3 class="ivs-title">{{key}}'s <span class="blue">IVs</span>:</h3>
+          <li
+            v-for="(iv, key) in ivsObject"
+            :key="key"
+            class="ivs-container"
+          >
+            <h3 class="ivs-title">
+              {{ key }}'s <span class="blue">IVs</span>:
+            </h3>
             <div class="btn-container">
-              <button class="decrement-btn" @click="decreaseIV(key)"> - </button>
-              <input class="iv-input" type="number" min="0" max="31" step="1" :id="iv+'-input'"
-                v-model.number="ivsObject[key]" required>
-              <button class="increment-btn" @click="increaseIV(key)"> + </button>
+              <button
+                class="decrement-btn"
+                @click="decreaseIV(key)"
+              >
+                -
+              </button>
+              <input
+                :id="iv+'-input'"
+                v-model.number="ivsObject[key]"
+                class="iv-input"
+                type="number"
+                min="0"
+                max="31"
+                step="1"
+                required
+              >
+              <button
+                class="increment-btn"
+                @click="increaseIV(key)"
+              >
+                +
+              </button>
             </div>
           </li>
         </ul>
-        <h3 class="note"><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom IVs/EVs/Nature set.</h3>
+        <h3 class="note">
+          <strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom IVs/EVs/Nature set.
+        </h3>
       </div>
       <div class="modal-footer">
         <div class="btns-container">
-          <button class="btn-confirm" @click="storeIVs()">Confirm</button>
-          <button class="btn-cancel" @click="showIVModal()">Cancel</button>
+          <button
+            class="btn-confirm"
+            @click="storeIVs()"
+          >
+            Confirm
+          </button>
+          <button
+            class="btn-cancel"
+            @click="showIVModal()"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -35,7 +80,7 @@
 import { usePokemonStore } from '../store/pokemonStore.js';
 
 export default {
-  name: 'customIVsModal',
+  name: 'CustomIVsModal',
   data() {
     return {
       ivsObject: {

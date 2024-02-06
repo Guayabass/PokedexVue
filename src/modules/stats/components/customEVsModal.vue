@@ -1,31 +1,76 @@
 <template>
-  <div class="modal" v-if="returnShowEVs()">
+  <div
+    v-if="returnShowEVs()"
+    class="modal"
+  >
     <div class="modal-content">
       <div class="modal-header">
-        <span class="close" @click="showEVModal()"><i class="fa-solid fa-xmark"></i></span>
+        <span
+          class="close"
+          @click="showEVModal()"
+        ><i class="fa-solid fa-xmark" /></span>
       </div>
       <div class="modal-body">
-        <h3 class="title">Enter the custom <span class="blue">EV</span> values you desire for each of the
+        <h3 class="title">
+          Enter the custom <span class="blue">EV</span> values you desire for each of the
           available stats and click the <span class="blue">confirm</span> button to apply the changes to the <span
-            class="blue">global</span> stats.</h3>
+            class="blue"
+          >global</span> stats.
+        </h3>
         <ul class="evs-ul">
-          <li class="evs-container" v-for="(ev, key) in evsObject" :key="key">
-            <h3 class="evs-title">{{ key }}'s <span class="blue">EVs</span>:</h3>
+          <li
+            v-for="(ev, key) in evsObject"
+            :key="key"
+            class="evs-container"
+          >
+            <h3 class="evs-title">
+              {{ key }}'s <span class="blue">EVs</span>:
+            </h3>
             <div class="btn-container">
-              <button class="decrement-btn" @click="decreaseEV(key)"> - </button>
-              <input class="ev-input" type="number" min="0" max="255" step="1" :id="ev + '-input'"
-                v-model.number="evsObject[key]" required>
-              <button class="increment-btn" @click="increaseEV(key)"> + </button>
+              <button
+                class="decrement-btn"
+                @click="decreaseEV(key)"
+              >
+                -
+              </button>
+              <input
+                :id="ev + '-input'"
+                v-model.number="evsObject[key]"
+                class="ev-input"
+                type="number"
+                min="0"
+                max="255"
+                step="1"
+                required
+              >
+              <button
+                class="increment-btn"
+                @click="increaseEV(key)"
+              >
+                +
+              </button>
             </div>
           </li>
         </ul>
-        <h3 class="note"><strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom
-          IVs/EVs/Nature set.</h3>
+        <h3 class="note">
+          <strong>NOTE:</strong> Changing Pokemon will <span class="red">NOT</span> automatically reset any custom
+          IVs/EVs/Nature set.
+        </h3>
       </div>
       <div class="modal-footer">
         <div class="btns-container">
-          <button class="btn-confirm" @click="storeEVs()">Confirm</button>
-          <button class="btn-cancel" @click="showEVModal()">Cancel</button>
+          <button
+            class="btn-confirm"
+            @click="storeEVs()"
+          >
+            Confirm
+          </button>
+          <button
+            class="btn-cancel"
+            @click="showEVModal()"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -36,7 +81,7 @@
 import { usePokemonStore } from '../store/pokemonStore.js';
 
 export default {
-  name: 'customEVsModal',
+  name: 'CustomEVsModal',
   data() {
     return {
       evsObject: {

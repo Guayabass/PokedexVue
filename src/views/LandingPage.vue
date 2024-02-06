@@ -1,36 +1,55 @@
 <template>
-    <section class="landing-page">
-        <nav-bar-landing-page></nav-bar-landing-page>
-        <div class="title-section">
-            <span class="landing-title">WebDex</span>
-            <figure>
-                <img src="../assets/images/pikachu.png">
-            </figure>
-            <h2 class="landing-subtitle">The <span class="blue">online</span> Pokedex!
-                <span class="blue">Login</span> to access/add your <span class="blue">Favorite</span> pokemon or <span
-                    class="blue">Register</span> to start now!
-            </h2><!--change when logged in-->
-        </div>
-        <Transition name="page-fade" mode="out-in">
-            <div v-if="!authStore.isLoggedIn" class="auth-section">
-                <router-view v-slot="{ Component }">
-                    <Transition name="page-fade" mode="out-in">
-                        <component :is="Component" />
-                    </Transition>
-                </router-view>
-                <!-- <Transition name="fade" mode="out-in">
+  <section class="landing-page">
+    <nav-bar-landing-page />
+    <div class="title-section">
+      <span class="landing-title">WebDex</span>
+      <figure>
+        <img src="../assets/images/pikachu.png">
+      </figure>
+      <h2 class="landing-subtitle">
+        The <span class="blue">online</span> Pokedex!
+        <span class="blue">Login</span> to access/add your <span class="blue">Favorite</span> pokemon or <span
+          class="blue"
+        >Register</span> to start now!
+      </h2><!--change when logged in-->
+    </div>
+    <Transition
+      name="page-fade"
+      mode="out-in"
+    >
+      <div
+        v-if="!authStore.isLoggedIn"
+        class="auth-section"
+      >
+        <router-view v-slot="{ Component }">
+          <Transition
+            name="page-fade"
+            mode="out-in"
+          >
+            <component :is="Component" />
+          </Transition>
+        </router-view>
+        <!-- <Transition name="fade" mode="out-in">
                 <Login v-if="!authStore.registerOrLogin"></Login>
                 <Register v-else-if="authStore.registerOrLogin"></Register>
             </Transition> -->
-            </div>
-            <div v-else class="logged-section">
-                <h2>Welcome back!</h2>
-                <span class="wave">👋</span>
-                <h2>Go to <span @click="toFavorites()" class="blue">Favorites</span></h2>
-            </div>
-        </Transition>
-    </section>
-    <!-- <router-link :to="{ name: 'Main' }">Pokemon</router-link> -->
+      </div>
+      <div
+        v-else
+        class="logged-section"
+      >
+        <h2>Welcome back!</h2>
+        <span class="wave">👋</span>
+        <h2>
+          Go to <span
+            class="blue"
+            @click="toFavorites()"
+          >Favorites</span>
+        </h2>
+      </div>
+    </Transition>
+  </section>
+  <!-- <router-link :to="{ name: 'Main' }">Pokemon</router-link> -->
 </template>
 
 <script>

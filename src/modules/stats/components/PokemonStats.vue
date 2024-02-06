@@ -1,76 +1,161 @@
 <template>
-    <section class="pokemon-section" :class="{ 'disabled-events': checkFalse() }">
-        <Transition name="button">
-            <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
-                :disabled="Object.entries(checkPokemon()).length === 0"
-                :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="previousPokemon()"><i
-                    class="fa-solid fa-chevron-left"></i></button>
-        </Transition>
-        <Transition name="fade" mode="out-in">
-            <div class="pokemon" v-if="Object.entries(checkPokemon()).length > 0">
-                <div class="typings-container">
-                    <h1>
-                        Typings
-                    </h1>
-                    <ul class="typings">
-                        <li class="pokemon-type" v-for="(type, index) in checkPokemon().types" :key="index"
-                            :class="type.type.name + '-b'"><i :class="iconReturn(type.type.name)"></i>{{
-                                    capitalize(type.type.name)
-                            }}</li>
-                    </ul>
-                </div>
-                <div class="stats-container">
-                    <h1 class="stats-title">Stats</h1>
-                    <ul class="stats">
-                        <li v-for="(stat, index) in checkPokemon().stats" :key="index">
-                            <div class="stat-name-wrapper">
-                                <p class="stat-name">{{ returnStatNames(stat.stat.name) }}</p>
-                            </div>
-                            <div class="stat-base-wrapper" :class="colorTextBackground()"
-                                :style="{ 'width': pokemonLevel * 0.70 + '%' }">
-                                <p class="stat-base">{{ baseStatMultiplier(stat.stat.name, stat.base_stat, index) }}</p>
-                            </div>
-                        </li>
-                        <div class="stats-button-container">
-                            <button class="stats-button" @click="showIVModal()">Custom IVs</button>
-                            <button class="stats-button" @click="showEVModal()">Custom EVs</button>
-                            <button class="stats-button" @click="showNatureModal()">Custom Nature</button>
-                            <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
-                        </div>
-                    </ul>
-                </div>
-                <div class="last-stats-wrapper">
-                    <div class="slider-container">
-                        <input type="range" min="1" max="100" id="myRange" v-model="pokemonLevel" class="slider"
-                            :style="'background: linear-gradient(90deg, rgb(23, 114, 212) ' + pokemonLevel + '%, rgb(214, 214, 214) ' + pokemonLevel + '%);'">
-                        <div class="slider-text-container">
-                            <p class="slider-text">1</p>
-                            <p class="slider-text">Level: {{ pokemonLevel }}</p>
-                            <p class="slider-text">100</p>
-                        </div>
-                    </div>
-                    <div class="card-change-wrapper-container">
-                        <div class="change-btn-wrapper tooltip-container">
-                            <button @click="router.push('/pokemon/' + checkPokemon().name)" class="card-change"><i
-                                        class="fa-solid fa-arrow-left-long"></i></button>
-                            <p class="tooltiptext">{{ 'Click to go back the info page!' }}</p>
-                        </div>
-                        <div class="change-btn-wrapper tooltip-container">
-                            <button class="card-change" @click="resetCustomStats()"><i
-                                    class="fa-solid fa-trash"></i></button>
-                            <p class="tooltiptext">{{ 'Click to reset the custom stats (IVs/EVs/Nature)!' }}</p>
-                        </div>
-                    </div>
-                </div>
+  <section
+    class="pokemon-section"
+    :class="{ 'disabled-events': checkFalse() }"
+  >
+    <Transition name="button">
+      <button
+        v-if="Object.entries(checkPokemon()).length > 0"
+        class="pokemon-change"
+        :disabled="Object.entries(checkPokemon()).length === 0"
+        :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }"
+        @click="previousPokemon()"
+      >
+        <i
+          class="fa-solid fa-chevron-left"
+        />
+      </button>
+    </Transition>
+    <Transition
+      name="fade"
+      mode="out-in"
+    >
+      <div
+        v-if="Object.entries(checkPokemon()).length > 0"
+        class="pokemon"
+      >
+        <div class="typings-container">
+          <h1>
+            Typings
+          </h1>
+          <ul class="typings">
+            <li
+              v-for="(type, index) in checkPokemon().types"
+              :key="index"
+              class="pokemon-type"
+              :class="type.type.name + '-b'"
+            >
+              <i :class="iconReturn(type.type.name)" />{{
+                capitalize(type.type.name)
+              }}
+            </li>
+          </ul>
+        </div>
+        <div class="stats-container">
+          <h1 class="stats-title">
+            Stats
+          </h1>
+          <ul class="stats">
+            <li
+              v-for="(stat, index) in checkPokemon().stats"
+              :key="index"
+            >
+              <div class="stat-name-wrapper">
+                <p class="stat-name">
+                  {{ returnStatNames(stat.stat.name) }}
+                </p>
+              </div>
+              <div
+                class="stat-base-wrapper"
+                :class="colorTextBackground()"
+                :style="{ 'width': pokemonLevel * 0.70 + '%' }"
+              >
+                <p class="stat-base">
+                  {{ baseStatMultiplier(stat.stat.name, stat.base_stat, index) }}
+                </p>
+              </div>
+            </li>
+            <div class="stats-button-container">
+              <button
+                class="stats-button"
+                @click="showIVModal()"
+              >
+                Custom IVs
+              </button>
+              <button
+                class="stats-button"
+                @click="showEVModal()"
+              >
+                Custom EVs
+              </button>
+              <button
+                class="stats-button"
+                @click="showNatureModal()"
+              >
+                Custom Nature
+              </button>
+              <!-- hacer un objeto para cada nombre de naturaleza con los tipos de ataque y si devuelve 0.9 o 1.1 -->
             </div>
-        </Transition>
-        <Transition name="button">
-            <button class="pokemon-change" v-if="Object.entries(checkPokemon()).length > 0"
-                :disabled="Object.entries(checkPokemon()).length === 0"
-                :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }" @click="nextPokemon()"><i
-                    class="fa-solid fa-chevron-right"></i></button>
-        </Transition>
-    </section>
+          </ul>
+        </div>
+        <div class="last-stats-wrapper">
+          <div class="slider-container">
+            <input
+              id="myRange"
+              v-model="pokemonLevel"
+              type="range"
+              min="1"
+              max="100"
+              class="slider"
+              :style="'background: linear-gradient(90deg, rgb(23, 114, 212) ' + pokemonLevel + '%, rgb(214, 214, 214) ' + pokemonLevel + '%);'"
+            >
+            <div class="slider-text-container">
+              <p class="slider-text">
+                1
+              </p>
+              <p class="slider-text">
+                Level: {{ pokemonLevel }}
+              </p>
+              <p class="slider-text">
+                100
+              </p>
+            </div>
+          </div>
+          <div class="card-change-wrapper-container">
+            <div class="change-btn-wrapper tooltip-container">
+              <button
+                class="card-change"
+                @click="router.push('/pokemon/' + checkPokemon().name)"
+              >
+                <i
+                  class="fa-solid fa-arrow-left-long"
+                />
+              </button>
+              <p class="tooltiptext">
+                {{ 'Click to go back the info page!' }}
+              </p>
+            </div>
+            <div class="change-btn-wrapper tooltip-container">
+              <button
+                class="card-change"
+                @click="resetCustomStats()"
+              >
+                <i
+                  class="fa-solid fa-trash"
+                />
+              </button>
+              <p class="tooltiptext">
+                {{ 'Click to reset the custom stats (IVs/EVs/Nature)!' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+    <Transition name="button">
+      <button
+        v-if="Object.entries(checkPokemon()).length > 0"
+        class="pokemon-change"
+        :disabled="Object.entries(checkPokemon()).length === 0"
+        :class="{ 'disabled': Object.entries(checkPokemon()).length === 0 }"
+        @click="nextPokemon()"
+      >
+        <i
+          class="fa-solid fa-chevron-right"
+        />
+      </button>
+    </Transition>
+  </section>
 </template>
 
 <script>
@@ -89,6 +174,13 @@ export default {
         const router = useRouter();
 
         return { router }
+    },
+    data() {
+        return {
+            //stats: false,
+            pokemonLevel: 1,
+            //sentAlert: false,
+        };
     },
     async mounted() {
         try {
@@ -111,13 +203,6 @@ export default {
             alert('Pokemon was not found :(')
             console.log(error)
         }
-    },
-    data() {
-        return {
-            //stats: false,
-            pokemonLevel: 1,
-            //sentAlert: false,
-        };
     },
     methods: {
         checkPokemon() {
@@ -290,11 +375,6 @@ export default {
             } else {
                 return false
             }
-        },
-        addPokemon(pokemon, id) {
-            const pokemonStore = usePokemonStore()
-            pokemonStore.pokemonData = pokemon
-            pokemonStore.pokemonID = id
         },
     },
     //components: { PokemonStats }
