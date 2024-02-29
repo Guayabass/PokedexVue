@@ -45,43 +45,9 @@ const checkFalse = () => {
 </script>
 
 <style scoped>
-.fade-enter-from {
-    opacity: 0;
-}
-
+@import '@/assets/css/fadeTransition.css';
 .disabled-events {
     pointer-events: none;
 }
 
-.page-fade-enter-active, .page-fade-leave-active {
-    transition: opacity 800ms ease;
-}
-
-.page-fade-enter-to, .page-fade-leave-from{
-    opacity: 1;
-}
-
-.page-fade-enter-from, .page-fade-leave-to{
-    opacity: 0;
-}
-
-.fade-enter-to {
-    opacity: 1;
-}
-
-.fade-enter-active {
-    transition: opacity 800ms ease;
-}
-
-.fade-leave-from {
-    opacity: 1;
-}
-
-.fade-leave-to {
-    opacity: 0;
-}
-
-.fade-leave-active {
-    transition: opacity 800ms ease;
-}
 </style>

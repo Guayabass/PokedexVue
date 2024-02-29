@@ -70,13 +70,15 @@ export default {
     },
     methods: {
         toFavorites() {
-            this.router.push('/pokemon/favorites')
+            this.router.push({name: 'favorites'});
         }
     },
 }
 </script>
 
 <style>
+@import '@/assets/css/fadeTransition.css';
+
 .landing-page {
     height: 100%;
     width: 100%;
@@ -148,21 +150,6 @@ export default {
 
 .logged-section .blue {
     cursor: pointer;
-}
-
-.page-fade-enter-active,
-.page-fade-leave-active {
-    transition: opacity 800ms ease;
-}
-
-.page-fade-enter-to,
-.page-fade-leave-from {
-    opacity: 1;
-}
-
-.page-fade-enter-from,
-.page-fade-leave-to {
-    opacity: 0;
 }
 
 .wave {

@@ -51,6 +51,7 @@ onMounted(() => {
 
 
 <style scoped>
+@import '@/assets/css/fadeTransition.css';
 /** applies only to this component because of scoped */
 * {
   padding: 0;
@@ -63,30 +64,6 @@ onMounted(() => {
   height: 100vh;
   background-color: white;
   margin: 0 auto;
-}
-
-.fade-enter-from {
-  opacity: 0;
-}
-
-.fade-enter-to {
-  opacity: 1;
-}
-
-.fade-enter-active {
-  transition: opacity 800ms ease;
-}
-
-.fade-leave-from {
-  opacity: 1;
-}
-
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-leave-active {
-  transition: opacity 800ms ease;
 }
 
 .sign-out-button {

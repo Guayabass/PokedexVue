@@ -119,7 +119,7 @@
 
 <script>
 import { usePokemonStore } from '../store/pokemonStore.js';
-import { customNatures } from '../utils/exports/natures.js';
+import { customNatures } from '../utils/exports/natures';
 
 export default {
   name: 'CustomNatureModal',

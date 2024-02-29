@@ -491,6 +491,7 @@ export default {
 
 <style>
 @import '@/assets/css/Pokemon.css';
+@import '@/assets/css/fadeTransition.css';
 
 * {
     text-decoration: none;
@@ -521,27 +522,5 @@ export default {
     text-align: center;
 }
 
-.fade-modal-enter-from {
-    opacity: 0;
-}
 
-.fade-modal-enter-to {
-    opacity: 1;
-}
-
-.fade-modal-enter-active {
-    transition: opacity 800ms ease;
-}
-
-.fade-modal-leave-from {
-    opacity: 1;
-}
-
-.fade-modal-leave-to {
-    opacity: 0;
-}
-
-.fade-modal-leave-active {
-    transition: opacity 800ms ease;
-}
 </style>

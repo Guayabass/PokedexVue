@@ -74,6 +74,7 @@ export default {
 <style scoped>
 @import url('https://fonts.cdnfonts.com/css/pokemon-solid');
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
+@import '@/assets/css/fadeTransition.css';
 
 input {
     height: 50px;
@@ -103,30 +104,6 @@ input:hover {
 .share-title {
     font-family: 'Pokemon Solid', sans-serif;
     color: #207fb6;
-}
-
-.fade-enter-from {
-    opacity: 0;
-}
-
-.fade-enter-to {
-    opacity: 1;
-}
-
-.fade-enter-active {
-    transition: opacity 800ms ease;
-}
-
-.fade-leave-from {
-    opacity: 1;
-}
-
-.fade-leave-to {
-    opacity: 0;
-}
-
-.fade-leave-active {
-    transition: opacity 800ms ease;
 }
 
 .enabled {
