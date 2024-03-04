@@ -154,6 +154,7 @@
 <script>
 import { usePokemonStore } from '../store/pokemonStore.js';
 import { pokeapi } from '@/exports/pokeapi'
+import { validPokemons } from '@/exports/pokemonValue'
 import { icons } from '../utils/exports/icons';
 import { statNames } from '../utils/exports/statNames';
 import { useAuthStore } from '@/modules/favorites/store/authStore';
@@ -211,7 +212,7 @@ export default {
         },
         loadSprite() {
             const pokemonStore = usePokemonStore();
-            if (pokemonStore.pokemonData.id > 649) {
+            if (pokemonStore.pokemonData.id > validPokemons ) {
                 if (!this.sentAlert) {
                     alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
                     this.sentAlert = true
@@ -226,15 +227,9 @@ export default {
         loadCry() {
             //const pokemonStore = usePokemonStore();
             //console.log(this.pokemonStore.pokemonID )
-            if (this.pokemonStore.pokemonID > 721) {
-                const audio = new Audio("/assets/cries/" + this.pokemonStore.pokemonID + ".wav");
+            const audio = new Audio("/assets/cries/" + this.pokemonStore.pokemonID + ".wav");
                 audio.volume = 0.3;
                 audio.play();
-            } else {
-                const audio = new Audio("/assets/cries/" + this.pokemonStore.pokemonID + ".wav");
-                audio.volume = 0.3;
-                audio.play();
-            }
 
         },
         capitalize(string) {
@@ -242,7 +237,7 @@ export default {
         },
         loadShinySprite() {
             const pokemonStore = usePokemonStore();
-            if (pokemonStore.pokemonData.id > 649) {
+            if (pokemonStore.pokemonData.id > validPokemons) {
                 return new URL(`/assets/pokemon/shiny/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
             }
             else {
@@ -251,7 +246,7 @@ export default {
         },
         loadBackSprite() {
             const pokemonStore = usePokemonStore();
-            if (pokemonStore.pokemonData.id > 649) {
+            if (pokemonStore.pokemonData.id > validPokemons) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
                     return new URL(`/assets/pokemon/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
                 }
@@ -265,7 +260,7 @@ export default {
         },
         loadShinyBackSprite() {
             const pokemonStore = usePokemonStore();
-            if (pokemonStore.pokemonData.id > 649) {
+            if (pokemonStore.pokemonData.id > validPokemons) {
                 if (pokemonStore.pokemonData.id > 697 || pokemonStore.pokemonData.id < 701) {
                     return new URL(`/assets/pokemon/shiny/` + pokemonStore.pokemonData.id + `.png`, import.meta.url).href;
                 }

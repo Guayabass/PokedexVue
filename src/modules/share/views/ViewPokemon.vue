@@ -235,6 +235,7 @@ import CustomNatureModal from '@/modules/stats/components/customNatureModal.vue'
 import ShareLink from '../components/ShareLink.vue';
 import { usePokemonStore } from '@/modules/stats/store/pokemonStore';
 import { icons } from '@/exports/icons';
+import { validPokemons } from '@/exports/pokemonValue';
 import { statNames } from '@/exports/statNames';
 import { pokeapi } from '@/exports/pokeapi'
 
@@ -283,21 +284,15 @@ export default {
             return background;
         },
         loadCry() {
-            if (this.Pokemon.id > 721) {
-                const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".wav");
+          const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".wav");
                 audio.volume = 0.3;
                 audio.play();
-            } else {
-                const audio = new Audio("/assets/cries/" + this.Pokemon.id + ".wav");
-                audio.volume = 0.3;
-                audio.play();
-            }
         },
         capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
         loadSprite() {
-            if (this.Pokemon.id > 649) {
+            if (this.Pokemon.id > validPokemons) {
                 if (!this.sentAlert) {
                     alert("Unable to find an animated/back sprite for this Pokemon, sorry! :(");
                     this.sentAlert = true
@@ -310,7 +305,7 @@ export default {
             //return 'https://img.pokemondb.net/sprites/black-white/anim/normal/' + pokemonStore.pokemonData.name + '.gif'
         },
         loadShinySprite() {
-            if (this.Pokemon.id > 649) {
+            if (this.Pokemon.id > validPokemons) {
                 return new URL(`/assets/pokemon/shiny/` + this.Pokemon.id + `.png`, import.meta.url).href;
             }
             else {
@@ -318,7 +313,7 @@ export default {
             }
         },
         loadBackSprite() {
-            if (this.Pokemon.id > 649) {
+            if (this.Pokemon.id > validPokemons) {
                 if (this.Pokemon.id > 697 || this.Pokemon.id < 701) {
                     return new URL(`/assets/pokemon/` + this.Pokemon.id + `.png`, import.meta.url).href;
                 }
@@ -331,7 +326,7 @@ export default {
             }
         },
         loadShinyBackSprite() {
-            if (this.Pokemon.id > 649) {
+            if (this.Pokemon.id > validPokemons) {
                 if (this.Pokemon.id > 697 || this.Pokemon.id < 701) {
                     return new URL(`/assets/pokemon/shiny/` + this.Pokemon.id + `.png`, import.meta.url).href;
                 }

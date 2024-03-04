@@ -77,6 +77,7 @@
 import { ref } from 'vue'
 import { useAuthStore } from '../store/authStore.js';
 import { pokeapi } from '@/exports/pokeapi'
+import { validPokemons } from '@/exports/pokemonValue';
 export default {
     name: "FavoritePokemonSprite",
     props: {
@@ -110,7 +111,7 @@ export default {
     },
     methods: {
         loadSprite() {
-            if (this.id > 649) {               
+            if (this.id > validPokemons) {               
                 return new URL(`/assets/pokemon/` + this.id + `.png`, import.meta.url).href;
             }
             else {
@@ -118,19 +119,13 @@ export default {
             }
         },
         loadCry() {
-            if (this.id > 721) {
-                const audio = new Audio("/assets/cries/" + this.id + ".wav");
+          const audio = new Audio("/assets/cries/" + this.id + ".wav");
                 audio.volume = 0.3;
                 audio.play();
-            } else {
-                const audio = new Audio("/assets/cries/" + this.id + ".wav");
-                audio.volume = 0.3;
-                audio.play();
-            }
 
         },
         loadShinySprite() {
-            if (this.id > 649) {
+            if (this.id > validPokemons) {
                 return new URL(`/assets/pokemon/shiny/` + this.id + `.png`, import.meta.url).href;
             }
             else {
@@ -138,7 +133,7 @@ export default {
             }
         },
         loadBackSprite() {
-            if (this.id > 649) {
+            if (this.id > validPokemons) {
                 if (this.id > 697 || this.id < 701) {
                     return new URL(`/assets/pokemon/` + this.id + `.png`, import.meta.url).href;
                 }
@@ -151,7 +146,7 @@ export default {
             }
         },
         loadShinyBackSprite() {
-            if (this.id > 649) {
+            if (this.id > validPokemons) {
                 if (this.id > 697 || this.id < 701) {
                     return new URL(`/assets/pokemon/shiny/` + this.id + `.png`, import.meta.url).href;
                 }
